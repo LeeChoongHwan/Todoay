@@ -3,4 +3,81 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todoay"
+        android:textColor="#000000"
+        android:textSize="48sp"
+        app:fontFamily="@font/blackoblique"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="250dp"/>
+
+    <TextView
+        android:id="@+id/login_emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:text="이메일"
+        app:layout_constraintRight_toLeftOf="@id/login_title"
+        app:layout_constraintTop_toBottomOf="@id/login_title"
+        app:fontFamily="@font/regular"
+        />
+
+    <EditText
+        android:id="@+id/login_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="13"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toLeftOf="@id/login_emailText"
+        app:layout_constraintTop_toBottomOf="@id/login_emailText"
+        />
+
+    <TextView
+        android:id="@+id/login_passwordTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/login_email"
+        app:layout_constraintTop_toBottomOf="@id/login_email"
+        android:layout_marginTop="40dp"
+        android:text="비밀번호"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:fontFamily="@font/regular" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
+        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle"
+        android:ems="13"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/login_loginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/login_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="60dp"
+        android:text="로그인" />
+
+    <TextView
+        android:id="@+id/login_signUpTextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/login_loginBtn"
+        android:text="회원가입"
+        app:fontFamily="@font/white" />
+</androidx.constraintlayout.widget.ConstraintLayout>
