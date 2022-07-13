@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:text="Todoay"
         android:textColor="#000000"
-        android:textSize="48sp"
+        android:textSize="50sp"
         app:fontFamily="@font/blackoblique"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="250dp"/>
+        android:layout_marginBottom="350dp"/>
 
     <TextView
         android:id="@+id/login_emailText"
@@ -33,7 +33,7 @@
         />
 
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/login_emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="13"
@@ -46,8 +46,8 @@
         android:id="@+id/login_passwordTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/login_email"
-        app:layout_constraintTop_toBottomOf="@id/login_email"
+        app:layout_constraintLeft_toLeftOf="@id/login_emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/login_emailEditText"
         android:layout_marginTop="40dp"
         android:text="비밀번호"
         android:textColor="#000000"
@@ -55,7 +55,7 @@
         app:fontFamily="@font/regular" />
 
     <EditText
-        android:id="@+id/login_password"
+        android:id="@+id/login_passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
@@ -67,7 +67,7 @@
         android:id="@+id/login_loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/login_password"
+        app:layout_constraintTop_toBottomOf="@id/login_passwordEditText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="60dp"
@@ -78,6 +78,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/login_loginBtn"
+        app:layout_constraintRight_toLeftOf="@id/login_splitBar"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
         android:text="회원가입"
+        android:textColor="#000000"
         app:fontFamily="@font/white" />
+
+    <TextView
+        android:id="@+id/login_splitBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/login_loginBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="9dp"
+        android:text="|"
+        app:fontFamily="@font/white"
+        />
+
+    <TextView
+        android:id="@+id/login_findPwTextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/login_signUpTextBtn"
+        app:layout_constraintLeft_toRightOf="@id/login_splitBar"
+        android:layout_marginLeft="30dp"
+        android:text="비밀번호 찾기"
+        android:textColor="#000000"
+        app:fontFamily="@font/white"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
