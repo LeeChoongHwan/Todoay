@@ -146,7 +146,7 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/confirmbtn_background"
         android:text="회원가입"
-        app:backgroundTint="@color/todoaymain"
+        app:backgroundTint="@color/main_color"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/join_nickname_et" />

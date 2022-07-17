@@ -147,8 +147,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
         android:fontFamily="@font/regular"
-        android:text="<비밀번호 변경"
-        android:textColor="@color/todoaymain"
+        android:text="비밀번호 변경>"
+        android:textColor="@color/main_color"
         android:textSize="15sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/myinfo_joinemail_tv" />
