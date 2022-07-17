@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/myinfo_menubtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/menu_btn" />
+
+    <TextView
+        android:id="@+id/myinfo_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blackoblique"
+        android:text="Todoay"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/myinfo_menubtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/myinfo_menubtn" />
+    <TextView
+        android:id="@+id/myinfo_info_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/bold"
+        android:text="내 정보"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_menubtn" />
+
+    <TextView
+        android:id="@+id/myinfo_changepicture_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/regular"
+        android:text="프로필 사진"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_info_title_tv" />
+
+    <ImageView
+        android:id="@+id/myinfo_modifyinfo_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_info_title_tv"
+        app:layout_constraintTop_toTopOf="@id/myinfo_info_title_tv"
+        app:srcCompat="@drawable/modify_info_btn" />
+
+    <ImageView
+        android:id="@+id/myinfo_addpicture_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/add_picture_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_changepicture_tv"/>
+
+    <TextView
+        android:id="@+id/myinfo_nickname_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/regular"
+        android:text="닉네임"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_addpicture_btn" />
+
+    <TextView
+        android:id="@+id/myinfo_nickname_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/white"
+        android:text="닉네임 입니다."
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_nickname_tv" />
+
+    <TextView
+        android:id="@+id/myinfo_message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/regular"
+        android:text="상태메세지"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_nickname_text" />
+
+    <TextView
+        android:id="@+id/myinfo_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/white"
+        android:text="상태메세지 입니다."
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_message_tv" />
+
+    <TextView
+        android:id="@+id/myinfo_joinemail_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/regular"
+        android:text="사용자계정"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_message_text" />
+
+    <TextView
+        android:id="@+id/myinfo_joinemail_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/white"
+        android:text="사용자계정 입니다."
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_joinemail_tv" />
+
+    <TextView
+        android:id="@+id/myinfo_changepassword_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/regular"
+        android:text="<비밀번호 변경"
+        android:textColor="@color/todoaymain"
+        android:textSize="15sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/myinfo_joinemail_tv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
