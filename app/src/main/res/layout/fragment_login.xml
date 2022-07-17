@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/login_title"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="350dp"/>
+        android:layout_marginBottom="400dp"/>
 
     <TextView
         android:id="@+id/login_emailText"
@@ -39,8 +39,7 @@
         android:ems="13"
         android:inputType="textEmailAddress"
         app:layout_constraintLeft_toLeftOf="@id/login_emailText"
-        app:layout_constraintTop_toBottomOf="@id/login_emailText"
-        />
+        app:layout_constraintTop_toBottomOf="@id/login_emailText" />
 
     <TextView
         android:id="@+id/login_passwordTitle"
@@ -54,24 +53,44 @@
         android:textSize="15sp"
         app:fontFamily="@font/regular" />
 
-    <EditText
-        android:id="@+id/login_passwordEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
         app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
         app:layout_constraintTop_toBottomOf="@id/login_passwordTitle"
-        android:ems="13"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/login_loginBtn"
-        android:layout_width="wrap_content"
+        app:layout_constraintRight_toRightOf="@id/login_emailEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/login_passwordEditText"
+        app:boxBackgroundColor="@color/white"
+        app:passwordToggleEnabled="true">
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <EditText-->
+<!--        android:id="@+id/login_passwordEditText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="13"-->
+<!--        android:inputType="textPassword"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle" />-->
+
+    <android.widget.Button
+        android:id="@+id/login_loginBtn"
+        android:background="@drawable/cust_login_btn"
+        android:layout_width="250dp"
+        android:layout_height="54dp"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="60dp"
-        android:text="로그인" />
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:fontFamily="@font/regular"/>
 
     <TextView
         android:id="@+id/login_signUpTextBtn"
@@ -79,7 +98,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/login_loginBtn"
         app:layout_constraintRight_toLeftOf="@id/login_splitBar"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="30dp"
         android:text="회원가입"
         android:textColor="#000000"
@@ -93,6 +112,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="9dp"
+        android:layout_marginRight="30dp"
         android:text="|"
         app:fontFamily="@font/white"
         />
