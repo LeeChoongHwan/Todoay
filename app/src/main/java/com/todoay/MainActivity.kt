@@ -19,31 +19,31 @@ class MainActivity : AppCompatActivity() {
         mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainActivityBinding.root)
 
-        fragmentController(CONTROLLER_LOGIN, false)
+//        fragmentController(CONTROLLER_LOGIN, false)
     }
 
-    fun fragmentController(name: String, addToBackStack: Boolean) {
-        when(name) {
-            CONTROLLER_LOGIN -> {
-                currentFragment = LoginFragment()
-            }
-            CONTROLLER_SIGN_UP -> {
-                currentFragment = SignUpFragment()
-            }
-            CONTROLLER_FIND_PASSWORD -> {
-                currentFragment = FindPasswordFragment()
-            }
-        }
-
-        val trans = supportFragmentManager.beginTransaction()
-        trans.replace(R.id.main_container, currentFragment)
-
-        if(addToBackStack) {
-            trans.addToBackStack(name)
-        }
-
-        trans.commit()
-    }
+//    fun fragmentController(name: String, addToBackStack: Boolean) {
+//        when(name) {
+//            CONTROLLER_LOGIN -> {
+//                currentFragment = LoginFragment()
+//            }
+//            CONTROLLER_SIGN_UP -> {
+//                currentFragment = SignUpFragment()
+//            }
+//            CONTROLLER_FIND_PASSWORD -> {
+//                currentFragment = FindPasswordFragment()
+//            }
+//        }
+//
+//        val trans = supportFragmentManager.beginTransaction()
+//        trans.replace(R.id.main_container, currentFragment)
+//
+//        if(addToBackStack) {
+//            trans.addToBackStack(name)
+//        }
+//
+//        trans.commit()
+//    }
 
 
 }

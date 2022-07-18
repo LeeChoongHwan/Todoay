@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/myinfomodify_backbtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_btn" />
+        app:srcCompat="@drawable/ic_back_btn" />
 
     <TextView
         android:id="@+id/myinfomodify_title_tv"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@id/myinfomodify_nickname_tv"
         app:layout_constraintLeft_toLeftOf="@id/myinfomodify_backbtn"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/myinfomodify_nicknamecheck_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,6 +136,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/myinfomodify_message_et" />
+
+    <View
+        android:id="@+id/join_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/myinfomodify_backbtn"
+        android:layout_marginTop="20dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
