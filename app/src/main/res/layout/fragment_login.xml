@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="430dp"
+        android:text="Todoay"
+        android:textColor="#000000"
+        android:textSize="50sp"
+        app:fontFamily="@font/blackoblique"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/login_emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="이메일"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:fontFamily="@font/regular"
+        app:layout_constraintRight_toLeftOf="@id/login_title"
+        app:layout_constraintTop_toBottomOf="@id/login_title" />
+
+    <EditText
+        android:id="@+id/login_emailEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="13"
+        android:inputType="textEmailAddress"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"
+        app:layout_constraintLeft_toLeftOf="@id/login_emailText"
+        app:layout_constraintTop_toBottomOf="@id/login_emailText" />
+
+
+    <TextView
+        android:id="@+id/login_passwordTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="비밀번호"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:fontFamily="@font/regular"
+        app:layout_constraintLeft_toLeftOf="@id/login_emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/login_emailEditText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
+        app:layout_constraintRight_toRightOf="@id/login_emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/login_etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColorHighlight="@color/main_color"
+            android:textColorLink="@color/main_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/login_passwordEditText"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:ems="13"-->
+    <!--        android:inputType="textPassword"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle" />-->
+
+    <android.widget.Button
+        android:id="@+id/login_loginBtn"
+        android:layout_width="250dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/confirmbtn_fail_background"
+        android:enabled="false"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:fontFamily="@font/regular"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+
+    <TextView
+        android:id="@+id/login_findPwTextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:text="비밀번호를 잊으셨나요? >"
+        android:textColor="@color/main_color"
+        android:textSize="12sp"
+        app:fontFamily="@font/white"
+        app:layout_constraintRight_toRightOf="@id/etPasswordLayout"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+
+    <android.widget.Button
+        android:id="@+id/login_signinBtn"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/checkrepbtn_background"
+        android:text="회원가입"
+        android:textColor="@color/main_color"
+        android:textSize="18sp"
+        app:fontFamily="@font/regular"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_loginBtn" />
+
+    <ImageView
+        android:id="@+id/login_divline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/login_signinBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_loginBtn"
+        app:srcCompat="@drawable/divline" />
+
+    <TextView
+        android:id="@+id/login_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디, 비밀번호를 확인하세요."
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:fontFamily="@font/white"
+        app:layout_constraintLeft_toLeftOf="@id/etPasswordLayout"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>
