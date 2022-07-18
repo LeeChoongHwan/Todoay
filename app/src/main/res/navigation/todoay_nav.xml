@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todoay_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.todoay.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_myinfoFragment"
+            app:destination="@id/myinfoFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailCertificationFragment"
+            app:destination="@id/emailCertificationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailCertificationFindPasswordFragment"
+            app:destination="@id/emailCertificationFindPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myinfoFragment"
+        android:name="com.todoay.MyinfoFragment"
+        android:label="MyinfoFragment" >
+        <action
+            android:id="@+id/action_myinfoFragment_to_myinfoModifyFragment"
+            app:destination="@id/myinfoModifyFragment" />
+        <action
+            android:id="@+id/action_myinfoFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailCertificationFragment"
+        android:name="com.todoay.EmailCertificationFragment"
+        android:label="EmailCertificationFragment" >
+        <action
+            android:id="@+id/action_emailCertificationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_emailCertificationFragment_to_joinFragment"
+            app:destination="@id/joinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailCertificationFindPasswordFragment"
+        android:name="com.todoay.EmailCertificationFindPasswordFragment"
+        android:label="EmailCertificationFindPasswordFragment" >
+        <action
+            android:id="@+id/action_emailCertificationFindPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myinfoModifyFragment"
+        android:name="com.todoay.MyinfoModifyFragment"
+        android:label="MyinfoModifyFragment" >
+        <action
+            android:id="@+id/action_myinfoModifyFragment_to_myinfoFragment"
+            app:destination="@id/myinfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.todoay.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_myinfoFragment"
+            app:destination="@id/myinfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="com.todoay.JoinFragment"
+        android:label="JoinFragment" >
+        <action
+            android:id="@+id/action_joinFragment_to_emailCertificationFragment"
+            app:destination="@id/emailCertificationFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_emailCertificationFragment2"
+            app:destination="@id/emailCertificationFragment" />
+    </fragment>
+</navigation>

@@ -10,6 +10,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:clickable="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menu_btn" />
@@ -55,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
+        android:clickable="true"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/myinfo_info_title_tv"
         app:layout_constraintTop_toTopOf="@id/myinfo_info_title_tv"
@@ -146,11 +148,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
+        android:clickable="true"
         android:fontFamily="@font/regular"
         android:text="비밀번호 변경>"
         android:textColor="@color/main_color"
         android:textSize="15sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/myinfo_joinemail_tv" />
+
+    <View
+        android:id="@+id/join_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/myinfo_menubtn"
+        android:layout_marginTop="20dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
