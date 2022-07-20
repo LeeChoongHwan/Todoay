@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/email_cert_backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_back_btn" />
+        app:srcCompat="@drawable/ic_back"
+        android:clickable="true"
+        />
 
     <TextView
         android:id="@+id/email_cert_top_title"
@@ -35,7 +36,7 @@
         android:layout_height="2px"
         android:background="#000000"
         app:layout_constraintTop_toBottomOf="@id/email_cert_backBtn"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -76,14 +77,28 @@
         android:id="@+id/email_cert_sendVerifyCodeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/checkrepbtn_fail_background"
         android:clickable="false"
-        android:text="인증번호 전송"
-        android:textColor="@color/main_color"
+        android:text="인증메일 전송"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/regular"
         app:layout_constraintBottom_toBottomOf="@id/email_cert_emailEditText"
         app:layout_constraintLeft_toRightOf="@id/email_cert_emailEditText"
-        app:layout_constraintTop_toTopOf="@id/email_cert_emailEditText" />
+        app:layout_constraintTop_toTopOf="@id/email_cert_emailEditText"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/email_cert_alert_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/email_cert_okayBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="메일 인증이 완료되지 않았습니다.\n메일을 확인해주세요."
+        android:gravity="center"
+        app:fontFamily="@font/white"
+        android:textColor="@color/red"/>
 
     <TextView
         android:id="@+id/email_cert_verifyCodeText"
@@ -113,21 +128,22 @@
         android:id="@+id/email_cert_resendBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/checkrepbtn_background"
         android:text="재전송"
         android:textColor="@color/main_color"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/email_cert_verifyCodeEditText"
         app:layout_constraintLeft_toRightOf="@id/email_cert_verifyCodeEditText"
-        app:layout_constraintTop_toTopOf="@id/email_cert_verifyCodeEditText" />
+        app:layout_constraintTop_toTopOf="@id/email_cert_verifyCodeEditText"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <android.widget.Button
         android:id="@+id/email_cert_okayBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/confirmbtn_fail_background"
         android:clickable="false"

@@ -12,7 +12,9 @@
         android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back_btn" />
+        app:srcCompat="@drawable/ic_back"
+        android:clickable="true"
+        />
 
     <TextView
         android:id="@+id/myinfomodify_title_tv"
@@ -26,6 +28,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/myinfomodify_backbtn" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/myinfomodify_backbtn"
+        app:layout_constraintTop_toTopOf="@id/myinfomodify_backbtn"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="15dp"
+        android:text="확인"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/regular"
+        android:textSize="18dp"
+        />
 
     <TextView
         android:id="@+id/myinfomodify_modify_title_tv"
@@ -93,10 +109,10 @@
         android:id="@+id/myinfomodify_nicknamecheck_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/checkrepbtn_background"
+        android:background="@drawable/checkrepbtn_fail_background"
         android:text="중복확인"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/white"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/regular"
         app:layout_constraintBottom_toBottomOf="@id/myinfomodify_nickname_et"
         app:layout_constraintLeft_toRightOf="@id/myinfomodify_nickname_et"
         app:layout_constraintRight_toRightOf="parent"
@@ -143,7 +159,7 @@
         android:layout_height="2px"
         android:background="#000000"
         app:layout_constraintTop_toBottomOf="@id/myinfomodify_backbtn"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         />
 
 
