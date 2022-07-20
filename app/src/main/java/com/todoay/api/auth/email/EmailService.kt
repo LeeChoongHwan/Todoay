@@ -1,10 +1,8 @@
 package com.todoay.api.auth.email
 
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * 이메일 관련 API 호출 인터페이스

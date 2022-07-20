@@ -14,16 +14,19 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object RetrofitService {
 
-    private val baseURL = "https://localhost:8080"
-    private lateinit var retrofitService: Retrofit
-    private lateinit var okHttpClient: OkHttpClient
+    // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
+    // 실행할 때마다 각자 수정하도록...
+    private val tempIPAddress = "192.168.0.242"
+
+    private val baseURL = "http://${tempIPAddress}:8080"
+    private var retrofitService: Retrofit? = null
+    private var okHttpClient: OkHttpClient? = null
 
     /**
      * Retrofit OkHttp 인터셉터 싱글톤 객체 초기화
      */
     private fun getClient() : OkHttpClient {
         Log.d("Retrofit", "RetrofitService - getClient() called")
-
         if(okHttpClient == null) {
             okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
@@ -32,7 +35,7 @@ object RetrofitService {
                 .addInterceptor(HeaderInterceptor("token example"))
                 .build()
         }
-        return okHttpClient
+        return okHttpClient!!
     }
 
     /**
@@ -40,6 +43,7 @@ object RetrofitService {
      */
     private class HeaderInterceptor constructor(private val token: String) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
+            Log.d("Retrofit", "RetrofitService - interceptor() called")
             return chain.proceed(
                 chain.request().newBuilder()
                     .addHeader("Token", token)
@@ -53,7 +57,6 @@ object RetrofitService {
      */
     fun getService(): Retrofit {
         Log.d("Retrofit", "RetrofitService - getService() called" )
-
         if(retrofitService == null) {
             retrofitService = Retrofit.Builder()
                 .baseUrl(baseURL)
@@ -61,7 +64,7 @@ object RetrofitService {
                 .client(getClient())
                 .build()
         }
-        return retrofitService
+        return retrofitService!!
     }
 
 }

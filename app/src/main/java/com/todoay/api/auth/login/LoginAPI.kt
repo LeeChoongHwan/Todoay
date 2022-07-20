@@ -12,7 +12,7 @@ import retrofit2.Response
  */
 class LoginAPI {
 
-    private val service = RetrofitService.getService().create(LoginService::class.java)
+    private val service: LoginService = RetrofitService.getService().create(LoginService::class.java)
 
     /**
      * 로그인 수행
