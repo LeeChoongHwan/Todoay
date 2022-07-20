@@ -3,20 +3,16 @@ package com.todoay
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.todoay.databinding.ActivityMainBinding
 import com.todoay.databinding.FragmentEmailCertificationBinding
-import com.todoay.databinding.FragmentEmailCertificationFindPasswordBinding
 
 class EmailCertificationFragment : Fragment() {
 
     private var mBinding : FragmentEmailCertificationBinding?= null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentEmailCertificationBinding.inflate(inflater,container,false)
@@ -33,10 +29,12 @@ class EmailCertificationFragment : Fragment() {
                 if (mBinding?.emailCertEmailEditText?.text.toString() != "") {
                     mBinding?.emailCertSendVerifyCodeBtn?.isEnabled = true
                     mBinding?.emailCertSendVerifyCodeBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
+                    mBinding?.emailCertSendVerifyCodeBtn?.setTextColor(resources.getColor(R.color.main_color))
                 }
                 else {
                     mBinding?.emailCertSendVerifyCodeBtn?.isEnabled = false
                     mBinding?.emailCertSendVerifyCodeBtn?.setBackgroundResource(R.drawable.checkrepbtn_fail_background)
+                    mBinding?.emailCertSendVerifyCodeBtn?.setTextColor(resources.getColor(R.color.gray))
                 }
             }
 
@@ -80,7 +78,7 @@ class EmailCertificationFragment : Fragment() {
         mBinding?.emailCertOkayBtn?.setOnClickListener {
 
             if(mBinding?.emailCertVerifyCodeEditText?.text.toString()=="1234") {
-                Navigation.findNavController(view!!).navigate(R.id.action_emailCertificationFragment_to_joinFragment)
+                Navigation.findNavController(requireView()).navigate(R.id.action_emailCertificationFragment_to_joinFragment)
             }
             else {
                 mBinding?.emailCertErrorMessage?.visibility = View.VISIBLE
@@ -89,7 +87,7 @@ class EmailCertificationFragment : Fragment() {
         }
         //뒤로가기 버튼
         mBinding?.emailCertBackBtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_emailCertificationFragment_to_loginFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_emailCertificationFragment_to_loginFragment)
         }
 
         return mBinding?.root
