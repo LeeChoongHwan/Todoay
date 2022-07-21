@@ -3,14 +3,13 @@ package com.todoay
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.navigation.Navigation
-import com.todoay.api.auth.login.LoginAPI
-import com.todoay.databinding.FragmentJoinBinding
+import com.todoay.api.domain.auth.login.LoginAPI
 import com.todoay.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -88,7 +87,18 @@ class LoginFragment : Fragment() {
             // 로그인 테스트
             LoginAPI().login(
                 mBinding?.loginEmailEditText!!.text.toString(),
-                mBinding?.loginEtPassword!!.text.toString()
+                mBinding?.loginEtPassword!!.text.toString(),
+                onResponse = {
+                    Log.d("login", "onSuccess() called in LoginFragment")
+                    it.accessToken
+                    it.refreshToken
+                    it.nickName
+                },
+                onFailure = {
+                    Log.d("login", "onFailure() called in LoginFragment")
+                    it.error
+                    it.code
+                }
             )
 
 //            if(mBinding?.loginEmailEditText!!.text.toString() == "1234@naver.com") {

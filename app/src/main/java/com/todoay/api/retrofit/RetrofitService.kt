@@ -1,12 +1,17 @@
 package com.todoay.api.retrofit
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import com.google.gson.Gson
+import com.todoay.api.util.ErrorResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 /**
  * RetrofitService는 API 호출을 위해 Retrofit 라이브러리를 활용하여
@@ -67,4 +72,33 @@ object RetrofitService {
         return retrofitService!!
     }
 
+    /**
+     * API의 onResponse 호출 이후 response가 성공이 아닐 경우
+     * ResponseError 객체를 초기화하여 리턴하기 위함.
+     */
+    fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
+        val gson = Gson()
+        var gsonError: ErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        return ErrorResponse(
+            timestamp = gsonError.timestamp,
+            status = gsonError.status,
+            error = gsonError.error,
+            code = gsonError.code,
+            path = gsonError.path
+        )
+    }
+
+    /**
+     * API의 onFailure 호출되어 ResponseError 객체를 초기화하여 리턴하기 위함.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getErrorFailure(t: Throwable, _message: String) : ErrorResponse {
+        return ErrorResponse(
+            timestamp = LocalDateTime.now().toString(),
+            status = 400,
+            error = "${t.javaClass.name}: ${t.message.toString()}",
+            code = "시스템 오류가 발생하여 ${_message}에 실패하였습니다.",
+            path = ""
+        )
+    }
 }

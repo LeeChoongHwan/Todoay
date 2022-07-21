@@ -9,6 +9,7 @@ android {
     defaultConfig {
         applicationId "com.todoay"
         minSdk 23
+        // minSdk 26이상으로 올리는거 어떰?
         targetSdk 31
         versionCode 1
         versionName "1.0"
