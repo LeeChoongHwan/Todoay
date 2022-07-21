@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.Navigation
+import com.todoay.api.auth.login.LoginAPI
 import com.todoay.databinding.FragmentJoinBinding
 import com.todoay.databinding.FragmentLoginBinding
 
@@ -84,27 +85,34 @@ class LoginFragment : Fragment() {
 
         //로그인 button
         mBinding?.loginLoginBtn?.setOnClickListener {
-            if(mBinding?.loginEmailEditText!!.text.toString() == "1234@naver.com") {
-                if(mBinding?.loginEtPassword!!.text.toString()=="12345678") {
-                    Navigation.findNavController(view!!).navigate(R.id.action_loginFragment_to_myinfoFragment)
-                }
-                else {
-                    mBinding?.loginErrorMessage?.visibility = View.VISIBLE
-                }
-            }
-            else {
-                mBinding?.loginErrorMessage?.visibility = View.VISIBLE
-            }
+            // 로그인 테스트
+            LoginAPI().login(
+                mBinding?.loginEmailEditText!!.text.toString(),
+                mBinding?.loginEtPassword!!.text.toString()
+            )
+
+//            if(mBinding?.loginEmailEditText!!.text.toString() == "1234@naver.com") {
+//                if(mBinding?.loginEtPassword!!.text.toString()=="12345678") {
+//
+//                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+//                }
+//                else {
+//                    mBinding?.loginErrorMessage?.visibility = View.VISIBLE
+//                }
+//            }
+//            else {
+//                mBinding?.loginErrorMessage?.visibility = View.VISIBLE
+//            }
         }
 
         //회원 가입 button
         mBinding?.loginSigninBtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_loginFragment_to_emailCertificationFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_emailCertificationFragment)
         }
 
         //비밀번호 찾기 text
         mBinding?.loginFindPwTextBtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_loginFragment_to_emailCertificationFindPasswordFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_emailCertificationFindPasswordFragment)
         }
 
 
