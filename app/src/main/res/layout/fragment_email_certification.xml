@@ -79,90 +79,43 @@
         android:layout_height="wrap_content"
         android:background="@drawable/checkrepbtn_fail_background"
         android:clickable="false"
+        android:enabled="false"
+        android:fontFamily="@font/regular"
         android:text="인증메일 전송"
         android:textColor="@color/gray"
-        android:fontFamily="@font/regular"
         app:layout_constraintBottom_toBottomOf="@id/email_cert_emailEditText"
         app:layout_constraintLeft_toRightOf="@id/email_cert_emailEditText"
-        app:layout_constraintTop_toTopOf="@id/email_cert_emailEditText"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/email_cert_emailEditText" />
 
     <TextView
         android:id="@+id/email_cert_alert_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="메일 인증이 완료되지 않았습니다.\n메일을 확인해주세요."
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:fontFamily="@font/white"
         app:layout_constraintBottom_toTopOf="@id/email_cert_okayBtn"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="메일 인증이 완료되지 않았습니다.\n메일을 확인해주세요."
-        android:gravity="center"
-        app:fontFamily="@font/white"
-        android:textColor="@color/red"/>
-
-    <TextView
-        android:id="@+id/email_cert_verifyCodeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="인증번호"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:visibility="gone"
-        app:fontFamily="@font/regular"
-        app:layout_constraintLeft_toLeftOf="@id/email_cert_emailEditText"
-        app:layout_constraintTop_toBottomOf="@id/email_cert_emailEditText" />
-
-    <EditText
-        android:id="@+id/email_cert_verifyCodeEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="12"
-        android:inputType="number"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@id/email_cert_verifyCodeText"
-        app:layout_constraintTop_toBottomOf="@id/email_cert_verifyCodeText" />
-
-    <android.widget.Button
-        android:id="@+id/email_cert_resendBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/checkrepbtn_background"
-        android:text="재전송"
-        android:textColor="@color/main_color"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/email_cert_verifyCodeEditText"
-        app:layout_constraintLeft_toRightOf="@id/email_cert_verifyCodeEditText"
-        app:layout_constraintTop_toTopOf="@id/email_cert_verifyCodeEditText"
-        app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <android.widget.Button
         android:id="@+id/email_cert_okayBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="300dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/confirmbtn_fail_background"
         android:clickable="false"
+        android:enabled="false"
         android:text="확인"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email_cert_verifyCodeEditText" />
-
-    <TextView
-        android:id="@+id/email_cert_error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="인증번호가 일치하지 않습니다."
-        android:textColor="@color/red"
-        android:visibility="gone"
-        app:fontFamily="@font/white"
-        app:layout_constraintLeft_toLeftOf="@id/email_cert_verifyCodeEditText"
-        app:layout_constraintTop_toBottomOf="@id/email_cert_verifyCodeEditText" />
+        tools:layout_editor_absoluteY="611dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
