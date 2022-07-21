@@ -115,6 +115,8 @@
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_cert_emailEditText"
+        android:layout_marginTop="300dp"
         tools:layout_editor_absoluteY="611dp" />
 
 

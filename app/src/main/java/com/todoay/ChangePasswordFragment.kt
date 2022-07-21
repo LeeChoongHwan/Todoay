@@ -62,6 +62,7 @@ class ChangePasswordFragment : Fragment() {
                 else {
                     isPresentPassword = false
                 }
+                changeConfirmButtonColor()
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -71,6 +72,7 @@ class ChangePasswordFragment : Fragment() {
                 else {
                     isPresentPassword = false
                 }
+                changeConfirmButtonColor()
             }
 
         })
@@ -98,6 +100,7 @@ class ChangePasswordFragment : Fragment() {
                     isSame = false
                     mBinding?.changepasswordcheckErrorMessage?.visibility = View.VISIBLE
                 }
+                changeConfirmButtonColor()
 
 
             }
@@ -119,6 +122,7 @@ class ChangePasswordFragment : Fragment() {
                     isSame = false
                     mBinding?.changepasswordcheckErrorMessage?.visibility = View.VISIBLE
                 }
+                changeConfirmButtonColor()
             }
 
         })
@@ -136,14 +140,8 @@ class ChangePasswordFragment : Fragment() {
                 else {
                     isChangedPassword = false
                 }
-                if(mBinding?.changepasswordChangedpassowordEt?.text.toString() ==
-                    mBinding?.changepasswordChangedpassowordcheckEt?.text.toString()) {
-                    isSame = true
-                }
-                else {
-                    isSame = false
-                    mBinding?.changepasswordcheckErrorMessage?.visibility = View.VISIBLE
-                }
+                checkConditon()
+                changeConfirmButtonColor()
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -153,14 +151,8 @@ class ChangePasswordFragment : Fragment() {
                 else {
                     isChangedPassword = false
                 }
-                if(mBinding?.changepasswordChangedpassowordEt?.text.toString() ==
-                    mBinding?.changepasswordChangedpassowordcheckEt?.text.toString()) {
-                    isSame = true
-                }
-                else {
-                    isSame = false
-                    mBinding?.changepasswordcheckErrorMessage?.visibility = View.VISIBLE
-                }
+                checkConditon()
+                changeConfirmButtonColor()
             }
 
         })
@@ -168,7 +160,7 @@ class ChangePasswordFragment : Fragment() {
         return mBinding?.root
     }
     private fun changeConfirmButtonColor() {
-        if(isPresentPassword == true && isChangedPassword == true && isChangedCheckPassword == true && isSame == true && isCondition == true) {
+        if(isPresentPassword && isChangedPassword && isChangedCheckPassword && isSame && isCondition == true) {
             mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(R.color.main_color)
             mBinding?.changepasswordToolbarConfirmBtn?.isEnabled = true
         }
@@ -178,10 +170,11 @@ class ChangePasswordFragment : Fragment() {
         }
     }
 
-    private fun checkConditon( ){
+    private fun checkConditon(){
         if (Pattern.matches("^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$",
                 mBinding?.changepasswordChangedpassowordEt?.text.toString())) {
             isCondition = true
+            mBinding?.changepasswordchangeErrorMessage?.visibility = View.GONE
         }
         else {
             isCondition = false

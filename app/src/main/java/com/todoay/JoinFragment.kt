@@ -129,10 +129,12 @@ class JoinFragment : Fragment() {
                 if(mBinding?.joinNicknameEt?.text?.toString() != "") {
                     mBinding?.joinNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
                     mBinding?.joinNicknamecheckBtn?.isEnabled = true
+                    mBinding?.joinNicknamecheckBtn?.setTextColor(R.color.main_color)
                 }
                 else {
                     mBinding?.joinNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_fail_background)
                     mBinding?.joinNicknamecheckBtn?.isEnabled = false
+                    mBinding?.joinNicknamecheckBtn?.setTextColor(R.color.gray)
                 }
             }
 

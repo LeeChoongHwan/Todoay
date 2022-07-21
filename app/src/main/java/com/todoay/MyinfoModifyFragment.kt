@@ -32,10 +32,12 @@ class MyinfoModifyFragment : Fragment() {
                 if(mBinding?.myinfomodifyNicknameEt?.text.toString() != "") {
                     mBinding?.myinfomodifyNicknamecheckBtn?.isEnabled = true
                     mBinding?.myinfomodifyNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
+                    mBinding?.myinfomodifyNicknamecheckBtn?.setTextColor(R.color.main_color)
                 }
                 else {
                     mBinding?.myinfomodifyNicknamecheckBtn?.isEnabled = false
                     mBinding?.myinfomodifyNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_fail_background)
+                    mBinding?.myinfomodifyNicknamecheckBtn?.setTextColor(R.color.gray)
                 }
             }
 
@@ -43,10 +45,12 @@ class MyinfoModifyFragment : Fragment() {
                 if(mBinding?.myinfomodifyNicknameEt?.text.toString() != "") {
                     mBinding?.myinfomodifyNicknamecheckBtn?.isEnabled = true
                     mBinding?.myinfomodifyNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
+                    mBinding?.myinfomodifyNicknamecheckBtn?.setTextColor(R.color.main_color)
                 }
                 else {
                     mBinding?.myinfomodifyNicknamecheckBtn?.isEnabled = false
                     mBinding?.myinfomodifyNicknamecheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_fail_background)
+                    mBinding?.myinfomodifyNicknamecheckBtn?.setTextColor(R.color.gray)
                 }
             }
 
