@@ -39,51 +39,30 @@ class EmailCertificationFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-
+                if (mBinding?.emailCertEmailEditText?.text.toString() != "") {
+                    mBinding?.emailCertSendVerifyCodeBtn?.isEnabled = true
+                    mBinding?.emailCertSendVerifyCodeBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
+                    mBinding?.emailCertSendVerifyCodeBtn?.setTextColor(resources.getColor(R.color.main_color))
+                }
+                else {
+                    mBinding?.emailCertSendVerifyCodeBtn?.isEnabled = false
+                    mBinding?.emailCertSendVerifyCodeBtn?.setBackgroundResource(R.drawable.checkrepbtn_fail_background)
+                    mBinding?.emailCertSendVerifyCodeBtn?.setTextColor(resources.getColor(R.color.gray))
+                }
             }
 
         })
 
-        mBinding?.emailCertVerifyCodeEditText?.addTextChangedListener(object :TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(mBinding?.emailCertVerifyCodeEditText?.text?.toString() != "") {
-                    mBinding?.emailCertOkayBtn?.isEnabled = true
-                    mBinding?.emailCertOkayBtn?.setBackgroundResource(R.drawable.confirmbtn_background)
-                }
-                else{
-                    mBinding?.emailCertOkayBtn?.isEnabled = false
-                    mBinding?.emailCertOkayBtn?.setBackgroundResource(R.drawable.confirmbtn_fail_background)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        //중복확인 버튼
+        //인증메일 전송 버튼
         mBinding?.emailCertSendVerifyCodeBtn?.setOnClickListener {
-            mBinding?.emailCertSendVerifyCodeBtn?.visibility = View.VISIBLE
-            mBinding?.emailCertVerifyCodeText?.visibility = View.VISIBLE
-            mBinding?.emailCertVerifyCodeEditText?.visibility = View.VISIBLE
-            mBinding?.emailCertResendBtn?.visibility = View.VISIBLE
+            mBinding?.emailCertAlertMsg?.visibility = View.VISIBLE
+            mBinding?.emailCertOkayBtn?.isEnabled = true
+            mBinding?.emailCertOkayBtn?.setBackgroundResource(R.drawable.confirmbtn_background)
         }
 
         //확인 버튼
         mBinding?.emailCertOkayBtn?.setOnClickListener {
-
-            if(mBinding?.emailCertVerifyCodeEditText?.text.toString()=="1234") {
                 Navigation.findNavController(requireView()).navigate(R.id.action_emailCertificationFragment_to_joinFragment)
-            }
-            else {
-                mBinding?.emailCertErrorMessage?.visibility = View.VISIBLE
-            }
-
         }
         //뒤로가기 버튼
         mBinding?.emailCertBackBtn?.setOnClickListener {

@@ -138,28 +138,62 @@
         android:id="@+id/join_nicknamecheck_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/checkrepbtn_fail_background"
+        android:enabled="false"
+        android:fontFamily="@font/regular"
         android:text="중복확인"
+        android:textColor="@color/gray"
         app:layout_constraintBottom_toBottomOf="@id/join_nickname_et"
         app:layout_constraintLeft_toRightOf="@id/join_nickname_et"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/join_nickname_et"
-        android:textColor="@color/gray"
-        android:background="@drawable/checkrepbtn_fail_background"
-        android:fontFamily="@font/regular"
-        />
+        app:layout_constraintTop_toTopOf="@id/join_nickname_et" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/join_confirm_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="70dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/confirmbtn_background"
+        android:background="@drawable/confirmbtn_fail_background"
+        android:enabled="false"
         android:text="회원가입"
-        app:backgroundTint="@color/main_color"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/join_nickname_et" />
+
+    <TextView
+        android:id="@+id/join_password_errormessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호는 8~20자/영어,숫자,특수문자여야 합니다."
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:fontFamily="@font/white"
+        app:layout_constraintLeft_toLeftOf="@id/join_password_et"
+        app:layout_constraintTop_toBottomOf="@id/join_password_et" />
+
+    <TextView
+        android:id="@+id/join_passwordcheck_errormessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호가 일치하지 않습니다."
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:fontFamily="@font/white"
+        app:layout_constraintLeft_toLeftOf="@id/join_passwordcheck_et"
+        app:layout_constraintTop_toBottomOf="@id/join_passwordcheck_et" />
+
+    <TextView
+        android:id="@+id/join_nickname_errormessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉네임이 중복됩니다."
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:fontFamily="@font/white"
+        app:layout_constraintLeft_toLeftOf="@id/join_nickname_et"
         app:layout_constraintTop_toBottomOf="@id/join_nickname_et" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
