@@ -71,18 +71,31 @@
         app:layout_constraintLeft_toLeftOf="@id/email_cert_emailText"
         android:layout_marginTop="10dp"
         android:ems="12"
+        android:enabled="false"
         android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/email_cert_alert_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/email_cert_emailEditText"
+        app:layout_constraintLeft_toLeftOf="@id/email_cert_emailEditText"
+        android:layout_marginLeft="10dp"
+        android:text="메일을 전송하였습니다. 메일을 확인해주세요."
+        android:visibility="gone"
+        android:fontFamily="@font/white"
+        android:textColor="@color/green"
+        android:textSize="14sp"
+        />
 
     <android.widget.Button
         android:id="@+id/email_cert_sendVerifyCodeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/checkrepbtn_fail_background"
-        android:clickable="false"
-        android:enabled="false"
+        android:background="@drawable/checkrepbtn_background"
         android:fontFamily="@font/regular"
         android:text="인증메일 전송"
-        android:textColor="@color/gray"
+        android:textColor="@color/main_color"
         app:layout_constraintBottom_toBottomOf="@id/email_cert_emailEditText"
         app:layout_constraintLeft_toRightOf="@id/email_cert_emailEditText"
         app:layout_constraintRight_toRightOf="parent"
@@ -98,12 +111,12 @@
         android:textColor="@color/red"
         android:visibility="gone"
         app:fontFamily="@font/white"
-        app:layout_constraintBottom_toTopOf="@id/email_cert_okayBtn"
+        app:layout_constraintBottom_toTopOf="@id/email_cert_sign_up_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <android.widget.Button
-        android:id="@+id/email_cert_okayBtn"
+        android:id="@+id/email_cert_sign_up_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -111,13 +124,12 @@
         android:background="@drawable/confirmbtn_fail_background"
         android:clickable="false"
         android:enabled="false"
-        android:text="확인"
+        android:text="가입 하기"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_cert_emailEditText"
-        android:layout_marginTop="300dp"
-        tools:layout_editor_absoluteY="611dp" />
+        android:layout_marginTop="290dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

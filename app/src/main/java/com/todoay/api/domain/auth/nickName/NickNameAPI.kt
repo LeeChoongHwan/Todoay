@@ -33,7 +33,9 @@ class NickNameAPI {
                     response: Response<NickNameResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val nickNameResponse : NickNameResponse = response.body()!!
+                        val nickNameResponse = NickNameResponse(
+                            status = response.code()
+                        )
                         onResponse(nickNameResponse)
                         Log.d("nickname", "check nickname duplicate - success {$nickNameResponse}")
                     }

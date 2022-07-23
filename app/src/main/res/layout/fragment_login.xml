@@ -139,10 +139,11 @@
         android:id="@+id/login_error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아이디, 비밀번호를 확인하세요."
+        android:text="아이디 또는 비밀번호를 확인하세요."
         android:textColor="@color/red"
         android:visibility="gone"
         app:fontFamily="@font/white"
         app:layout_constraintLeft_toLeftOf="@id/etPasswordLayout"
         app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

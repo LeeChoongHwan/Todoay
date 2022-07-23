@@ -117,7 +117,7 @@ class LoginFragment : Fragment() {
 
         //회원 가입 button
         mBinding?.loginSigninBtn?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_emailCertificationFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_joinFragment)
         }
 
         //비밀번호 찾기 text

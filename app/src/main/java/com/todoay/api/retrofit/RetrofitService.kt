@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.todoay.api.util.ErrorResponse
+import com.todoay.api.util.ValidErrorResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -88,6 +89,19 @@ object RetrofitService {
         )
     }
 
+    fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
+        val gson = Gson()
+        val gsonError : ValidErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        return ValidErrorResponse(
+            timestamp = gsonError.timestamp,
+            status = gsonError.status,
+            error = gsonError.error,
+            code = gsonError.code,
+            path = gsonError.path,
+            details = gsonError.details
+        )
+    }
+
     /**
      * API의 onFailure 호출되어 ResponseError 객체를 초기화하여 리턴하기 위함.
      */
@@ -95,7 +109,7 @@ object RetrofitService {
     fun getErrorFailure(t: Throwable, _message: String) : ErrorResponse {
         return ErrorResponse(
             timestamp = LocalDateTime.now().toString(),
-            status = 400,
+            status = 404,
             error = "${t.javaClass.name}: ${t.message.toString()}",
             code = "시스템 오류가 발생하여 ${_message}에 실패하였습니다.",
             path = ""

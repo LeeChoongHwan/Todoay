@@ -12,7 +12,7 @@ data class LoginResponse(
     @SerializedName("accessToken")
     val accessToken: String,
     @SerializedName("refreshToken")
-    val refreshToken: String?,
+    val refreshToken: String,
     @SerializedName("nickName")
     val nickName: String
 )

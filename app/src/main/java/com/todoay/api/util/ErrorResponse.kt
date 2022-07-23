@@ -2,7 +2,7 @@ package com.todoay.api.util
 
 import com.google.gson.annotations.SerializedName
 
-data class ErrorResponse(
+open class ErrorResponse(
     @SerializedName("timestamp")
     val timestamp: String,
     @SerializedName("status")
@@ -13,4 +13,13 @@ data class ErrorResponse(
     val code: String,
     @SerializedName("path")
     val path: String
-)
+) {
+    override fun toString(): String {
+        return "{ErrorResponse(" +
+                "timestamp=$timestamp, " +
+                "status=$status, " +
+                "error=$error, " +
+                "code=$code, " +
+                "path=$path)}"
+    }
+}
