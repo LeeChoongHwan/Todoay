@@ -114,7 +114,7 @@ class LoginFragment : Fragment() {
 
 //            if(mBinding?.loginEmailEditText!!.text.toString() == "1234@naver.com") {
 //                if(mBinding?.loginEtPassword!!.text.toString()=="12345678") {
-//
+
 //                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
 //                }
 //                else {

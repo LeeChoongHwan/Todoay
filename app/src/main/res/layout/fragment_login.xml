@@ -40,7 +40,8 @@
         android:textColorHighlight="@color/main_color"
         android:textColorLink="@color/main_color"
         app:layout_constraintLeft_toLeftOf="@id/login_emailText"
-        app:layout_constraintTop_toBottomOf="@id/login_emailText" />
+        app:layout_constraintTop_toBottomOf="@id/login_emailText"
+       />
 
 
     <TextView
@@ -55,33 +56,17 @@
         app:layout_constraintLeft_toLeftOf="@id/login_emailEditText"
         app:layout_constraintTop_toBottomOf="@id/login_emailEditText" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etPasswordLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:boxBackgroundColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
-        app:layout_constraintRight_toRightOf="@id/login_emailEditText"
-        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle"
-        app:passwordToggleEnabled="true">
+
 
         <EditText
             android:id="@+id/login_etPassword"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ems="13"
             android:inputType="textPassword"
-            android:textColorHighlight="@color/main_color"
-            android:textColorLink="@color/main_color" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/login_passwordEditText"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:ems="13"-->
-    <!--        android:inputType="textPassword"-->
-    <!--        app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/login_passwordTitle" />-->
+            app:layout_constraintLeft_toLeftOf="@id/login_passwordTitle"
+            app:layout_constraintTop_toBottomOf="@id/login_passwordTitle"
+            app:passwordToggleEnabled="true"/>
 
     <android.widget.Button
         android:id="@+id/login_loginBtn"
@@ -96,7 +81,7 @@
         app:fontFamily="@font/regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+        app:layout_constraintTop_toBottomOf="@id/login_etPassword" />
 
     <TextView
         android:id="@+id/login_findPwTextBtn"
@@ -108,8 +93,8 @@
         android:textColor="@color/main_color"
         android:textSize="12sp"
         app:fontFamily="@font/white"
-        app:layout_constraintRight_toRightOf="@id/etPasswordLayout"
-        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+        app:layout_constraintRight_toRightOf="@id/login_etPassword"
+        app:layout_constraintTop_toBottomOf="@id/login_etPassword" />
 
     <android.widget.Button
         android:id="@+id/login_signinBtn"
@@ -154,7 +139,7 @@
         android:textColor="@color/red"
         android:visibility="gone"
         app:fontFamily="@font/white"
-        app:layout_constraintLeft_toLeftOf="@id/etPasswordLayout"
-        app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+        app:layout_constraintLeft_toLeftOf="@id/login_etPassword"
+        app:layout_constraintTop_toBottomOf="@id/login_etPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
