@@ -6,7 +6,8 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.nickName.dto.NickNameRequest
 import com.todoay.api.domain.auth.nickName.dto.NickNameResponse
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class NickNameAPI {
     /**
      * 유저 닉네임 중복확인 수행
      */
-    fun checkNickNameDuplicate(_nickName: String, onResponse: (NickNameResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun checkNickNameDuplicate(_nickName: String, onResponse: (NickNameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = NickNameRequest(
             nickName = _nickName
         )
@@ -33,24 +34,26 @@ class NickNameAPI {
                     response: Response<NickNameResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val nickNameResponse : NickNameResponse = response.body()!!
+                        val nickNameResponse = NickNameResponse(
+                            status = response.code()
+                        )
                         onResponse(nickNameResponse)
                         Log.d("nickname", "check nickname duplicate - success {$nickNameResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("nickname", "check nickname duplicate - failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<NickNameResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "닉네임 중복확인"
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/nickname-duplicate-check"
                     )
-                    onFailure(errorFailure)
-                    Log.d("nickname", "check nickname duplicate - failed{${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("nickname", "system - failed {${failure}}")
                 }
 
             })

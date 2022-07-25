@@ -7,7 +7,8 @@ import com.todoay.api.domain.profile.dto.ModifyProfileRequest
 import com.todoay.api.domain.profile.dto.ModifyProfileResponse
 import com.todoay.api.domain.profile.dto.ProfileResponse
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +24,7 @@ class ProfileAPI {
     /**
      * 유저 정보(Profile) 조회 수행
      */
-    fun getMyProfile(onResponse: (ProfileResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun getMyProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         service.getProfile()
             .enqueue(object : Callback<ProfileResponse> {
                 override fun onResponse(
@@ -37,18 +38,18 @@ class ProfileAPI {
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("profile", "get profile - failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "내정보 조회"
+                    val failure = RetrofitService.getFailure(
+                        t, "/profile/my"
                     )
-                    onFailure(errorFailure)
-                    Log.d("profile", "system - failed {${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("profile", "system - failed {${failure}}")
                 }
 
             })
@@ -57,7 +58,7 @@ class ProfileAPI {
     /**
      * 유저 정보(Profile) 변경 수행
      */
-    fun modifyMyProfile(_nickName: String, _message: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun modifyMyProfile(_nickName: String, _message: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = ModifyProfileRequest(
             nickName = _nickName,
             message = _message,
@@ -77,18 +78,18 @@ class ProfileAPI {
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("profile", "modify profile - failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<ModifyProfileResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "내정보 변경"
+                    val failure = RetrofitService.getFailure(
+                        t,  "/profile/my"
                     )
-                    onFailure(errorFailure)
-                    Log.d("profile", "system - failed {${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("profile", "system - failed {${failure}}")
                 }
 
             })

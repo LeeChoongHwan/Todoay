@@ -1,17 +1,20 @@
 package com.todoay
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.todoay.FragmentControllerName.Companion.CONTROLLER_FIND_PASSWORD
-import com.todoay.FragmentControllerName.Companion.CONTROLLER_SIGN_UP
-import com.todoay.FragmentControllerName.Companion.CONTROLLER_LOGIN
+import androidx.lifecycle.Observer
 import com.todoay.databinding.ActivityMainBinding
+import com.todoay.global.config.network.NetworkConnection
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mainActivityBinding : ActivityMainBinding
-    lateinit var currentFragment : Fragment
+
+    var inputMethodManager : InputMethodManager? = null
+    var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,31 +22,28 @@ class MainActivity : AppCompatActivity() {
         mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainActivityBinding.root)
 
-//        fragmentController(CONTROLLER_LOGIN, false)
+        inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as
+                InputMethodManager?
+
+        /**
+         * 네트워크 연결 확인
+         */
+        val connection = NetworkConnection(applicationContext)
+        connection.observe(this, Observer { isConnected ->
+            if(isConnected) {
+
+            }
+            else {
+
+            }
+        })
+
     }
 
-//    fun fragmentController(name: String, addToBackStack: Boolean) {
-//        when(name) {
-//            CONTROLLER_LOGIN -> {
-//                currentFragment = LoginFragment()
-//            }
-//            CONTROLLER_SIGN_UP -> {
-//                currentFragment = SignUpFragment()
-//            }
-//            CONTROLLER_FIND_PASSWORD -> {
-//                currentFragment = FindPasswordFragment()
-//            }
-//        }
-//
-//        val trans = supportFragmentManager.beginTransaction()
-//        trans.replace(R.id.main_container, currentFragment)
-//
-//        if(addToBackStack) {
-//            trans.addToBackStack(name)
-//        }
-//
-//        trans.commit()
-//    }
-
+    fun hideKeyboard(v: View) {
+        if(v!=null) {
+            inputMethodManager?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
 
 }

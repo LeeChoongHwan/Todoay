@@ -6,7 +6,8 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.login.dto.LoginRequest
 import com.todoay.api.domain.auth.login.dto.LoginResponse
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response as Response
@@ -21,10 +22,8 @@ class LoginAPI {
 
     /**
      * 로그인 수행
-     * onResponse: 통신에 성공한 경우
-     * onFailure: 통신에 실패한 경우
      */
-    fun login(_email: String, _password: String, onResponse: (LoginResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun login(_email: String, _password: String, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
         val request = LoginRequest(
             email = _email,
             password = _password
@@ -44,18 +43,18 @@ class LoginAPI {
                     // 로그인 실패
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("login", "login - failed {${errorResponse}}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "로그인"
+                    val failure = RetrofitService.getFailure(
+                        t,  "/auth/sign-in"
                     )
-                    onFailure(errorFailure)
-                    Log.d("login", "system - failed {${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("login", "system - failed {${failure}}")
                 }
             })
     }

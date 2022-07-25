@@ -5,8 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.email.dto.EmailRequest
 import com.todoay.api.domain.auth.email.dto.EmailResponse
+import com.todoay.api.config.RetrofitService
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class EmailAPI {
     /**
      * 이메일 중복확인 수행
      */
-    fun checkEmailDuplicate(_email: String, onResponse: (EmailResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun checkEmailDuplicate(_email: String, onResponse: (EmailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = EmailRequest(
             email = _email
         )
@@ -33,23 +34,25 @@ class EmailAPI {
                     response: Response<EmailResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val emailResponse: EmailResponse = response.body()!!
+                        val emailResponse = EmailResponse(
+                            status = response.code()
+                        )
                         onResponse(emailResponse)
                         Log.d("email", "check email duplicate - success {$emailResponse}")
                     } else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("email", "check email duplicate - failed {${errorResponse}}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "이메일 중복확인"
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/email_duplicate_check"
                     )
-                    onFailure(errorFailure)
-                    Log.d("email", "system - failed {${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("email", "system - failed {${failure}}")
                 }
             })
     }
@@ -57,38 +60,36 @@ class EmailAPI {
     /**
      * 이메일 인증메일 전송 수행
      */
-    fun sendCertMail(_email: String, onResponse: (EmailResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
-        val requestParams = EmailRequest(
+    fun sendCertMail(_email: String, onResponse: (EmailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
+        val request = EmailRequest(
             email = _email
         )
-        service.getSendCertMail(requestParams)
+        service.getSendCertMail(request.email)
             .enqueue(object : Callback<EmailResponse> {
                 override fun onResponse(
                     call: Call<EmailResponse>,
                     response: Response<EmailResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val responseEmail: EmailResponse = response.body()!!
-                        onResponse(responseEmail)
-                        Log.d("email", "send cert mail - success {$responseEmail}")
+                        val emailResponse = EmailResponse(
+                            status= response.code()
+                        )
+                        onResponse(emailResponse)
+                        Log.d("email", "send cert mail - success {$emailResponse}")
                     } else {
-                        when (response.code()) {
-                            404 -> {
-                                val responseError = RetrofitService.getErrorResponse(response)
-                                onFailure(responseError)
-                                Log.d("email", "send cert mail - failed {$responseError}")
-                            }
-                        }
+                        val errorResponse = RetrofitService.getValidErrorResponse(response)
+                        onErrorResponse(errorResponse)
+                        Log.d("email", "send cert mail - failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
-                    val responseError = RetrofitService.getErrorFailure(
-                        t, "이메일 전송"
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/mail"
                     )
-                    onFailure(responseError)
-                    Log.d("email", "system - failed {${responseError}")
+                    onFailure(failure)
+                    Log.d("email", "system - failed {${failure}}")
                 }
 
             })
