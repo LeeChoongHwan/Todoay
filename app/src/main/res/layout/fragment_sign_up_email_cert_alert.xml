@@ -46,10 +46,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/sign_up_email_cert_alert_backBtn"
         app:layout_constraintLeft_toLeftOf="@id/sign_up_email_cert_alert_backBtn"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:text="회원가입"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:fontFamily="@font/bold" />
 
     <TextView

@@ -26,7 +26,13 @@ class SignUpEmailCertAlertFragment : Fragment() {
          * 확인 버튼
          */
         mBinding?.signUpEmailCertAlertConfirmBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_signUpEmailCertAlertFragment_to_loginFragment)
+        }
 
+        /**
+         * 뒤로가기 버튼
+         */
+        mBinding?.signUpEmailCertAlertBackBtn?.setOnClickListener{
             Navigation.findNavController(requireView()).navigate(R.id.action_signUpEmailCertAlertFragment_to_loginFragment)
         }
 

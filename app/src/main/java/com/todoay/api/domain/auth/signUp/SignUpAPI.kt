@@ -6,7 +6,8 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.signUp.dto.SignUpRequest
 import com.todoay.api.domain.auth.signUp.dto.SignUpResponse
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class SignUpAPI {
     /**
      * 유저 회원가입 수행
      */
-    fun signUp(_email: String, _password: String, _nickName: String, onResponse: (SignUpResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun signUp(_email: String, _password: String, _nickName: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = SignUpRequest(
             email = _email,
             password = _password,
@@ -41,18 +42,18 @@ class SignUpAPI {
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("sign-up", "failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "회원가입"
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/sign-up"
                     )
-                    onFailure(errorFailure)
-                    Log.d("sign-up", "system - failed {${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("sign-up", "system - failed {${failure}}")
                 }
 
             })

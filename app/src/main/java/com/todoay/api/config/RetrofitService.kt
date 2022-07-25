@@ -1,10 +1,11 @@
-package com.todoay.api.retrofit
+package com.todoay.api.config
 
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.todoay.api.util.ErrorResponse
+import com.todoay.api.util.Failure
 import com.todoay.api.util.ValidErrorResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -12,6 +13,8 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.time.LocalDateTime
 
 /**
@@ -22,7 +25,7 @@ object RetrofitService {
 
     // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
     // 실행할 때마다 각자 수정하도록...
-    private val tempIPAddress = "192.168.0.242"
+    private val tempIPAddress = "192.168.0.106"
 
     private val baseURL = "http://${tempIPAddress}:8080"
     private var retrofitService: Retrofit? = null
@@ -75,7 +78,7 @@ object RetrofitService {
 
     /**
      * API의 onResponse 호출 이후 response가 성공이 아닐 경우
-     * ResponseError 객체를 초기화하여 리턴하기 위함.
+     * ErrorResponse 객체를 초기화하여 리턴하기 위함.
      */
     fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
         val gson = Gson()
@@ -89,6 +92,10 @@ object RetrofitService {
         )
     }
 
+    /**
+     * API의 onResponse 호출 이후 response가 성공이 아닐 경우
+     * 서버의 유효성 검증에 대한 ValidErrorReponse 객체를 초기화하여 리턴하기 위함.
+    */
     fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
         val gson = Gson()
         val gsonError : ValidErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
@@ -103,16 +110,25 @@ object RetrofitService {
     }
 
     /**
-     * API의 onFailure 호출되어 ResponseError 객체를 초기화하여 리턴하기 위함.
+     * API 통신을 실패한 경우
+     * API의 onFailure 호출되어 Failure 객체를 초기화하여 리턴하기 위함.
+     * 예외 상황이 ConnectException인 경우 네트워크 연결 실패로 간주.
+     * 예외 상황이 SocketTimeoutException인 경우 서버 연결 실패로 간주.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getErrorFailure(t: Throwable, _message: String) : ErrorResponse {
-        return ErrorResponse(
+    fun getFailure(t: Throwable, path: String) : Failure {
+        var code = "서비스 이용 불가...\n고객센터로 문의해주세요"
+        if(t is ConnectException) {
+            code = "네트워크 연결을 확인해주세요"
+        }
+        else if(t is SocketTimeoutException) {
+            code = "서버와의 연결이 불안정합니다..\n고객센터로 문의해주세요"
+        }
+        return Failure(
             timestamp = LocalDateTime.now().toString(),
-            status = 404,
-            error = "${t.javaClass.name}: ${t.message.toString()}",
-            code = "시스템 오류가 발생하여 ${_message}에 실패하였습니다.",
-            path = ""
+            exception = t,
+            code = code,
+            path = "$path"
         )
     }
 }

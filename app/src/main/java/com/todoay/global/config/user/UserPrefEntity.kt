@@ -1,4 +1,4 @@
-package com.todoay.api.config
+package com.todoay.global.config.user
 
 data class UserPrefEntity(
     var email:String,

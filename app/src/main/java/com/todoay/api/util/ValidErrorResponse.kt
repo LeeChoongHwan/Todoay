@@ -15,6 +15,6 @@ class ValidErrorResponse(
 ) : ErrorResponse(timestamp, status, error, code, path) {
     override fun toString(): String {
         return super.toString() + "\n" +
-                "ErrorResponse.Details{(${details.toString()}"
+                "ErrorResponse.Details{(${details}"
     }
 }

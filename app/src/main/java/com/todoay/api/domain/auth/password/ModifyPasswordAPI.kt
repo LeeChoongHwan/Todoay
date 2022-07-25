@@ -6,7 +6,8 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.password.dto.ModifyPasswordRequest
 import com.todoay.api.domain.auth.password.dto.ModifyPasswordResponse
 import com.todoay.api.util.ErrorResponse
-import com.todoay.api.retrofit.RetrofitService
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.util.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class ModifyPasswordAPI {
     /**
      * 유저 비밀번호 변경 수행
      */
-    fun modifyPassword(_currentPassword: String, _modifyPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onFailure: (ErrorResponse) -> Unit) {
+    fun modifyPassword(_currentPassword: String, _modifyPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = ModifyPasswordRequest(
             currentPassword = _currentPassword,
             modifyPassword = _modifyPassword
@@ -40,18 +41,18 @@ class ModifyPasswordAPI {
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
-                        onFailure(errorResponse)
+                        onErrorResponse(errorResponse)
                         Log.d("modify password", "failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<ModifyPasswordResponse>, t: Throwable) {
-                    val errorFailure = RetrofitService.getErrorFailure(
-                        t, "비밀번호 변경"
+                    val failure = RetrofitService.getFailure(
+                        t,  "/auth/password"
                     )
-                    onFailure(errorFailure)
-                    Log.d("modify password", "system - failed{${errorFailure}}")
+                    onFailure(failure)
+                    Log.d("modify password", "system - failed {${failure}}")
                 }
 
             })

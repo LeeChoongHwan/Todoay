@@ -102,13 +102,16 @@ class EmailCertificationFragment : Fragment() {
                     mBinding?.emailCertAlertTv?.visibility = View.VISIBLE
                     Log.d("email", "status: ${it.status}")
                 },
-                onFailure = {
+                onErrorResponse = {
                     if(it is ValidErrorResponse){
                         mBinding?.emailCertAlertTv?.text = "메일 전송에 실패하였습니다. 올바른 메일을 작성해주세요."
                         mBinding?.emailCertAlertTv?.setTextColor(resources.getColor(R.color.red))
                         mBinding?.emailCertAlertTv?.visibility = View.VISIBLE
                         Log.d("email", "${it.details}")
                     }
+                },
+                onFailure = {
+
                 }
             )
         }

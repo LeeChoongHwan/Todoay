@@ -13,11 +13,11 @@
             android:id="@+id/action_loginFragment_to_myinfoFragment"
             app:destination="@id/myinfoFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_emailCertificationFindPasswordFragment"
-            app:destination="@id/emailCertificationFindPasswordFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_joinFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailCertForgetPasswordFragment"
+            app:destination="@id/emailCertForgetPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/myinfoFragment"
@@ -40,11 +40,11 @@
             android:defaultValue='""' />
     </fragment>
     <fragment
-        android:id="@+id/emailCertificationFindPasswordFragment"
-        android:name="com.todoay.EmailCertificationFindPasswordFragment"
-        android:label="EmailCertificationFindPasswordFragment" >
+        android:id="@+id/emailCertForgetPasswordFragment"
+        android:name="com.todoay.EmailCertForgetPasswordFragment"
+        android:label="emailCertForgetPasswordFragment">
         <action
-            android:id="@+id/action_emailCertificationFindPasswordFragment_to_loginFragment"
+            android:id="@+id/action_emailCertForgetPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment

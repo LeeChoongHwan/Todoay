@@ -58,8 +58,8 @@ class SignUpFragment : Fragment() {
                         mBinding?.signUpEmailCheckBtn?.setTextColor(resources.getColor(R.color.gray))
                         mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
                     }
-                    if(mBinding?.signUpEmailCheckPossibleMessageTv?.visibility == View.VISIBLE ||
-                            mBinding?.signUpEmailCheckErrorMessageTv?.visibility == View.VISIBLE){
+                    //
+                    if(mBinding?.signUpEmailCheckPossibleMessageTv?.visibility == View.VISIBLE || mBinding?.signUpEmailCheckErrorMessageTv?.visibility == View.VISIBLE){
                         mBinding?.signUpEmailCheckPossibleMessageTv?.visibility = View.GONE
                         mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.GONE
                     }
@@ -91,8 +91,7 @@ class SignUpFragment : Fragment() {
                         mBinding?.signUpEmailCheckBtn?.setTextColor(resources.getColor(R.color.gray))
                         mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
                     }
-                    if(mBinding?.signUpEmailCheckPossibleMessageTv?.visibility == View.VISIBLE ||
-                        mBinding?.signUpEmailCheckErrorMessageTv?.visibility == View.VISIBLE){
+                    if(mBinding?.signUpEmailCheckPossibleMessageTv?.visibility == View.VISIBLE || mBinding?.signUpEmailCheckErrorMessageTv?.visibility == View.VISIBLE){
                         mBinding?.signUpEmailCheckPossibleMessageTv?.visibility = View.GONE
                         mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.GONE
                     }
@@ -128,10 +127,13 @@ class SignUpFragment : Fragment() {
                     isEmail = true
                     changeConfirmButton()
                 },
-                onFailure = {
+                onErrorResponse = {
                     mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
                     isEmail = false
                     changeConfirmButton()
+                },
+                onFailure = {
+
                 }
             )
              */
@@ -262,12 +264,15 @@ class SignUpFragment : Fragment() {
                     isNickname = true
                     changeConfirmButton()
                 },
-                onFailure = {
+                onErrorResponse = {
                     mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
                     mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
                     isNickname = false
                     mBinding?.signUpNicknameEt?.requestFocus()
+                },
+                onFailure = {
+
                 }
             )
              */
@@ -295,6 +300,9 @@ class SignUpFragment : Fragment() {
                 onResponse = {
 
                     Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
+                },
+                onErrorResponse = {
+
                 },
                 onFailure = {
 

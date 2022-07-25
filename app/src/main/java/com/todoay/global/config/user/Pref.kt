@@ -1,4 +1,4 @@
-package com.todoay.api.config
+package com.todoay.global.config.user
 
 import android.content.Context
 import android.content.SharedPreferences
