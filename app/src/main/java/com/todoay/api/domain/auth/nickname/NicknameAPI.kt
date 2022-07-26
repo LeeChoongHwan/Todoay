@@ -1,10 +1,10 @@
-package com.todoay.api.domain.auth.nickName
+package com.todoay.api.domain.auth.nickname
 
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.domain.auth.nickName.dto.NickNameResponse
+import com.todoay.api.domain.auth.nickname.dto.NicknameResponse
 import com.todoay.api.util.error.ErrorResponse
 import com.todoay.api.util.error.Failure
 import retrofit2.Call
@@ -15,36 +15,36 @@ import retrofit2.Response
  * 유저 닉네임 관련 API 호출 및 응답을 처리하는 클래스.
  * API Interface: NickNameService.kt
  */
-class NickNameAPI {
+class NicknameAPI {
 
-    private val service = RetrofitService.getService().create(NickNameService::class.java)
+    private val service = RetrofitService.getService().create(NicknameService::class.java)
 
     /**
      * 유저 닉네임 중복확인 수행
      */
-    fun checkNickNameDuplicate(nickname: String, onResponse: (NickNameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
+    fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
         service.getNicknameExists(nickname)
-            .enqueue(object : Callback<NickNameResponse> {
+            .enqueue(object : Callback<NicknameResponse> {
                 override fun onResponse(
-                    call: Call<NickNameResponse>,
-                    response: Response<NickNameResponse>
+                    call: Call<NicknameResponse>,
+                    response: Response<NicknameResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val nickNameResponse : NickNameResponse = response.body()!!
+                        val nickNameResponse : NicknameResponse = response.body()!!
                         onResponse(nickNameResponse)
-                        Log.d("nickname", "check nickname exist - success {$nickNameResponse}")
+                        Log.d("nickname", "check nickname exists - success {$nickNameResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("nickname", "check nickname exist - failed {$errorResponse}")
+                        Log.d("nickname", "check nickname exists - failed {$errorResponse}")
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onFailure(call: Call<NickNameResponse>, t: Throwable) {
+                override fun onFailure(call: Call<NicknameResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
-                        t, "/auth/nickname-duplicate-check"
+                        t, "/auth/nickname-exists"
                     )
                     onFailure(failure)
                     Log.d("nickname", "system - failed {${failure}}")

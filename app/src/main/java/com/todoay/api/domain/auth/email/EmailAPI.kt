@@ -23,7 +23,7 @@ class EmailAPI {
     /**
      * 이메일 중복확인 수행
      */
-    fun checkEmailDuplicate(email: String, onResponse: (EmailExistsResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
+    fun checkEmailExists(email: String, onResponse: (EmailExistsResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
         service.getCheckEmailDuplicate(email)
             .enqueue(object : Callback<EmailExistsResponse> {
                 override fun onResponse(

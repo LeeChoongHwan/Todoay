@@ -25,7 +25,7 @@ object RetrofitService {
 
     // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
     // 실행할 때마다 각자 수정하도록...
-    private val tempIPAddress = "192.168.0.101"
+    private val tempIPAddress = "192.168.0.106"
 
     private val baseURL = "http://${tempIPAddress}:8080"
     private var retrofitService: Retrofit? = null

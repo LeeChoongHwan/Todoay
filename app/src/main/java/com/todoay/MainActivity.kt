@@ -25,18 +25,18 @@ class MainActivity : AppCompatActivity() {
         inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as
                 InputMethodManager?
 
-        /**
-         * 네트워크 연결 확인
-         */
-        val connection = NetworkConnection(applicationContext)
-        connection.observe(this, Observer { isConnected ->
-            if(isConnected) {
-
-            }
-            else {
-
-            }
-        })
+//        /**
+//         * 네트워크 연결 확인
+//         */
+//        val connection = NetworkConnection(applicationContext)
+//        connection.observe(this, Observer { isConnected ->
+//            if(isConnected) {
+//
+//            }
+//            else {
+//
+//            }
+//        })
 
     }
 

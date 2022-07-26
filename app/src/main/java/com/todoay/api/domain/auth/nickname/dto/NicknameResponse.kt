@@ -1,8 +1,8 @@
-package com.todoay.api.domain.auth.nickName.dto
+package com.todoay.api.domain.auth.nickname.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class NickNameResponse(
+data class NicknameResponse(
     @SerializedName("status")
     val status: Int,
     @SerializedName("nicknameExists")

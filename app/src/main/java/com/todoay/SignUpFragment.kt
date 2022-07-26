@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.email.EmailAPI
-import com.todoay.api.domain.auth.nickName.NickNameAPI
+import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI
 import com.todoay.databinding.FragmentSignUpBinding
 import java.net.HttpURLConnection
@@ -26,7 +26,7 @@ class SignUpFragment : Fragment() {
     var isNickname : Boolean = false
     var isPasswordMatchCondition : Boolean = false
 
-    val nicknameService : NickNameAPI = NickNameAPI()
+    val nicknameService : NicknameAPI = NicknameAPI()
     val emailService : EmailAPI = EmailAPI()
     val signUpService : SignUpAPI = SignUpAPI()
 
@@ -34,7 +34,6 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(inflater,container,false)
 
         mBinding = binding
-
 
         /**
          * 이메일 필드 입력
@@ -155,9 +154,7 @@ class SignUpFragment : Fragment() {
                     mBinding?.signUpNicknameCheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
                     mBinding?.signUpNicknameCheckBtn?.isEnabled = true
                     mBinding?.signUpNicknameCheckBtn?.setTextColor(resources.getColor(R.color.main_color))
-
-                    // 닉네임 중복확인 API 호출
-                    checkNicknameExists()
+                    checkNicknameExists(mBinding?.signUpNicknameEt?.text.toString())
                 }
                 else {
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.GONE
@@ -195,66 +192,126 @@ class SignUpFragment : Fragment() {
             val inputEmail = mBinding?.signUpEmailEt?.text.toString()
             val inputPassword = mBinding?.signUpPasswordEt?.text.toString()
             val inputNickname = mBinding?.signUpNicknameEt?.text.toString()
-            /**
-             * 1. 이메일 중복확인 요청
-             */
-            emailService.checkEmailDuplicate(
-                inputEmail,
-                onResponse = { emailExistsResponse ->
-                    // 이메일이 중복하지 않을 경우
-                    if(!emailExistsResponse.emailExists) {
-                        /**
-                         * 2. 회원가입 리소스 생성 요청
-                         */
-                        signUpService.signUp(
-                            inputEmail,
-                            inputPassword,
-                            inputNickname,
-                            onResponse = { signUpResponse ->
-                                /**
-                                 * 3. 이메일 인증메일 요청
-                                 */
-                                if(signUpResponse.status == HttpURLConnection.HTTP_NO_CONTENT){
-                                    emailService.sendCertMail(
-                                        inputEmail,
-                                        onResponse = {
-                                            Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
-                                        },
-                                        onErrorResponse = {
 
-                                        },
-                                        onFailure = {
-
-                                        }
-                                    )
-                                }
-                            },
-                            onErrorResponse = {
-
-                            },
-                            onFailure = {
-
-                            }
-                        )
-                    }
-                    // 이메일이 중복할 경우
-                    else{
-                        mBinding?.signUpEmailEt?.requestFocus()
-                        mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
-                    }
-                },
-                onErrorResponse = {
-                    mBinding?.signUpEmailEt?.requestFocus()
-                    mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
-                },
-                onFailure = {
-
-                }
-            )
-
+            signUpLogicForAPI(inputEmail, inputPassword, inputNickname)
         }
 
         return mBinding?.root
+    }
+
+    private fun signUpLogicForAPI(
+        inputEmail: String,
+        inputPassword: String,
+        inputNickname: String
+    ) {
+        checkEmailExists(inputEmail, inputPassword, inputNickname)
+    }
+
+    /**
+     * 이메일 중복확인 API 호출 메소드
+     */
+    private fun checkEmailExists(
+        inputEmail: String,
+        inputPassword: String,
+        inputNickname: String
+    ) {
+        emailService.checkEmailExists(
+            inputEmail,
+            onResponse = { emailExistsResponse ->
+                // 이메일이 중복하지 않을 경우
+                if (!emailExistsResponse.emailExists) {
+                    signUp(inputEmail, inputPassword, inputNickname)
+                }
+                // 이메일이 중복할 경우
+                else {
+                    mBinding?.signUpEmailEt?.requestFocus()
+                    mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
+                }
+            },
+            onErrorResponse = {
+                mBinding?.signUpEmailEt?.requestFocus()
+                mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
+            },
+            onFailure = {
+
+            }
+        )
+    }
+
+    /**
+     * 회원가입 유저 리소스 생성 요청 API 호출 메소드
+     */
+    private fun signUp(
+        inputEmail: String,
+        inputPassword: String,
+        inputNickname: String
+    ) {
+        signUpService.signUp(
+            inputEmail,
+            inputPassword,
+            inputNickname,
+            onResponse = { signUpResponse ->
+                if (signUpResponse.status == HttpURLConnection.HTTP_NO_CONTENT) {
+                    sendCertMail(inputEmail)
+                }
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {
+
+            }
+        )
+    }
+
+    /**
+     * 이메일 인증메일 요청 API 호출 메소드
+     */
+    private fun sendCertMail(inputEmail: String) {
+        emailService.sendCertMail(
+            inputEmail,
+            onResponse = {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {
+
+            }
+        )
+    }
+
+    /**
+     * 닉네임 중복확인 API 호출 메소드
+     */
+    private fun checkNicknameExists(inputNickname: String) {
+        nicknameService.checkNicknameExists(
+            inputNickname,
+            onResponse = {
+                if (!it.nicknameExist) {
+                    mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
+                    mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
+                    mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
+                    isNickname = true
+                    changeConfirmButton()
+                }
+                else {
+                    mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
+                    mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                    mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
+                    isNickname = false
+                    changeConfirmButton()
+                }
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {
+
+            }
+        )
     }
 
     /**
@@ -289,34 +346,5 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    /**
-     * 닉네임 중복확인 API 호출
-     */
-    private fun checkNicknameExists() {
-        nicknameService.checkNickNameDuplicate(
-            mBinding?.signUpNicknameEt?.text.toString(),
-            onResponse = {
-                if (!it.nicknameExist) {
-                    mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
-                    mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
-                    mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
-                    isNickname = true
-                    changeConfirmButton()
-                } else {
-                    mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
-                    mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
-                    mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
-                    isNickname = false
-                    changeConfirmButton()
-                }
-            },
-            onErrorResponse = {
 
-
-            },
-            onFailure = {
-
-            }
-        )
-    }
 }
