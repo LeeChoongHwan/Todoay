@@ -55,7 +55,7 @@ object RetrofitService {
             Log.d("Retrofit", "RetrofitService - interceptor() called")
             return chain.proceed(
                 chain.request().newBuilder()
-                    .addHeader("Token", token)
+                    .addHeader("X-AUTH-TOKEN", token)
                     .build()
             )
         }
