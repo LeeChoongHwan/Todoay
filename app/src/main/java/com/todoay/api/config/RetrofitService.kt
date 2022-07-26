@@ -4,9 +4,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import com.todoay.api.util.ErrorResponse
-import com.todoay.api.util.Failure
-import com.todoay.api.util.ValidErrorResponse
+import com.todoay.api.util.error.ErrorResponse
+import com.todoay.api.util.error.Failure
+import com.todoay.api.util.error.ValidErrorResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -25,7 +25,7 @@ object RetrofitService {
 
     // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
     // 실행할 때마다 각자 수정하도록...
-    private val tempIPAddress = "192.168.0.106"
+    private val tempIPAddress = "192.168.0.101"
 
     private val baseURL = "http://${tempIPAddress}:8080"
     private var retrofitService: Retrofit? = null
@@ -88,6 +88,7 @@ object RetrofitService {
             status = gsonError.status,
             error = gsonError.error,
             code = gsonError.code,
+            message = gsonError.message,
             path = gsonError.path
         )
     }
@@ -104,6 +105,7 @@ object RetrofitService {
             status = gsonError.status,
             error = gsonError.error,
             code = gsonError.code,
+            message = gsonError.message,
             path = gsonError.path,
             details = gsonError.details
         )

@@ -1,4 +1,4 @@
-package com.todoay.api.util
+package com.todoay.api.util.error
 
 import com.google.gson.annotations.SerializedName
 
@@ -11,6 +11,8 @@ open class ErrorResponse(
     val error: String,
     @SerializedName("code")
     val code: String,
+    @SerializedName("message")
+    val message: String,
     @SerializedName("path")
     val path: String
 ) {
@@ -20,6 +22,7 @@ open class ErrorResponse(
                 "status=$status, " +
                 "error=$error, " +
                 "code=$code, " +
+                "message=$message, " +
                 "path=$path)}"
     }
 }

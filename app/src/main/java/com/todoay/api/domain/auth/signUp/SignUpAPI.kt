@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.signUp.dto.SignUpRequest
 import com.todoay.api.domain.auth.signUp.dto.SignUpResponse
-import com.todoay.api.util.ErrorResponse
+import com.todoay.api.util.error.ErrorResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.Failure
+import com.todoay.api.util.error.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,11 +23,11 @@ class SignUpAPI {
     /**
      * 유저 회원가입 수행
      */
-    fun signUp(_email: String, _password: String, _nickName: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
+    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
         val request = SignUpRequest(
             email = _email,
             password = _password,
-            nickName = _nickName
+            nickname = _nickname
         )
         service.postSignUp(request)
             .enqueue(object : Callback<SignUpResponse> {
@@ -36,7 +36,9 @@ class SignUpAPI {
                     response: Response<SignUpResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val signUpResponse : SignUpResponse = response.body()!!
+                        val signUpResponse = SignUpResponse(
+                            status = response.code()
+                        )
                         onResponse(signUpResponse)
                         Log.d("sign-up", "success {$signUpResponse}")
                     }

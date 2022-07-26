@@ -3,11 +3,11 @@ package com.todoay.api.domain.auth.email
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.todoay.api.domain.auth.email.dto.EmailRequest
-import com.todoay.api.domain.auth.email.dto.EmailResponse
+import com.todoay.api.domain.auth.email.dto.SendCertMailResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.ErrorResponse
-import com.todoay.api.util.Failure
+import com.todoay.api.domain.auth.email.dto.EmailExistsResponse
+import com.todoay.api.util.error.ErrorResponse
+import com.todoay.api.util.error.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,20 +23,15 @@ class EmailAPI {
     /**
      * 이메일 중복확인 수행
      */
-    fun checkEmailDuplicate(_email: String, onResponse: (EmailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
-        val request = EmailRequest(
-            email = _email
-        )
-        service.getCheckEmailDuplicate(request)
-            .enqueue(object : Callback<EmailResponse> {
+    fun checkEmailDuplicate(email: String, onResponse: (EmailExistsResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
+        service.getCheckEmailDuplicate(email)
+            .enqueue(object : Callback<EmailExistsResponse> {
                 override fun onResponse(
-                    call: Call<EmailResponse>,
-                    response: Response<EmailResponse>
+                    call: Call<EmailExistsResponse>,
+                    response: Response<EmailExistsResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val emailResponse = EmailResponse(
-                            status = response.code()
-                        )
+                        val emailResponse : EmailExistsResponse = response.body()!!
                         onResponse(emailResponse)
                         Log.d("email", "check email duplicate - success {$emailResponse}")
                     } else {
@@ -47,7 +42,7 @@ class EmailAPI {
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                override fun onFailure(call: Call<EmailExistsResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
                         t, "/auth/email_duplicate_check"
                     )
@@ -60,20 +55,15 @@ class EmailAPI {
     /**
      * 이메일 인증메일 전송 수행
      */
-    fun sendCertMail(_email: String, onResponse: (EmailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
-        val request = EmailRequest(
-            email = _email
-        )
-        service.getSendCertMail(request.email)
-            .enqueue(object : Callback<EmailResponse> {
+    fun sendCertMail(email: String, onResponse: (SendCertMailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
+        service.getSendCertMail(email)
+            .enqueue(object : Callback<SendCertMailResponse> {
                 override fun onResponse(
-                    call: Call<EmailResponse>,
-                    response: Response<EmailResponse>
+                    call: Call<SendCertMailResponse>,
+                    response: Response<SendCertMailResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val emailResponse = EmailResponse(
-                            status= response.code()
-                        )
+                        val emailResponse : SendCertMailResponse = response.body()!!
                         onResponse(emailResponse)
                         Log.d("email", "send cert mail - success {$emailResponse}")
                     } else {
@@ -84,7 +74,7 @@ class EmailAPI {
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SendCertMailResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
                         t, "/auth/mail"
                     )

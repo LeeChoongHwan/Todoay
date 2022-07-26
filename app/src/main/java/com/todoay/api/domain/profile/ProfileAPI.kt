@@ -6,9 +6,9 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.domain.profile.dto.ModifyProfileRequest
 import com.todoay.api.domain.profile.dto.ModifyProfileResponse
 import com.todoay.api.domain.profile.dto.ProfileResponse
-import com.todoay.api.util.ErrorResponse
+import com.todoay.api.util.error.ErrorResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.Failure
+import com.todoay.api.util.error.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.todoay.api.util
+package com.todoay.api.util.error
 
 /**
  * API 통신 실패 시 발생하는 Exception에 대한 정보

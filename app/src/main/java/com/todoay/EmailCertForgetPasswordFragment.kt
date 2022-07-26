@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.email.EmailAPI
-import com.todoay.api.util.ValidErrorResponse
+import com.todoay.api.util.error.ValidErrorResponse
 import com.todoay.databinding.FragmentEmailCertForgetPasswordBinding
 
 class EmailCertForgetPasswordFragment : Fragment() {

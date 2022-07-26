@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.domain.auth.password.dto.ModifyPasswordRequest
 import com.todoay.api.domain.auth.password.dto.ModifyPasswordResponse
-import com.todoay.api.util.ErrorResponse
+import com.todoay.api.util.error.ErrorResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.Failure
+import com.todoay.api.util.error.Failure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
