@@ -1,7 +1,5 @@
-package com.todoay.api.util
+package com.todoay.api.util.error
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 class ValidErrorResponse(
@@ -9,10 +7,11 @@ class ValidErrorResponse(
     status: Int,
     error: String,
     code: String,
+    message: String,
     path: String,
     @SerializedName("details")
     val details: List<ValidDetail>
-) : ErrorResponse(timestamp, status, error, code, path) {
+) : ErrorResponse(timestamp, status, error, code, message, path) {
     override fun toString(): String {
         return super.toString() + "\n" +
                 "ErrorResponse.Details{(${details}"

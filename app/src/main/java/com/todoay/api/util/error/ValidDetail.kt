@@ -1,4 +1,4 @@
-package com.todoay.api.util
+package com.todoay.api.util.error
 
 import com.google.gson.annotations.SerializedName
 

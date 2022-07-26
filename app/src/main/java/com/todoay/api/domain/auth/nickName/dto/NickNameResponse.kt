@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class NickNameResponse(
     @SerializedName("status")
-    val status: Int
+    val status: Int,
+    @SerializedName("nicknameExists")
+    val nicknameExist: Boolean
 )
