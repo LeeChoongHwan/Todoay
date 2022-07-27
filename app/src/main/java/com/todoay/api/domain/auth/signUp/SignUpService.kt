@@ -1,7 +1,7 @@
 package com.todoay.api.domain.auth.signUp
 
-import com.todoay.api.domain.auth.signUp.dto.SignUpRequest
-import com.todoay.api.domain.auth.signUp.dto.SignUpResponse
+import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
+import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

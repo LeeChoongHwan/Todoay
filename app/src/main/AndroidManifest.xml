@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Todoay"
         tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:name=".global.util.TodoayApplication"
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"

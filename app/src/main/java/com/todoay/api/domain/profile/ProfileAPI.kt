@@ -3,12 +3,13 @@ package com.todoay.api.domain.profile
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.todoay.api.domain.profile.dto.ModifyProfileRequest
-import com.todoay.api.domain.profile.dto.ModifyProfileResponse
-import com.todoay.api.domain.profile.dto.ProfileResponse
-import com.todoay.api.util.error.ErrorResponse
+import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
+import com.todoay.api.domain.profile.dto.response.ModifyProfileResponse
+import com.todoay.api.domain.profile.dto.response.ProfileResponse
+import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.error.Failure
+import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.profileService
+import com.todoay.api.util.response.error.FailureResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,13 +20,11 @@ import retrofit2.Response
  */
 class ProfileAPI {
 
-    private val service = RetrofitService.getService().create(ProfileService::class.java)
-
     /**
      * 유저 정보(Profile) 조회 수행
      */
-    fun getMyProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
-        service.getProfile()
+    fun getMyProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        profileService.getProfile()
             .enqueue(object : Callback<ProfileResponse> {
                 override fun onResponse(
                     call: Call<ProfileResponse>,
@@ -58,14 +57,13 @@ class ProfileAPI {
     /**
      * 유저 정보(Profile) 변경 수행
      */
-    fun modifyMyProfile(_nickName: String, _message: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
+    fun modifyMyProfile(_nickName: String, _message: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = ModifyProfileRequest(
             nickName = _nickName,
             message = _message,
             imageUrl = _imageUrl
         )
-
-        service.putModifyProfile(request)
+        profileService.putModifyProfile(request)
             .enqueue(object : Callback<ModifyProfileResponse> {
                 override fun onResponse(
                     call: Call<ModifyProfileResponse>,
@@ -94,4 +92,5 @@ class ProfileAPI {
 
             })
     }
+
 }

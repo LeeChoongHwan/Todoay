@@ -1,8 +1,8 @@
 package com.todoay.api.domain.profile
 
-import com.todoay.api.domain.profile.dto.ModifyProfileRequest
-import com.todoay.api.domain.profile.dto.ModifyProfileResponse
-import com.todoay.api.domain.profile.dto.ProfileResponse
+import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
+import com.todoay.api.domain.profile.dto.response.ModifyProfileResponse
+import com.todoay.api.domain.profile.dto.response.ProfileResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

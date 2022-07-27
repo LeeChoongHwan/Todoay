@@ -3,10 +3,12 @@ package com.todoay
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.email.EmailAPI
@@ -154,6 +156,7 @@ class SignUpFragment : Fragment() {
                     mBinding?.signUpNicknameCheckBtn?.setBackgroundResource(R.drawable.checkrepbtn_background)
                     mBinding?.signUpNicknameCheckBtn?.isEnabled = true
                     mBinding?.signUpNicknameCheckBtn?.setTextColor(resources.getColor(R.color.main_color))
+                    // API 호출
                     checkNicknameExists(mBinding?.signUpNicknameEt?.text.toString())
                 }
                 else {
@@ -199,6 +202,9 @@ class SignUpFragment : Fragment() {
         return mBinding?.root
     }
 
+    /**
+     * 회원가입 API 로직 메소드
+     */
     private fun signUpLogicForAPI(
         inputEmail: String,
         inputPassword: String,
@@ -220,20 +226,25 @@ class SignUpFragment : Fragment() {
             onResponse = { emailExistsResponse ->
                 // 이메일이 중복하지 않을 경우
                 if (!emailExistsResponse.emailExists) {
+                    Log.d("email-exists", "onResponse() of NotExists called in SignUpFragment")
                     signUp(inputEmail, inputPassword, inputNickname)
                 }
                 // 이메일이 중복할 경우
                 else {
+                    Log.d("email-exists", "onResponse() of Exists called in SignUpFragment")
                     mBinding?.signUpEmailEt?.requestFocus()
                     mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
                 }
             },
             onErrorResponse = {
+                // status == 400 이메일 패턴 유효성 검사 실패
+                Log.d("email-exists", "onErrorResponse() called in SignUpFragment")
                 mBinding?.signUpEmailEt?.requestFocus()
                 mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
             },
             onFailure = {
-
+                Log.d("email-exists", "onFailure() called in SignUpFragment")
+                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -256,10 +267,20 @@ class SignUpFragment : Fragment() {
                 }
             },
             onErrorResponse = {
+                when(it.status) {
+                    // Status == 400 유효성 검사 실패
+                    HttpURLConnection.HTTP_BAD_REQUEST -> {
 
+                    }
+                    // Status == 409 이메일 혹은 닉네임 중복
+                    HttpURLConnection.HTTP_CONFLICT -> {
+
+                    }
+                }
             },
             onFailure = {
-
+                Log.d("sign-up", "onFailure() called in SignUpFragment")
+                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -275,10 +296,12 @@ class SignUpFragment : Fragment() {
                     .navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
             },
             onErrorResponse = {
+                // status == 400 유효성 검사 실패
 
             },
             onFailure = {
-
+                Log.d("send-cert-mail", "onFailure() called in SignUpFragment")
+                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -306,10 +329,12 @@ class SignUpFragment : Fragment() {
                 }
             },
             onErrorResponse = {
+                // status 400 유효성 검사 실패
 
             },
             onFailure = {
-
+                Log.d("nickname-exists", "onFailure() called in SignUpFragment")
+                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }

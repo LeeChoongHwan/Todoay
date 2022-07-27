@@ -25,7 +25,7 @@ class Pref(context: Context) {
 
     fun setAccessToken(_accessToken: String) {
         editor.putString("accessToken", _accessToken)
-        editor.apply()
+        editor.commit()
     }
 
     fun getRefreshToken(): String {

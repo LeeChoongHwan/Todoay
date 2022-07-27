@@ -1,9 +1,9 @@
-package com.todoay.api.util.error
+package com.todoay.api.util.response.error
 
 /**
  * API 통신 실패 시 발생하는 Exception 정보
  */
-data class Failure(
+data class FailureResponse(
     /**
      * Exception 발생 시간
      */

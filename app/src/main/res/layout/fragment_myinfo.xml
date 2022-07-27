@@ -114,8 +114,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/white"
-        android:text="상태메세지 입니다."
-        android:textColor="@color/black"
+        android:text="상태메세지를 입력해주세요."
+        android:textColor="@color/gray"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="@id/myinfo_menubtn"
         app:layout_constraintTop_toBottomOf="@id/myinfo_message_tv" />

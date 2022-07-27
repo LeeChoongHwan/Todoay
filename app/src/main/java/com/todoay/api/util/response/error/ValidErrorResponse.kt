@@ -1,4 +1,4 @@
-package com.todoay.api.util.error
+package com.todoay.api.util.response.error
 
 import com.google.gson.annotations.SerializedName
 
@@ -6,8 +6,8 @@ class ValidErrorResponse(
     timestamp: String,
     status: Int,
     error: String,
-    code: String,
-    message: String,
+    code: String?,
+    message: String?,
     path: String,
     /**
      * Valid Error Details List

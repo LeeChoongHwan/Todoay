@@ -1,6 +1,6 @@
 package com.todoay.api.domain.auth.nickname
 
-import com.todoay.api.domain.auth.nickname.dto.NicknameResponse
+import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,10 +1,8 @@
-package com.todoay.api.domain.profile.dto
+package com.todoay.api.domain.profile.dto.request
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfileResponse(
-    @SerializedName("email")
-    val email: String,
+data class ModifyProfileRequest(
     @SerializedName("nickName")
     val nickName: String,
     @SerializedName("message")

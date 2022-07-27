@@ -3,11 +3,12 @@ package com.todoay.api.domain.auth.signUp
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.todoay.api.domain.auth.signUp.dto.SignUpRequest
-import com.todoay.api.domain.auth.signUp.dto.SignUpResponse
-import com.todoay.api.util.error.ErrorResponse
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.util.error.Failure
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.signUpService
+import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
+import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
+import com.todoay.api.util.response.error.ErrorResponse
+import com.todoay.api.util.response.error.FailureResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,18 +19,16 @@ import retrofit2.Response
  */
 class SignUpAPI {
 
-    private val service = RetrofitService.getService().create(SignUpService::class.java)
-
     /**
      * 유저 회원가입 수행
      */
-    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit ,onFailure: (Failure) -> Unit) {
+    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = SignUpRequest(
             email = _email,
             password = _password,
             nickname = _nickname
         )
-        service.postSignUp(request)
+        signUpService.postSignUp(request)
             .enqueue(object : Callback<SignUpResponse> {
                 override fun onResponse(
                     call: Call<SignUpResponse>,

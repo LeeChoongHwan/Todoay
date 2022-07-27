@@ -12,7 +12,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.login.LoginAPI
+import com.todoay.api.domain.auth.login.LoginService
 import com.todoay.databinding.FragmentLoginBinding
+import com.todoay.global.util.TodoayApplication
 import java.net.ConnectException
 
 class LoginFragment : Fragment() {
@@ -24,14 +26,12 @@ class LoginFragment : Fragment() {
     //비밀번호 입력 여부 체크
     var isPassword : Boolean = false
 
+    private val loginService: LoginAPI = LoginAPI()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentLoginBinding.inflate(inflater,container,false)
 
         mBinding = binding
-
-
-
 
         //아이디 edit text
         mBinding?.loginEmailEditText?.addTextChangedListener(object : TextWatcher {
@@ -76,7 +76,6 @@ class LoginFragment : Fragment() {
         //비밀번호 edit text
         mBinding?.loginEtPassword?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -93,15 +92,21 @@ class LoginFragment : Fragment() {
 
         //로그인 button
         mBinding?.loginLoginBtn?.setOnClickListener {
-            // 로그인 테스트
-            LoginAPI().login(
+            // 이메일이 인증되었는지 확인하는 API
+
+            // 로그인 API
+            loginService.login(
                 mBinding?.loginEmailEditText!!.text.toString(),
                 mBinding?.loginEtPassword!!.text.toString(),
                 onResponse = {
                     Log.d("login", "onResponse() called in LoginFragment")
-
+                    TodoayApplication.pref.setAccessToken(it.accessToken)
+                    TodoayApplication.pref.setRefreshToken(it.refreshToken)
+                    Log.d("login", "AccessToken is ${it.accessToken}")
+                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
                 },
                 onErrorResponse = {
+                    Log.d("login", "onErrorResponse() called in LoginFragment")
                     mBinding?.loginErrorMessage?.visibility = View.VISIBLE
                     mBinding?.loginEtPassword?.setText("")
                     mBinding?.loginEmailEditText?.requestFocus()
@@ -112,18 +117,6 @@ class LoginFragment : Fragment() {
                 }
             )
 
-//            if(mBinding?.loginEmailEditText!!.text.toString() == "1234@naver.com") {
-//                if(mBinding?.loginEtPassword!!.text.toString()=="12345678") {
-
-//                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
-//                }
-//                else {
-//                    mBinding?.loginErrorMessage?.visibility = View.VISIBLE
-//                }
-//            }
-//            else {
-//                mBinding?.loginErrorMessage?.visibility = View.VISIBLE
-//            }
         }
 
         //회원 가입 button

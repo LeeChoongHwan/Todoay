@@ -4,9 +4,10 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.domain.auth.nickname.dto.NicknameResponse
-import com.todoay.api.util.error.ErrorResponse
-import com.todoay.api.util.error.Failure
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.nicknameService
+import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
+import com.todoay.api.util.response.error.ErrorResponse
+import com.todoay.api.util.response.error.FailureResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,13 +18,11 @@ import retrofit2.Response
  */
 class NicknameAPI {
 
-    private val service = RetrofitService.getService().create(NicknameService::class.java)
-
     /**
      * 유저 닉네임 중복확인 수행
      */
-    fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (Failure) -> Unit) {
-        service.getNicknameExists(nickname)
+    fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        nicknameService.getNicknameExists(nickname)
             .enqueue(object : Callback<NicknameResponse> {
                 override fun onResponse(
                     call: Call<NicknameResponse>,

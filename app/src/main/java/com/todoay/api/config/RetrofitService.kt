@@ -4,9 +4,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import com.todoay.api.util.error.ErrorResponse
-import com.todoay.api.util.error.Failure
-import com.todoay.api.util.error.ValidErrorResponse
+import com.todoay.api.config.RetrofitURL.ipAddress
+import com.todoay.api.util.response.error.ErrorResponse
+import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
+import com.todoay.global.util.TodoayApplication
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -23,11 +25,7 @@ import java.time.LocalDateTime
  */
 object RetrofitService {
 
-    // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
-    // 실행할 때마다 각자 수정하도록...
-    private val tempIPAddress = "192.168.0.106"
-
-    private val baseURL = "http://${tempIPAddress}:8080"
+    private val baseURL = "http://${ipAddress}:8080"
     private var retrofitService: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
 
@@ -37,12 +35,25 @@ object RetrofitService {
     private fun getClient() : OkHttpClient {
         Log.d("Retrofit", "RetrofitService - getClient() called")
         if(okHttpClient == null) {
-            okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .addInterceptor(HeaderInterceptor("token example"))
-                .build()
+            // AccessToken이 없을 경우
+            if(TodoayApplication.pref.getAccessToken() == "") {
+                Log.d("Retrofit", "RetrofitService - Token isn't ${TodoayApplication.pref.getAccessToken()}")
+                okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .build()
+            }
+            // AccessToken이 없는 경우
+            else {
+                Log.d("Retrofit", "RetrofitService - Token is ${TodoayApplication.pref.getAccessToken()}")
+                okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .addInterceptor(HeaderInterceptor(TodoayApplication.pref.getAccessToken()))
+                    .build()
+            }
         }
         return okHttpClient!!
     }
@@ -52,7 +63,7 @@ object RetrofitService {
      */
     private class HeaderInterceptor constructor(private val token: String) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            Log.d("Retrofit", "RetrofitService - interceptor() called")
+            Log.d("Retrofit", "RetrofitService - interceptor() called for add Token in Header $token")
             return chain.proceed(
                 chain.request().newBuilder()
                     .addHeader("X-AUTH-TOKEN", token)
@@ -118,7 +129,7 @@ object RetrofitService {
      * 예외 상황이 SocketTimeoutException인 경우 서버 연결 실패로 간주.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getFailure(t: Throwable, path: String) : Failure {
+    fun getFailure(t: Throwable, path: String) : FailureResponse {
         var code = "서비스 이용 불가...\n고객센터로 문의해주세요"
         if(t is ConnectException) {
             code = "네트워크 연결을 확인해주세요"
@@ -126,7 +137,7 @@ object RetrofitService {
         else if(t is SocketTimeoutException) {
             code = "서버와의 연결이 불안정합니다..\n고객센터로 문의해주세요"
         }
-        return Failure(
+        return FailureResponse(
             timestamp = LocalDateTime.now().toString(),
             exception = t,
             code = code,

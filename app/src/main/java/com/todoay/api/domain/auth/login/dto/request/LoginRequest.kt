@@ -1,4 +1,4 @@
-package com.todoay.api.domain.auth.login.dto
+package com.todoay.api.domain.auth.login.dto.request
 
 import com.google.gson.annotations.SerializedName
 

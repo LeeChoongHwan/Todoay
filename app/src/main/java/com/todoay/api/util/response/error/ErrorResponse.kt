@@ -1,4 +1,4 @@
-package com.todoay.api.util.error
+package com.todoay.api.util.response.error
 
 import com.google.gson.annotations.SerializedName
 
@@ -22,12 +22,12 @@ open class ErrorResponse(
      * Error 코드
      */
     @SerializedName("code")
-    val code: String,
+    val code: String?,
     /**
      * Error 메시지
      */
     @SerializedName("message")
-    val message: String,
+    val message: String?,
     /**
      * Error api 경로
      */
