@@ -1,12 +1,13 @@
 package com.todoay.api.domain.profile.dto.request
 
 import com.google.gson.annotations.SerializedName
+import com.todoay.api.util.response.basic.BasicResponse
 
 data class ModifyProfileRequest(
-    @SerializedName("nickName")
-    val nickName: String,
-    @SerializedName("message")
-    val message: String,
+    @SerializedName("nickname")
+    val nickname: String,
     @SerializedName("imageUrl")
-    val imageUrl: String
+    val imageUrl: String,
+    @SerializedName("introMsg")
+    val introMsg: String
 )

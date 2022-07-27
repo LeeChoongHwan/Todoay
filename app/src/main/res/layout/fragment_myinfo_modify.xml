@@ -102,23 +102,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="12"
-        android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/myinfomodify_nickname_tv"
         app:layout_constraintLeft_toLeftOf="@id/myinfomodify_backbtn"/>
-
-    <android.widget.Button
-        android:id="@+id/myinfomodify_nicknamecheck_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/checkrepbtn_fail_background"
-        android:enabled="false"
-        android:fontFamily="@font/regular"
-        android:text="중복확인"
-        android:textColor="@color/gray"
-        app:layout_constraintBottom_toBottomOf="@id/myinfomodify_nickname_et"
-        app:layout_constraintLeft_toRightOf="@id/myinfomodify_nickname_et"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/myinfomodify_nickname_et" />
 
     <TextView
         android:id="@+id/myinfomodify_message_tv"
@@ -137,7 +122,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="15"
-        android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/myinfomodify_message_tv"
         app:layout_constraintLeft_toLeftOf="@id/myinfomodify_backbtn"/>
 
@@ -151,11 +135,9 @@
         />
 
     <TextView
-        android:id="@+id/myinfo_nickname_errormessage"
+        android:id="@+id/myinfo_nickname_alert_msg_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="닉네임이 중복됩니다."
-        android:textColor="@color/red"
         android:visibility="gone"
         app:fontFamily="@font/white"
         app:layout_constraintLeft_toLeftOf="@id/myinfomodify_nickname_et"

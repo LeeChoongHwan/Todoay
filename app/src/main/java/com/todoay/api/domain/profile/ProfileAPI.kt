@@ -23,7 +23,7 @@ class ProfileAPI {
     /**
      * 유저 정보(Profile) 조회 수행
      */
-    fun getMyProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun getProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         profileService.getProfile()
             .enqueue(object : Callback<ProfileResponse> {
                 override fun onResponse(
@@ -57,20 +57,22 @@ class ProfileAPI {
     /**
      * 유저 정보(Profile) 변경 수행
      */
-    fun modifyMyProfile(_nickName: String, _message: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun putProfile(_nickname: String, _introMsg: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = ModifyProfileRequest(
-            nickName = _nickName,
-            message = _message,
+            nickname = _nickname,
+            introMsg = _introMsg,
             imageUrl = _imageUrl
         )
-        profileService.putModifyProfile(request)
+        profileService.putProfile(request)
             .enqueue(object : Callback<ModifyProfileResponse> {
                 override fun onResponse(
                     call: Call<ModifyProfileResponse>,
                     response: Response<ModifyProfileResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val modifyProfileResponse: ModifyProfileResponse = response.body()!!
+                        val modifyProfileResponse = ModifyProfileResponse(
+                            status = response.code()
+                        )
                         onResponse(modifyProfileResponse)
                         Log.d("profile", "modify profile - success {$modifyProfileResponse}")
                     }

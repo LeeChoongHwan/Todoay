@@ -30,28 +30,39 @@ object RetrofitService {
     private var okHttpClient: OkHttpClient? = null
 
     /**
+     * 토큰의 여부에 따라 okHttpClient와 RetrofitService를 초기화하기 위해
+     * 싱글톤 객체를 null로 변경하는 메소드
+     *
+     * 사용: 로그인 또는 로그아웃 시
+     */
+    fun refresh() {
+        Log.d("Retrofit", "RetrofitService - refresh() called")
+        okHttpClient = null
+        retrofitService = null
+    }
+
+    /**
      * Retrofit OkHttp 인터셉터 싱글톤 객체 초기화
      */
     private fun getClient() : OkHttpClient {
-        Log.d("Retrofit", "RetrofitService - getClient() called")
         if(okHttpClient == null) {
-            // AccessToken이 없을 경우
+            // 토큰이 없는 경우 -> Header 에 토큰을 넣지 않음.
             if(TodoayApplication.pref.getAccessToken() == "") {
-                Log.d("Retrofit", "RetrofitService - Token isn't ${TodoayApplication.pref.getAccessToken()}")
+                Log.d("Retrofit", "RetrofitService - getClient() called Not Exist Token")
                 okHttpClient = OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
                     .build()
             }
-            // AccessToken이 없는 경우
+            // 토큰이 있는 경우 -> Header 에 토큰을 추가함.
             else {
-                Log.d("Retrofit", "RetrofitService - Token is ${TodoayApplication.pref.getAccessToken()}")
+                Log.d("Retrofit", "RetrofitService - getClient() called Exist Token")
                 okHttpClient = OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
-                    .addInterceptor(HeaderInterceptor(TodoayApplication.pref.getAccessToken()))
+                    .addInterceptor(HeaderInterceptor())
                     .build()
             }
         }
@@ -61,8 +72,9 @@ object RetrofitService {
     /**
      * OkHttp3의 인터셉트를 통해 Header에 Token을 추가해주는 작업을 수행.
      */
-    private class HeaderInterceptor constructor(private val token: String) : Interceptor {
+    private class HeaderInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
+            var token = TodoayApplication.pref.getAccessToken()
             Log.d("Retrofit", "RetrofitService - interceptor() called for add Token in Header $token")
             return chain.proceed(
                 chain.request().newBuilder()
@@ -92,8 +104,8 @@ object RetrofitService {
      * ErrorResponse 객체를 초기화하여 리턴하기 위함.
      */
     fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
-        val gson = Gson()
-        var gsonError: ErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        val gsonError: ErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        Log.d("ErrorResponse", "Gson: {$gsonError}")
         return ErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
@@ -109,8 +121,8 @@ object RetrofitService {
      * 서버의 유효성 검증에 대한 ValidErrorReponse 객체를 초기화하여 리턴하기 위함.
     */
     fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
-        val gson = Gson()
-        val gsonError : ValidErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        val gsonError : ValidErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        Log.d("ValidErrorResponse", "Gson: {$gsonError}")
         return ValidErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,

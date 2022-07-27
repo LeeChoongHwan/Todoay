@@ -17,7 +17,7 @@ open class ErrorResponse(
      * Error Status Code 이름
      */
     @SerializedName("error")
-    val error: String,
+    val error: String?,
     /**
      * Error 코드
      */

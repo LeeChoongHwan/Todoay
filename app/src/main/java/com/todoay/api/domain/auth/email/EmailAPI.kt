@@ -10,6 +10,7 @@ import com.todoay.api.domain.auth.email.dto.response.EmailExistsResponse
 import com.todoay.api.domain.auth.email.dto.response.SendCertMailResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,7 +56,7 @@ class EmailAPI {
     /**
      * 이메일 인증메일 전송 수행
      */
-    fun sendCertMail(email: String, onResponse: (SendCertMailResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun sendCertMail(email: String, onResponse: (SendCertMailResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         emailService.getSendCertMail(email)
             .enqueue(object : Callback<SendCertMailResponse> {
                 override fun onResponse(
@@ -69,9 +70,9 @@ class EmailAPI {
                         onResponse(sendCertMailResponse)
                         Log.d("email", "send cert mail - success {$sendCertMailResponse}")
                     } else {
-                        val errorResponse = RetrofitService.getValidErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        Log.d("email", "send cert mail - failed {$errorResponse}")
+                        val validErrorResponse = RetrofitService.getValidErrorResponse(response)
+                        onErrorResponse(validErrorResponse)
+                        Log.d("email", "send cert mail - failed {$validErrorResponse}")
                     }
                 }
 
@@ -87,6 +88,9 @@ class EmailAPI {
             })
     }
 
+    /**
+     * 이메일 인증 여부 확인 수행
+     */
     fun checkEmailVerified(email: String, onResponse: (CheckEmailVerifiedResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         emailService.getCheckEmailVerified(email)
             .enqueue(object : Callback<CheckEmailVerifiedResponse> {
@@ -100,7 +104,7 @@ class EmailAPI {
                         Log.d("email", "check email verified - success {$checkEmailVerifiedResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getValidErrorResponse(response)
+                        val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
                         Log.d("email", "check email verified - failed {$errorResponse}")
                     }

@@ -94,14 +94,14 @@ class EmailCertificationFragment : Fragment() {
                     mBinding?.emailCertAlertTv?.text = "메일을 전송하였습니다. 메일을 확인해주세요."
                     mBinding?.emailCertAlertTv?.setTextColor(resources.getColor(R.color.green))
                     mBinding?.emailCertAlertTv?.visibility = View.VISIBLE
-                    Log.d("email", "status: ${it.status}")
+                    Log.d("email", "status: ${it}")
                 },
                 onErrorResponse = {
                     if(it is ValidErrorResponse){
                         mBinding?.emailCertAlertTv?.text = "메일 전송에 실패하였습니다. 올바른 메일을 작성해주세요."
                         mBinding?.emailCertAlertTv?.setTextColor(resources.getColor(R.color.red))
                         mBinding?.emailCertAlertTv?.visibility = View.VISIBLE
-                        Log.d("email", "${it.details}")
+                        Log.d("email", "${it}")
                     }
                 },
                 onFailure = {

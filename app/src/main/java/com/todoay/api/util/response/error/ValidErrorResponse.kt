@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 class ValidErrorResponse(
     timestamp: String,
     status: Int,
-    error: String,
+    error: String?,
     code: String?,
     message: String?,
     path: String,
@@ -20,9 +20,10 @@ class ValidErrorResponse(
     error,
     code,
     message,
-    path) {
+    path
+) {
     override fun toString(): String {
         return super.toString() + "\n" +
-                "ErrorResponse.Details{(${details}"
+                "{ValidErrorResponse.Details(${details})}"
     }
 }

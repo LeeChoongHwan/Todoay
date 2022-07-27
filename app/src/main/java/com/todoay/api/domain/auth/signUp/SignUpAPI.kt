@@ -9,6 +9,7 @@ import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class SignUpAPI {
     /**
      * 유저 회원가입 수행
      */
-    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = SignUpRequest(
             email = _email,
             password = _password,
@@ -42,9 +43,9 @@ class SignUpAPI {
                         Log.d("sign-up", "success {$signUpResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        Log.d("sign-up", "failed {$errorResponse}")
+                        val validErrorResponse = RetrofitService.getValidErrorResponse(response)
+                        onErrorResponse(validErrorResponse)
+                        Log.d("sign-up", "failed {$validErrorResponse}")
                     }
                 }
 

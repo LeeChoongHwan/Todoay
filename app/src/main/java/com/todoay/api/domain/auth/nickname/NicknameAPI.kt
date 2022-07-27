@@ -8,6 +8,7 @@ import com.todoay.api.config.ServiceRepository.AuthServiceRepository.nicknameSer
 import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +22,7 @@ class NicknameAPI {
     /**
      * 유저 닉네임 중복확인 수행
      */
-    fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         nicknameService.getNicknameExists(nickname)
             .enqueue(object : Callback<NicknameResponse> {
                 override fun onResponse(
@@ -34,7 +35,7 @@ class NicknameAPI {
                         Log.d("nickname", "check nickname exists - success {$nickNameResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
+                        val errorResponse = RetrofitService.getValidErrorResponse(response)
                         onErrorResponse(errorResponse)
                         Log.d("nickname", "check nickname exists - failed {$errorResponse}")
                     }

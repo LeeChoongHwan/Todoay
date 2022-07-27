@@ -16,5 +16,5 @@ interface ProfileService {
     fun getProfile() : Call<ProfileResponse>
 
     @PUT("/profile/my")
-    fun putModifyProfile(@Body body: ModifyProfileRequest) : Call<ModifyProfileResponse>
+    fun putProfile(@Body body: ModifyProfileRequest) : Call<ModifyProfileResponse>
 }

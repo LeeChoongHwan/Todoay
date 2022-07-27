@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.profile.ProfileAPI
-import com.todoay.databinding.FragmentLoginBinding
 import com.todoay.databinding.FragmentMyinfoBinding
 
 class MyinfoFragment : Fragment() {
@@ -23,14 +22,16 @@ class MyinfoFragment : Fragment() {
 
         mBinding = binding
 
-        profileService.getMyProfile(
+        profileService.getProfile(
             onResponse = {
                 Log.d("profile-get", "onResponse() called in MyinfoFragment")
                 mBinding?.myinfoJoinemailText?.text = it.email
                 mBinding?.myinfoNicknameText?.text = it.nickname
+                // 프로필 사진 세팅
                 if(it.imageUrl!=null) {
 
                 }
+                // 상태메시지 세팅
                 if(it.introMsg!=null) {
                     mBinding?.myinfoMessageText?.text = it.introMsg
                 }
@@ -38,6 +39,7 @@ class MyinfoFragment : Fragment() {
             onErrorResponse = {
                 // status 401 JWT 토큰 에러
                 Log.d("profile-get", "onErrorResponse() called in MyinfoFragment")
+                Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
 
             },
             onFailure = {

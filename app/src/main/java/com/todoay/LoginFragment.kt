@@ -11,11 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.todoay.api.config.RetrofitService
+import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.login.LoginAPI
-import com.todoay.api.domain.auth.login.LoginService
 import com.todoay.databinding.FragmentLoginBinding
 import com.todoay.global.util.TodoayApplication
-import java.net.ConnectException
 
 class LoginFragment : Fragment() {
 
@@ -27,6 +27,7 @@ class LoginFragment : Fragment() {
     var isPassword : Boolean = false
 
     private val loginService: LoginAPI = LoginAPI()
+    private val emailService: EmailAPI = EmailAPI()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentLoginBinding.inflate(inflater,container,false)
@@ -50,26 +51,13 @@ class LoginFragment : Fragment() {
                     }
                 }
                 else {
+                    mBinding?.loginEmailValidErrorMessage?.visibility = View.GONE
                     isId = false
                 }
                 changeConfirmButtonColor()
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if(mBinding?.loginEmailEditText!!.text.toString() != "") {
-                    if(Patterns.EMAIL_ADDRESS.matcher(mBinding?.loginEmailEditText?.text.toString()).matches()) {
-                        mBinding?.loginEmailValidErrorMessage?.visibility = View.GONE
-                        isId = true
-                    }
-                    else {
-                        mBinding?.loginEmailValidErrorMessage?.visibility = View.VISIBLE
-                        isId = false
-                    }
-                }
-                else {
-                    isId = false
-                }
-                changeConfirmButtonColor()
             }
 
         })
@@ -84,39 +72,77 @@ class LoginFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                isPassword = mBinding?.loginEtPassword!!.text.toString() != ""
-                changeConfirmButtonColor()
             }
 
         })
 
         //로그인 button
         mBinding?.loginLoginBtn?.setOnClickListener {
-            // 이메일이 인증되었는지 확인하는 API
+            val inputEmail = mBinding?.loginEmailEditText!!.text.toString()
+            val inputPassword = mBinding?.loginEtPassword!!.text.toString()
 
-            // 로그인 API
-            loginService.login(
-                mBinding?.loginEmailEditText!!.text.toString(),
-                mBinding?.loginEtPassword!!.text.toString(),
+            val act = activity as MainActivity
+            act.hideKeyboard(requireView())
+
+            mBinding?.loginProgressBar?.visibility = View.VISIBLE
+
+            // 이메일이 인증되었는지 확인하는 API
+            emailService.checkEmailVerified(
+                inputEmail,
                 onResponse = {
-                    Log.d("login", "onResponse() called in LoginFragment")
-                    TodoayApplication.pref.setAccessToken(it.accessToken)
-                    TodoayApplication.pref.setRefreshToken(it.refreshToken)
-                    Log.d("login", "AccessToken is ${it.accessToken}")
-                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+                    Log.d("check email verified", "onResponse() called in LoginFragment")
+                    // 이메일 인증을 완료한 경우
+                    if(it.emailVerified) {
+                        // 로그인 API
+                        loginService.login(
+                            inputEmail,
+                            inputPassword,
+                            onResponse = {
+                                Log.d("login", "onResponse() called in LoginFragment")
+                                TodoayApplication.pref.setUser(it.accessToken, it.refreshToken)
+                                if(TodoayApplication.pref.getAccessToken()!="") {
+                                    mBinding?.loginProgressBar?.visibility = View.GONE
+                                    RetrofitService.refresh()
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+                                }
+                                else {
+                                    Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
+                                    mBinding?.loginProgressBar?.visibility = View.GONE
+                                }
+                            },
+                            onErrorResponse = {
+                                Log.d("login", "onErrorResponse() called in LoginFragment")
+                                mBinding?.loginErrorMessage?.visibility = View.VISIBLE
+                                mBinding?.loginEtPassword?.setText("")
+                                mBinding?.loginProgressBar?.visibility = View.GONE
+                            },
+                            onFailure = {
+                                Log.d("login", "onFailure() called in LoginFragment")
+                                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
+                                mBinding?.loginProgressBar?.visibility = View.GONE
+                            }
+                        )
+                    }
+                    // 이메일 인증을 하지 않은 경우
+                    else {
+                        Log.d("check email verified", "Do not email verified in LoginFragment")
+                        Toast.makeText(requireContext(), "이메일 인증을 완료해주세요", Toast.LENGTH_LONG).show()
+                        mBinding?.loginProgressBar?.visibility = View.GONE
+                    }
                 },
                 onErrorResponse = {
-                    Log.d("login", "onErrorResponse() called in LoginFragment")
-                    mBinding?.loginErrorMessage?.visibility = View.VISIBLE
+                    // Status 404 이메일에 해당하는 계정이 없음
+                    Log.d("check email verified", "onErrorResponse() called in LoginFragment")
+                    mBinding?.loginEmailNonExistsErrorMessage?.visibility = View.VISIBLE
                     mBinding?.loginEtPassword?.setText("")
-                    mBinding?.loginEmailEditText?.requestFocus()
+                    mBinding?.loginProgressBar?.visibility = View.GONE
                 },
                 onFailure = {
-                    Log.d("login", "onFailure() called in LoginFragment")
+                    Log.d("check email verified", "onFailure() called in LoginFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
+                    mBinding?.loginProgressBar?.visibility = View.GONE
                 }
             )
-
         }
 
         //회원 가입 button
@@ -129,10 +155,17 @@ class LoginFragment : Fragment() {
             Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_emailCertForgetPasswordFragment)
         }
 
-
         return mBinding?.root
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        if(TodoayApplication.pref.getAccessToken()!="") {
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+        }
+    }
+
     //로그인 button 색상 변경 위한 함수
     private fun changeConfirmButtonColor() {
         if(isId && isPassword) {

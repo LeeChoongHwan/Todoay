@@ -7,16 +7,10 @@ class Pref(context: Context) {
     private val pref: SharedPreferences = context.getSharedPreferences("todoay_pref", Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = pref.edit()
 
-    fun setUser(user: UserPrefEntity) {
-        editor.putString("email", user.email)
-        editor.putString("accessToken", user.accessToken)
-        editor.putString("refreshToken", user.refreshToken)
-        editor.putString("nickName", user.nickName)
+    fun setUser(accessToken : String, refreshToken : String) {
+        editor.putString("accessToken", accessToken)
+        editor.putString("refreshToken", refreshToken)
         editor.apply()
-    }
-
-    fun getEmail() : String {
-        return pref.getString("email", "").toString()
     }
 
     fun getAccessToken() : String {
@@ -25,7 +19,7 @@ class Pref(context: Context) {
 
     fun setAccessToken(_accessToken: String) {
         editor.putString("accessToken", _accessToken)
-        editor.commit()
+        editor.apply()
     }
 
     fun getRefreshToken(): String {
@@ -37,12 +31,8 @@ class Pref(context: Context) {
         editor.apply()
     }
 
-    fun getNickName() : String {
-        return pref.getString("nickName", "").toString()
-    }
-
-    fun setNickName(_nickName: String) {
-        editor.putString("nickName", _nickName)
+    fun clear() {
+        editor.clear()
         editor.apply()
     }
 
