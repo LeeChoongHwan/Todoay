@@ -12,6 +12,6 @@ package com.todoay.api.config
  *      1. 해당 클래스 파일을 동일한 경로(com.todoay.api.config)에 이름 중 'Example'을 제거하여 복사
  *      2. 복사된 파일('RetrofitURL.kt')의 ipAddress 변수에 서버의 IP 주소를 선언.
  */
-object ExampleRetrofitURL {
+object RetrofitURLExample {
     const val ipAddress = "서버의 IP 주소를 입력해주세요"
 }
