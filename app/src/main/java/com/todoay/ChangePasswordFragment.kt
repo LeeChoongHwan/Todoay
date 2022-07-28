@@ -6,11 +6,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.databinding.FragmentChangePasswordBinding
-import com.todoay.databinding.FragmentEmailCertificationBinding
 import java.util.regex.Pattern
 
 class ChangePasswordFragment : Fragment() {
@@ -28,7 +26,7 @@ class ChangePasswordFragment : Fragment() {
 
         //뒤로가기 버튼
         mBinding?.changepasswordBackbtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_changePasswordFragment_to_myinfoFragment)
+            Navigation.findNavController(view!!).navigate(R.id.action_changePasswordFragment_to_profileFragment)
         }
 
         //툴바 확인 버튼

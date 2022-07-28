@@ -7,7 +7,6 @@ import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.signUpService
 import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
-import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import retrofit2.Call
@@ -22,6 +21,7 @@ class SignUpAPI {
 
     /**
      * 유저 회원가입 수행
+     * [POST]("/auth/sign-up")
      */
     fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = SignUpRequest(

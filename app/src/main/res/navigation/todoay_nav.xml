@@ -10,25 +10,28 @@
         android:name="com.todoay.LoginFragment"
         android:label="LoginFragment" >
         <action
-            android:id="@+id/action_loginFragment_to_myinfoFragment"
-            app:destination="@id/myinfoFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_joinFragment"
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_loginFragment_to_emailCertForgetPasswordFragment"
             app:destination="@id/emailCertForgetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myinfoFragment"
-        android:name="com.todoay.MyinfoFragment"
-        android:label="MyinfoFragment" >
+        android:id="@+id/profileFragment"
+        android:name="com.todoay.ProfileFragment"
+        android:label="ProfileFragment">
         <action
-            android:id="@+id/action_myinfoFragment_to_myinfoModifyFragment"
-            app:destination="@id/myinfoModifyFragment" />
+            android:id="@+id/action_profileFragment_to_profileModifyFragment"
+            app:destination="@id/profileModifyFragment" />
         <action
-            android:id="@+id/action_myinfoFragment_to_changePasswordFragment"
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/emailCertificationFragment"
@@ -51,20 +54,20 @@
             app:destination="@id/changeForgetPasswordFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myinfoModifyFragment"
-        android:name="com.todoay.MyinfoModifyFragment"
-        android:label="MyinfoModifyFragment" >
+        android:id="@+id/profileModifyFragment"
+        android:name="com.todoay.ProfileModifyFragment"
+        android:label="ProfileModifyFragment">
         <action
-            android:id="@+id/action_myinfoModifyFragment_to_myinfoFragment"
-            app:destination="@id/myinfoFragment" />
+            android:id="@+id/action_profileModifyFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.todoay.ChangePasswordFragment"
         android:label="ChangePasswordFragment" >
         <action
-            android:id="@+id/action_changePasswordFragment_to_myinfoFragment"
-            app:destination="@id/myinfoFragment" />
+            android:id="@+id/action_changePasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"

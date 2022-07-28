@@ -21,6 +21,7 @@ class ModifyPasswordAPI {
 
     /**
      * 유저 비밀번호 변경 수행
+     * [PATCH]("/auth/password")
      */
     fun modifyPassword(_currentPassword: String, _modifyPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = ModifyPasswordRequest(

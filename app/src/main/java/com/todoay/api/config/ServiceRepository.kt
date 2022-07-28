@@ -4,6 +4,7 @@ import com.todoay.api.domain.auth.email.EmailService
 import com.todoay.api.domain.auth.login.LoginService
 import com.todoay.api.domain.auth.nickname.NicknameService
 import com.todoay.api.domain.auth.password.ModifyPasswordService
+import com.todoay.api.domain.auth.refresh.RefreshService
 import com.todoay.api.domain.auth.signUp.SignUpService
 import com.todoay.api.domain.profile.ProfileService
 
@@ -48,6 +49,12 @@ object ServiceRepository {
          */
         val signUpService: SignUpService =
             RetrofitService.getService().create(SignUpService::class.java)
+
+        /**
+         * refreshService RefreshAPI를 위한 Retrofit Service 객체를 말한다.
+         */
+        val refreshService: RefreshService =
+            RetrofitService.getService().create(RefreshService::class.java)
     }
 
     /**

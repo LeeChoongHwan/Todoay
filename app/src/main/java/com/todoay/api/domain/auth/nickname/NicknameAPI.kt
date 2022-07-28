@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.nicknameService
 import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
-import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import retrofit2.Call
@@ -21,6 +20,7 @@ class NicknameAPI {
 
     /**
      * 유저 닉네임 중복확인 수행
+     * [GET]("/auth/nickname-exists")
      */
     fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         nicknameService.getNicknameExists(nickname)

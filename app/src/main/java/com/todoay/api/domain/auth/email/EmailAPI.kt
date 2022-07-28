@@ -23,6 +23,7 @@ class EmailAPI {
 
     /**
      * 이메일 중복확인 수행
+     * [GET]("/auth/email-exists")
      */
     fun checkEmailExists(email: String, onResponse: (EmailExistsResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         emailService.getCheckEmailDuplicate(email)
@@ -55,6 +56,7 @@ class EmailAPI {
 
     /**
      * 이메일 인증메일 전송 수행
+     * [GET]("/auth/send-mail")
      */
     fun sendCertMail(email: String, onResponse: (SendCertMailResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         emailService.getSendCertMail(email)
@@ -79,7 +81,7 @@ class EmailAPI {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<SendCertMailResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
-                        t, "/auth/mail"
+                        t, "/auth/send-mail"
                     )
                     onFailure(failure)
                     Log.d("email", "system - failed {${failure}}")
@@ -90,6 +92,7 @@ class EmailAPI {
 
     /**
      * 이메일 인증 여부 확인 수행
+     * [GET]("/auth/{email}/email-verified")
      */
     fun checkEmailVerified(email: String, onResponse: (CheckEmailVerifiedResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         emailService.getCheckEmailVerified(email)

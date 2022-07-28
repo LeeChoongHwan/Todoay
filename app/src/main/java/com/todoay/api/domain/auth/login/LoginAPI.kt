@@ -21,6 +21,7 @@ class LoginAPI {
 
     /**
      * 로그인 수행
+     * [POST]("/auth/login")
      */
     fun login(_email: String, _password: String, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = LoginRequest(
@@ -50,7 +51,7 @@ class LoginAPI {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
-                        t,  "/auth/sign-in"
+                        t,  "/auth/login"
                     )
                     onFailure(failure)
                     Log.d("login", "system - failed {${failure}}")

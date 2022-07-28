@@ -108,7 +108,7 @@ class SignUpFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(mBinding?.signUpPasswordEt?.text.toString() == mBinding?.signUpPasswordCheckEt?.text?.toString()) {
+                if(mBinding?.signUpPasswordEt?.text.toString() == mBinding?.signUpPasswordCheckEt?.text.toString()) {
                     mBinding?.signUpPasswordCheckErrorMessage?.visibility = View.GONE
                     isPasswordCheck = true
                 }
@@ -132,9 +132,18 @@ class SignUpFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(mBinding?.signUpNicknameEt?.text?.toString() != "") {
-                    // API 호출
-                    checkNicknameExists(mBinding?.signUpNicknameEt?.text.toString())
+                val inputNickname = mBinding?.signUpNicknameEt?.text.toString()
+                if(inputNickname != "") {
+                    if(!inputNickname.contains(" ") && Pattern.matches("^[a-zA-Z0-9_]*\$", inputNickname)) {
+                        checkNicknameExists(inputNickname)
+                    }
+                    else {
+                        mBinding?.signUpNicknameAlertMsgTv?.text = "공백 또는 특수문자('_'제외)를 입력할 수 없습니다"
+                        mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                        mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
+                        isNickname = false
+                        changeConfirmButton()
+                    }
                 }
                 else {
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.GONE
@@ -320,8 +329,7 @@ class SignUpFragment : Fragment() {
                 Log.d("send cert mail", "onResponse() called in SignUpFragment")
 
                 // SignUpEmailCertAlertFragment 로 이동
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
+                Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
             },
             onErrorResponse = {
                 // status == 400 유효성 검사 실패

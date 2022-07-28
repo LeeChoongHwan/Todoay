@@ -5,11 +5,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.domain.auth.email.EmailAPI
@@ -34,7 +34,13 @@ class LoginFragment : Fragment() {
 
         mBinding = binding
 
-        //아이디 edit text
+        // 이메일 로그인 기록이 있는 경우 저장된 이메일을 edittext에 세팅
+        val userEmail = TodoayApplication.pref.getEmail()
+        if(userEmail != "") {
+            mBinding?.loginEmailEditText?.setText(userEmail)
+        }
+
+        // 아이디 edit text
         mBinding?.loginEmailEditText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -61,6 +67,7 @@ class LoginFragment : Fragment() {
             }
 
         })
+
         //비밀번호 edit text
         mBinding?.loginEtPassword?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -99,11 +106,16 @@ class LoginFragment : Fragment() {
                             inputPassword,
                             onResponse = {
                                 Log.d("login", "onResponse() called in LoginFragment")
-                                TodoayApplication.pref.setUser(it.accessToken, it.refreshToken)
+                                Log.d("user-email", "$inputEmail")
+                                TodoayApplication.pref.setUser(
+                                    inputEmail,
+                                    it.accessToken,
+                                    it.refreshToken
+                                )
                                 if(TodoayApplication.pref.getAccessToken()!="") {
                                     mBinding?.loginProgressBar?.visibility = View.GONE
-                                    RetrofitService.refresh()
-                                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+                                    RetrofitService.refresh() // Retrofit 객체 초기화
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
                                 }
                                 else {
                                     Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
@@ -159,10 +171,13 @@ class LoginFragment : Fragment() {
 
     }
 
+    /**
+     * 자동 로그인
+     */
     override fun onStart() {
         super.onStart()
         if(TodoayApplication.pref.getAccessToken()!="") {
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_myinfoFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
         }
     }
 

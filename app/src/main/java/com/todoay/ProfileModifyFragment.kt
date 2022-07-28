@@ -18,19 +18,17 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.nickname.NicknameAPI
-import com.todoay.api.domain.auth.nickname.NicknameService
 import com.todoay.api.domain.profile.ProfileAPI
-import com.todoay.databinding.FragmentMyinfoBinding
-import com.todoay.databinding.FragmentMyinfoModifyBinding
+import com.todoay.databinding.FragmentProfileModifyBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.util.regex.Pattern
 
+class ProfileModifyFragment : Fragment() {
 
-class MyinfoModifyFragment : Fragment() {
-
-    private var mBinding : FragmentMyinfoModifyBinding?= null
+    private var mBinding : FragmentProfileModifyBinding?= null
 
     var isModifyImageUrl : Boolean = false
     var isModifyNickname : Boolean = false
@@ -45,16 +43,13 @@ class MyinfoModifyFragment : Fragment() {
     private val profileService: ProfileAPI = ProfileAPI()
     private val nicknameService : NicknameAPI = NicknameAPI()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentMyinfoModifyBinding.inflate(inflater,container,false)
-
-        mBinding = binding
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         profileService.getProfile(
             onResponse = {
-                Log.d("profile-get", "onResponse() called in MyinfoModifyFragment")
+                Log.d("profile-get", "onResponse() called in profileModifyFragment")
                 currentNickname = it.nickname
-                mBinding?.myinfomodifyNicknameEt?.setText(currentNickname)
+                mBinding?.profileModifyNicknameEt?.setText(currentNickname)
                 // 프로필 사진 세팅
                 if(it.imageUrl!=null) {
                     currentImageUrl = it.imageUrl
@@ -63,46 +58,61 @@ class MyinfoModifyFragment : Fragment() {
                 // 상태메시지 세팅
                 if(it.introMsg!=null) {
                     currentIntroMsg = it.introMsg
-                    mBinding?.myinfomodifyMessageEt?.setText(currentIntroMsg)
+                    mBinding?.profileModifyMessageEt?.setText(currentIntroMsg)
                 }
             },
             onErrorResponse = {
                 // status 401 JWT 토큰 에러
-                Log.d("profile-get", "onErrorResponse() called in MyinfoModifyFragment")
+                Log.d("profile-get", "onErrorResponse() called in profileModifyFragment")
                 Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
             },
             onFailure = {
-                Log.d("profile-get", "onFailure() called in MyinfoModifyFragment")
+                Log.d("profile-get", "onFailure() called in profileModifyFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = FragmentProfileModifyBinding.inflate(inflater,container,false)
+
+        mBinding = binding
 
         /**
          * 닉네임 필드 변경
          */
-        mBinding?.myinfomodifyNicknameEt?.addTextChangedListener(object : TextWatcher {
+        mBinding?.profileModifyNicknameEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(currentNickname == mBinding?.myinfomodifyNicknameEt?.text.toString()){
-                    mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.GONE
+                if(currentNickname == mBinding?.profileModifyNicknameEt?.text.toString()){
+                    mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.GONE
                     isModifyNickname = false
                 }
                 changeConfirmButton()
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(mBinding?.myinfomodifyNicknameEt?.text.toString() != "") {
+                val inputNickname = mBinding?.profileModifyNicknameEt?.text.toString()
+                if(inputNickname != "") {
                     // 현재 닉네임과 동일한 경우
-                    if(currentNickname == mBinding?.myinfomodifyNicknameEt?.text.toString()){
-                        mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.GONE
+                    if(currentNickname == inputNickname){
+                        mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.GONE
                         isModifyNickname = false
                     }
                     else {
-                        // API 호출
-                        checkNicknameExists(mBinding?.myinfomodifyNicknameEt?.text.toString())
+                        if(!inputNickname.contains(" ") && Pattern.matches("^[a-zA-Z0-9_]*\$", inputNickname)) {
+                            checkNicknameExists(inputNickname)
+                        }
+                        else {
+                            mBinding?.profileModifyNicknameAlertMsgTv?.text = "공백 또는 특수문자('_'제외)를 입력할 수 없습니다"
+                            mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                            mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
+                            isModifyNickname = false
+                            changeConfirmButton()
+                        }
                     }
                 }
                 else {
-                    mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.GONE
+                    mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.GONE
                     isModifyNickname = false
                 }
                 changeConfirmButton()
@@ -113,12 +123,12 @@ class MyinfoModifyFragment : Fragment() {
 
         })
 
-        mBinding?.myinfomodifyMessageEt?.addTextChangedListener(object : TextWatcher {
+        mBinding?.profileModifyMessageEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                isModifyIntroMsg = currentIntroMsg != mBinding?.myinfomodifyMessageEt?.text.toString()
+                isModifyIntroMsg = currentIntroMsg != mBinding?.profileModifyMessageEt?.text.toString()
                 changeConfirmButton()
             }
 
@@ -130,24 +140,24 @@ class MyinfoModifyFragment : Fragment() {
         /**
          * 뒤로가기 버튼
          */
-        mBinding?.myinfomodifyBackbtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_myinfoModifyFragment_to_myinfoFragment)
+        mBinding?.profileModifyBackbtn?.setOnClickListener {
+            Navigation.findNavController(view!!).navigate(R.id.action_profileModifyFragment_to_profileFragment)
         }
 
         /**
          * 확인 버튼
          */
-        mBinding?.myinfoConfirmBtn?.setOnClickListener {
+        mBinding?.profileModifyConfirmBtn?.setOnClickListener {
             val inputImageUrl = ""
-            val inputNickname = mBinding?.myinfomodifyNicknameEt?.text.toString()
-            val inputIntroMsg = mBinding?.myinfomodifyMessageEt?.text.toString()
+            val inputNickname = mBinding?.profileModifyNicknameEt?.text.toString()
+            val inputIntroMsg = mBinding?.profileModifyMessageEt?.text.toString()
             // 프로필 수정 API 호출
             profileService.putProfile(
                 inputNickname,
                 inputIntroMsg,
                 inputImageUrl,
                 onResponse = {
-                    Navigation.findNavController(view!!).navigate(R.id.action_myinfoModifyFragment_to_myinfoFragment)
+                    Navigation.findNavController(view!!).navigate(R.id.action_profileModifyFragment_to_profileFragment)
                 },
                 onErrorResponse = {
                     // Status 400 유효성 검사 실패
@@ -155,15 +165,14 @@ class MyinfoModifyFragment : Fragment() {
 
                 },
                 onFailure = {
-                    Log.d("put-profile", "onFailure() called in MyinfoModifyFragment")
+                    Log.d("put-profile", "onFailure() called in profileModifyFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
-
         }
 
         //사진
-        mBinding?.myinfomodifyAddpictureBtn?.setOnClickListener(object : View.OnClickListener {
+        mBinding?.profileModifyAddpictureBtn?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.setType("image/*")
@@ -182,18 +191,18 @@ class MyinfoModifyFragment : Fragment() {
             inputNickname,
             onResponse = {
                 if (!it.nicknameExist) {
-                    Log.d("nickname-exists", "onResponse() of nickname NotExists called in MyinfoModifyFragment")
-                    mBinding?.myinfoNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
-                    mBinding?.myinfoNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
-                    mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.VISIBLE
+                    Log.d("nickname-exists", "onResponse() of nickname NotExists called in profileModifyFragment")
+                    mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
+                    mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
+                    mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
                     isModifyNickname = true
                     changeConfirmButton()
                 }
                 else {
-                    Log.d("nickname-exists", "onResponse() of nickname Exists called in MyinfoModifyFragment")
-                    mBinding?.myinfoNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
-                    mBinding?.myinfoNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
-                    mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.VISIBLE
+                    Log.d("nickname-exists", "onResponse() of nickname Exists called in profileModifyFragment")
+                    mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
+                    mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                    mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
                     isModifyNickname = false
                     changeConfirmButton()
                 }
@@ -201,16 +210,16 @@ class MyinfoModifyFragment : Fragment() {
             onErrorResponse = {
                 // status 400 유효성 검사 실패
                 if(it.details[0].code == "NotBlank" && it.details[0].field == "nickname") {
-                    Log.d("nickname-exists", "onErrorResponse() called in MyinfoModifyFragment")
-                    mBinding?.myinfoNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
-                    mBinding?.myinfoNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
-                    mBinding?.myinfoNicknameAlertMsgTv?.visibility = View.VISIBLE
+                    Log.d("nickname-exists", "onErrorResponse() called in profileModifyFragment")
+                    mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
+                    mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                    mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
                     isModifyNickname = false
                     changeConfirmButton()
                 }
             },
             onFailure = {
-                Log.d("nickname-exists", "onFailure() called in MyinfoModifyFragment")
+                Log.d("nickname-exists", "onFailure() called in profileModifyFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
@@ -218,12 +227,12 @@ class MyinfoModifyFragment : Fragment() {
 
     private fun changeConfirmButton() {
         if(isModifyNickname || isModifyIntroMsg) {
-            mBinding?.myinfoConfirmBtn?.setTextColor(R.color.main_color)
-            mBinding?.myinfoConfirmBtn?.isEnabled = true
+            mBinding?.profileModifyConfirmBtn?.setTextColor(R.color.main_color)
+            mBinding?.profileModifyConfirmBtn?.isEnabled = true
         }
         else {
-            mBinding?.myinfoConfirmBtn?.setTextColor(R.color.gray)
-            mBinding?.myinfoConfirmBtn?.isEnabled = false
+            mBinding?.profileModifyConfirmBtn?.setTextColor(R.color.gray)
+            mBinding?.profileModifyConfirmBtn?.isEnabled = false
         }
     }
 
@@ -244,7 +253,7 @@ class MyinfoModifyFragment : Fragment() {
                                 requireActivity().contentResolver,
                                 currentImageUri
                             )
-                            mBinding?.myinfomodifyAddpictureBtn?.setImageBitmap(bitmap)
+                            mBinding?.profileModifyAddpictureBtn?.setImageBitmap(bitmap)
                         }
                         else {
                             val source = ImageDecoder.createSource(
@@ -252,7 +261,7 @@ class MyinfoModifyFragment : Fragment() {
                                 currentImageUri
                             )
                             val bitmap = ImageDecoder.decodeBitmap(source)
-                            mBinding?.myinfomodifyAddpictureBtn?.setImageBitmap(bitmap)
+                            mBinding?.profileModifyAddpictureBtn?.setImageBitmap(bitmap)
                         }
                     }
                 } catch(e: IOException) {
