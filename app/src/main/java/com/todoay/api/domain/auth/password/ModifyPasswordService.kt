@@ -1,7 +1,7 @@
 package com.todoay.api.domain.auth.password
 
-import com.todoay.api.domain.auth.password.dto.ModifyPasswordRequest
-import com.todoay.api.domain.auth.password.dto.ModifyPasswordResponse
+import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
+import com.todoay.api.domain.auth.password.dto.response.ModifyPasswordResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.PATCH

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.api.domain.auth.email.EmailAPI
-import com.todoay.api.util.ValidErrorResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentEmailCertForgetPasswordBinding
 
 class EmailCertForgetPasswordFragment : Fragment() {
@@ -112,12 +112,14 @@ class EmailCertForgetPasswordFragment : Fragment() {
 
         //뒤로가기 버튼
         mBinding?.emailCertForgetPasswordBackBtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_emailCertForgetPasswordFragment_to_loginFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_emailCertForgetPasswordFragment_to_loginFragment)
         }
 
         //확인 버튼
         mBinding?.emailCertForgetPasswordOkayBtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_emailCertForgetPasswordFragment_to_loginFragment)
+            // 이메일 인증되었는지 확인하는 API
+
+            Navigation.findNavController(requireView()).navigate(R.id.action_emailCertForgetPasswordFragment_to_changeForgetPasswordFragment)
         }
 
 

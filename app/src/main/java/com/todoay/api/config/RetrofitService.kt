@@ -4,9 +4,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import com.todoay.api.util.ErrorResponse
-import com.todoay.api.util.Failure
-import com.todoay.api.util.ValidErrorResponse
+import com.todoay.api.config.RetrofitURL.ipAddress
+import com.todoay.api.util.response.error.ErrorResponse
+import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.error.ValidErrorResponse
+import com.todoay.global.util.TodoayApplication
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -23,26 +25,46 @@ import java.time.LocalDateTime
  */
 object RetrofitService {
 
-    // 임시로 서버와 api 통신하기 위해 서버 실행한 컴퓨터의 IP 주소 기입. 추후 aws 주소 입력 예정...
-    // 실행할 때마다 각자 수정하도록...
-    private val tempIPAddress = "192.168.0.106"
-
-    private val baseURL = "http://${tempIPAddress}:8080"
+    private val baseURL = "http://${ipAddress}:8080"
     private var retrofitService: Retrofit? = null
     private var okHttpClient: OkHttpClient? = null
+
+    /**
+     * 토큰의 여부에 따라 okHttpClient와 RetrofitService를 초기화하기 위해
+     * 싱글톤 객체를 null로 변경하는 메소드
+     *
+     * 사용: 로그인 또는 로그아웃 시
+     */
+    fun refresh() {
+        Log.d("Retrofit", "RetrofitService - refresh() called")
+        okHttpClient = null
+        retrofitService = null
+    }
 
     /**
      * Retrofit OkHttp 인터셉터 싱글톤 객체 초기화
      */
     private fun getClient() : OkHttpClient {
-        Log.d("Retrofit", "RetrofitService - getClient() called")
         if(okHttpClient == null) {
-            okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .addInterceptor(HeaderInterceptor("token example"))
-                .build()
+            // 토큰이 없는 경우 -> Header 에 토큰을 넣지 않음.
+            if(TodoayApplication.pref.getAccessToken() == "") {
+                Log.d("Retrofit", "RetrofitService - getClient() called Not Exist Token")
+                okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .build()
+            }
+            // 토큰이 있는 경우 -> Header 에 토큰을 추가함.
+            else {
+                Log.d("Retrofit", "RetrofitService - getClient() called Exist Token")
+                okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .addInterceptor(HeaderInterceptor())
+                    .build()
+            }
         }
         return okHttpClient!!
     }
@@ -50,12 +72,13 @@ object RetrofitService {
     /**
      * OkHttp3의 인터셉트를 통해 Header에 Token을 추가해주는 작업을 수행.
      */
-    private class HeaderInterceptor constructor(private val token: String) : Interceptor {
+    private class HeaderInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            Log.d("Retrofit", "RetrofitService - interceptor() called")
+            var token = TodoayApplication.pref.getAccessToken()
+            Log.d("Retrofit", "RetrofitService - interceptor() called for add Token in Header $token")
             return chain.proceed(
                 chain.request().newBuilder()
-                    .addHeader("Token", token)
+                    .addHeader("X-AUTH-TOKEN", token)
                     .build()
             )
         }
@@ -81,13 +104,14 @@ object RetrofitService {
      * ErrorResponse 객체를 초기화하여 리턴하기 위함.
      */
     fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
-        val gson = Gson()
-        var gsonError: ErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        val gsonError: ErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        Log.d("ErrorResponse", "Gson: {$gsonError}")
         return ErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
             code = gsonError.code,
+            message = gsonError.message,
             path = gsonError.path
         )
     }
@@ -97,13 +121,14 @@ object RetrofitService {
      * 서버의 유효성 검증에 대한 ValidErrorReponse 객체를 초기화하여 리턴하기 위함.
     */
     fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
-        val gson = Gson()
-        val gsonError : ValidErrorResponse = gson.fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        val gsonError : ValidErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        Log.d("ValidErrorResponse", "Gson: {$gsonError}")
         return ValidErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
             code = gsonError.code,
+            message = gsonError.message,
             path = gsonError.path,
             details = gsonError.details
         )
@@ -116,7 +141,7 @@ object RetrofitService {
      * 예외 상황이 SocketTimeoutException인 경우 서버 연결 실패로 간주.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getFailure(t: Throwable, path: String) : Failure {
+    fun getFailure(t: Throwable, path: String) : FailureResponse {
         var code = "서비스 이용 불가...\n고객센터로 문의해주세요"
         if(t is ConnectException) {
             code = "네트워크 연결을 확인해주세요"
@@ -124,7 +149,7 @@ object RetrofitService {
         else if(t is SocketTimeoutException) {
             code = "서버와의 연결이 불안정합니다..\n고객센터로 문의해주세요"
         }
-        return Failure(
+        return FailureResponse(
             timestamp = LocalDateTime.now().toString(),
             exception = t,
             code = code,
