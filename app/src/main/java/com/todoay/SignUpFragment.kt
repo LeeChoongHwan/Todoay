@@ -15,6 +15,7 @@ import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI
 import com.todoay.databinding.FragmentSignUpBinding
+import com.todoay.global.util.TodoayApplication
 import java.net.HttpURLConnection
 import java.util.regex.Pattern
 
@@ -36,6 +37,11 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(inflater,container,false)
 
         mBinding = binding
+
+        /**
+         * 토큰 초기화
+         */
+        TodoayApplication.pref.clear()
 
         /**
          * 이메일 필드 입력

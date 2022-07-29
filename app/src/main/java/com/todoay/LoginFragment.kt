@@ -174,12 +174,12 @@ class LoginFragment : Fragment() {
     /**
      * 자동 로그인
      */
-    override fun onStart() {
-        super.onStart()
-        if(TodoayApplication.pref.getAccessToken()!="") {
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if(TodoayApplication.pref.getAccessToken()!="") {
+//            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+//        }
+//    }
 
     //로그인 button 색상 변경 위한 함수
     private fun changeConfirmButtonColor() {

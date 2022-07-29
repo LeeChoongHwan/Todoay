@@ -55,4 +55,9 @@ class Pref(context: Context) {
         tokenEditor.apply()
     }
 
+    fun clear() {
+        clearEmail()
+        clearToken()
+    }
+
 }
