@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.login
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.R
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI

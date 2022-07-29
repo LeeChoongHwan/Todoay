@@ -1,14 +1,19 @@
-package com.todoay
+package com.todoay.view.profile
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.R
+import com.todoay.api.domain.auth.password.ModifyPasswordAPI
 import com.todoay.databinding.FragmentChangePasswordBinding
+import com.todoay.global.util.UserLogout
 import java.util.regex.Pattern
 
 class ChangePasswordFragment : Fragment() {
@@ -19,6 +24,11 @@ class ChangePasswordFragment : Fragment() {
     var isChangedPassword : Boolean = false
     var isChangedCheckPassword : Boolean = false
 
+    var originPassword : String = ""
+    var modifiedPassword : String = ""
+
+    val modifyPasswordService = ModifyPasswordAPI()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentChangePasswordBinding.inflate(inflater,container,false)
 
@@ -26,22 +36,34 @@ class ChangePasswordFragment : Fragment() {
 
         //뒤로가기 버튼
         mBinding?.changepasswordBackbtn?.setOnClickListener {
-            Navigation.findNavController(view!!).navigate(R.id.action_changePasswordFragment_to_profileFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_profileFragment)
         }
 
         //툴바 확인 버튼
         mBinding?.changepasswordToolbarConfirmBtn?.setOnClickListener {
-            //비밀번호 변경 API 호출
+            originPassword = mBinding?.changepasswordPresentpasswordEt?.text.toString()
+            modifiedPassword = mBinding?.changepasswordChangedpassowordEt?.text.toString()
 
-            /*
-            if(mBinding?.changepasswordPresentpasswordEt?.text.toString() == "12345678") {
-                Navigation.findNavController(view!!)
-                    .navigate(R.id.action_changePasswordFragment_to_myinfoFragment)
-            }
-            else {
-                mBinding?.changepasswordErrorMessage?.visibility = View.VISIBLE
-            }
-             */
+            //비밀번호 변경 API 호출
+            modifyPasswordService.modifyPassword(
+                originPassword,
+                modifiedPassword,
+                onResponse = {
+                    Log.d("modify password", "onResponse() called in ChangePasswordFragment")
+                    Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
+//                    UserLogout.logout()
+                    Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_loginFragment)
+                },
+                onErrorResponse = {
+                    Log.d("modify password", "onErrorResponse() called in ChangePasswordFragment")
+                    // status 400 비밀번호 양식 유효성 실패
+                    // status 401 JWT 토큰 에러
+                },
+                onFailure = {
+                    Log.d("modify password", "onFailure() called in ChangePasswordFragment")
+                    Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
+                }
+            )
         }
 
         //현재 비밀번호 edittext
@@ -120,11 +142,11 @@ class ChangePasswordFragment : Fragment() {
 
     private fun changeConfirmButton() {
         if(isChangedCheckPassword && isChangedPassword && isPresentPassword) {
-            mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(R.color.main_color)
+            mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(resources.getColor(R.color.main_color))
             mBinding?.changepasswordToolbarConfirmBtn?.isEnabled = true
         }
         else {
-            mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(R.color.gray)
+            mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(resources.getColor(R.color.gray))
             mBinding?.changepasswordToolbarConfirmBtn?.isEnabled = false
         }
     }

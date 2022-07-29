@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.global
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -8,6 +8,7 @@ import com.todoay.api.config.ServiceRepository.AuthServiceRepository.emailServic
 import com.todoay.api.domain.auth.email.dto.response.CheckEmailVerifiedResponse
 import com.todoay.api.domain.auth.email.dto.response.EmailExistsResponse
 import com.todoay.api.domain.auth.email.dto.response.SendCertMailResponse
+import com.todoay.api.domain.auth.email.dto.response.SendMailUpdatePasswordResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
@@ -124,4 +125,41 @@ class EmailAPI {
 
             })
     }
+
+    /**
+     * 임시 비밀번호 메일 전송 요청
+     * [GET]("/auth/send-mail/update-password")
+     */
+    fun sendMailForUpdatePassword(email: String, onResponse: (SendMailUpdatePasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        emailService.getSendMailForUpdatePassword(email)
+            .enqueue(object : Callback<SendMailUpdatePasswordResponse> {
+                override fun onResponse(
+                    call: Call<SendMailUpdatePasswordResponse>,
+                    response: Response<SendMailUpdatePasswordResponse>
+                ) {
+                    if(response.isSuccessful) {
+                        val sendMailUpdatePasswordResponse = SendMailUpdatePasswordResponse(
+                            status = response.code()
+                        )
+                        onResponse(sendMailUpdatePasswordResponse)
+                        Log.d("email", "send mail for update password - success {$sendMailUpdatePasswordResponse}")
+                    }
+                    else {
+                        val errorResponse = RetrofitService.getErrorResponse(response)
+                        onErrorResponse(errorResponse)
+                        Log.d("email", "send mail for update password - failed {$errorResponse}")
+                    }
+                }
+
+                override fun onFailure(call: Call<SendMailUpdatePasswordResponse>, t: Throwable) {
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/send-mail/update-password"
+                    )
+                    onFailure(failure)
+                    Log.d("email", "system - failed {$failure}")
+                }
+
+            })
+    }
+
 }

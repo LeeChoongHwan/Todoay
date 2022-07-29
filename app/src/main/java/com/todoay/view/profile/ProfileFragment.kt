@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.profile
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.R
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.FragmentProfileBinding

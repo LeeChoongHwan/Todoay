@@ -23,10 +23,10 @@ class ModifyPasswordAPI {
      * 유저 비밀번호 변경 수행
      * [PATCH]("/auth/password")
      */
-    fun modifyPassword(_currentPassword: String, _modifyPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun modifyPassword(originPassword: String, modifiedPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         val request = ModifyPasswordRequest(
-            currentPassword = _currentPassword,
-            modifyPassword = _modifyPassword
+            originPassword = originPassword,
+            modifiedPassword = modifiedPassword
         )
         modifyPasswordService.patchModifyPassword(request)
             .enqueue(object: Callback<ModifyPasswordResponse> {
@@ -35,7 +35,9 @@ class ModifyPasswordAPI {
                     response: Response<ModifyPasswordResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val modifyPasswordResponse : ModifyPasswordResponse = response.body()!!
+                        val modifyPasswordResponse = ModifyPasswordResponse(
+                            status = response.code()
+                        )
                         onResponse(modifyPasswordResponse)
                         Log.d("modify password", "success {$modifyPasswordResponse}")
                     }
