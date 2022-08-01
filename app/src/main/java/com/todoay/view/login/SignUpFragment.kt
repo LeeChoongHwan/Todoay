@@ -42,7 +42,7 @@ class SignUpFragment : Fragment() {
         /**
          * 토큰 초기화
          */
-        TodoayApplication.pref.clear()
+        TodoayApplication.pref.clearToken()
 
         /**
          * 이메일 필드 입력

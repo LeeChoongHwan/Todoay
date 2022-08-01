@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.profileService
+import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.callProfileService
 import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
 import com.todoay.api.domain.profile.dto.response.ModifyProfileResponse
 import com.todoay.api.domain.profile.dto.response.ProfileResponse
@@ -16,7 +16,7 @@ import retrofit2.Response
 
 /**
  * 유저 정보(Profile) 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: ProfileService.kt
+ * API Interface: callProfileService().kt
  */
 class ProfileAPI {
 
@@ -25,7 +25,7 @@ class ProfileAPI {
      * [GET]("/profile/my")
      */
     fun getProfile(onResponse: (ProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        profileService.getProfile()
+        callProfileService().getProfile()
             .enqueue(object : Callback<ProfileResponse> {
                 override fun onResponse(
                     call: Call<ProfileResponse>,
@@ -65,7 +65,7 @@ class ProfileAPI {
             introMsg = _introMsg,
             imageUrl = _imageUrl
         )
-        profileService.putProfile(request)
+        callProfileService().putProfile(request)
             .enqueue(object : Callback<ModifyProfileResponse> {
                 override fun onResponse(
                     call: Call<ModifyProfileResponse>,

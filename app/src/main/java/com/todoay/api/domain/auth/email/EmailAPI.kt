@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.emailService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callEmailService
 import com.todoay.api.domain.auth.email.dto.response.CheckEmailVerifiedResponse
 import com.todoay.api.domain.auth.email.dto.response.EmailExistsResponse
 import com.todoay.api.domain.auth.email.dto.response.SendCertMailResponse
@@ -18,7 +18,7 @@ import retrofit2.Response
 
 /**
  * 이메일 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: EmailService.kt
+ * API Interface: callEmailService().kt
  */
 class EmailAPI {
 
@@ -27,7 +27,7 @@ class EmailAPI {
      * [GET]("/auth/email-exists")
      */
     fun checkEmailExists(email: String, onResponse: (EmailExistsResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        emailService.getCheckEmailDuplicate(email)
+        callEmailService().getCheckEmailDuplicate(email)
             .enqueue(object : Callback<EmailExistsResponse> {
                 override fun onResponse(
                     call: Call<EmailExistsResponse>,
@@ -60,7 +60,7 @@ class EmailAPI {
      * [GET]("/auth/send-mail")
      */
     fun sendCertMail(email: String, onResponse: (SendCertMailResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        emailService.getSendCertMail(email)
+        callEmailService().getSendCertMail(email)
             .enqueue(object : Callback<SendCertMailResponse> {
                 override fun onResponse(
                     call: Call<SendCertMailResponse>,
@@ -96,7 +96,7 @@ class EmailAPI {
      * [GET]("/auth/{email}/email-verified")
      */
     fun checkEmailVerified(email: String, onResponse: (CheckEmailVerifiedResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        emailService.getCheckEmailVerified(email)
+        callEmailService().getCheckEmailVerified(email)
             .enqueue(object : Callback<CheckEmailVerifiedResponse> {
                 override fun onResponse(
                     call: Call<CheckEmailVerifiedResponse>,
@@ -131,7 +131,7 @@ class EmailAPI {
      * [GET]("/auth/send-mail/update-password")
      */
     fun sendMailForUpdatePassword(email: String, onResponse: (SendMailUpdatePasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        emailService.getSendMailForUpdatePassword(email)
+        callEmailService().getSendMailForUpdatePassword(email)
             .enqueue(object : Callback<SendMailUpdatePasswordResponse> {
                 override fun onResponse(
                     call: Call<SendMailUpdatePasswordResponse>,

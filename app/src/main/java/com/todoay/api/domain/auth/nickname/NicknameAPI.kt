@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.nicknameService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callNicknameService
 import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
@@ -14,7 +14,7 @@ import retrofit2.Response
 
 /**
  * 유저 닉네임 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: NickNameService.kt
+ * API Interface: callNicknameService().kt
  */
 class NicknameAPI {
 
@@ -23,7 +23,7 @@ class NicknameAPI {
      * [GET]("/auth/nickname-exists")
      */
     fun checkNicknameExists(nickname: String, onResponse: (NicknameResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        nicknameService.getNicknameExists(nickname)
+        callNicknameService().getNicknameExists(nickname)
             .enqueue(object : Callback<NicknameResponse> {
                 override fun onResponse(
                     call: Call<NicknameResponse>,

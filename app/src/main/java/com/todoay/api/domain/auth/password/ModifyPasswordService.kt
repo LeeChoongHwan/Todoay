@@ -11,5 +11,5 @@ import retrofit2.http.PATCH
  */
 interface ModifyPasswordService {
     @PATCH("/auth/password")
-    fun patchModifyPassword(@Body body: ModifyPasswordRequest) : Call<ModifyPasswordResponse>
+    fun patchModifyPassword(@Body request: ModifyPasswordRequest) : Call<ModifyPasswordResponse>
 }

@@ -43,6 +43,9 @@ class LoginFragment : Fragment() {
             isId = true
         }
 
+        if(TodoayApplication.pref.getAccessToken()!="")
+            Log.d(javaClass.name, "Token is Exist!!!")
+
         // 아이디 edit text
         mBinding?.loginEmailEditText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

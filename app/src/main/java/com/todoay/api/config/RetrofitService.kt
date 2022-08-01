@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.todoay.api.config.RetrofitURL.ipAddress
+import com.todoay.api.util.TokenManager
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
@@ -16,6 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
+import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.time.LocalDateTime
 
@@ -62,7 +64,7 @@ object RetrofitService {
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
-                    .addInterceptor(HeaderInterceptor())
+                    .addInterceptor(TokenInterceptor())
                     .build()
             }
         }
@@ -72,15 +74,29 @@ object RetrofitService {
     /**
      * OkHttp3의 인터셉트를 통해 Header에 Token을 추가해주는 작업을 수행.
      */
-    private class HeaderInterceptor : Interceptor {
+    private class TokenInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            var token = TodoayApplication.pref.getAccessToken()
-            Log.d("Retrofit", "RetrofitService - interceptor() called for add Token in Header $token")
-            return chain.proceed(
-                chain.request().newBuilder()
-                    .addHeader("X-AUTH-TOKEN", token)
-                    .build()
-            )
+            var accessToken = TodoayApplication.pref.getAccessToken()
+            val request = chain.request().newBuilder()
+                .addHeader("X-AUTH-TOKEN", accessToken)
+                .build()
+            val response = chain.proceed(request)
+            when(response.code) {
+                HttpURLConnection.HTTP_UNAUTHORIZED -> {
+                    TokenManager.refreshToken(TodoayApplication.pref.getRefreshToken())
+                    accessToken = TodoayApplication.pref.getAccessToken()
+                    if(accessToken!="") {
+                        val newRequest = chain.request().newBuilder()
+                            .addHeader("X-AUTH-TOKEN", accessToken)
+                            .build()
+                        response.close()
+                        Log.d("Retrofit", "RetrofitService - interceptor() called for refresh Token $accessToken")
+                        return chain.proceed(newRequest)
+                    }
+                }
+            }
+            Log.d("Retrofit", "RetrofitService - interceptor() called for set Token $accessToken")
+            return response
         }
     }
 
@@ -88,8 +104,8 @@ object RetrofitService {
      * Retrofit 객체 호출
      */
     fun getService(): Retrofit {
-        Log.d("Retrofit", "RetrofitService - getService() called" )
         if(retrofitService == null) {
+            Log.d("Retrofit", "RetrofitService - getService() called" )
             retrofitService = Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -118,7 +134,7 @@ object RetrofitService {
 
     /**
      * API의 onResponse 호출 이후 response가 성공이 아닐 경우
-     * 서버의 유효성 검증에 대한 ValidErrorReponse 객체를 초기화하여 리턴하기 위함.
+     * 서버의 유효성 검증에 대한 ValidErrorResponse 객체를 초기화하여 리턴하기 위함.
     */
     fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
         val gsonError : ValidErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)

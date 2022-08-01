@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.modifyPasswordService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callModifyPasswordService
 import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
 import com.todoay.api.domain.auth.password.dto.response.ModifyPasswordResponse
 import com.todoay.api.util.response.error.ErrorResponse
@@ -24,11 +24,12 @@ class ModifyPasswordAPI {
      * [PATCH]("/auth/password")
      */
     fun modifyPassword(originPassword: String, modifiedPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        Log.d(javaClass.name, "started modify password api")
         val request = ModifyPasswordRequest(
             originPassword = originPassword,
             modifiedPassword = modifiedPassword
         )
-        modifyPasswordService.patchModifyPassword(request)
+        callModifyPasswordService().patchModifyPassword(request)
             .enqueue(object: Callback<ModifyPasswordResponse> {
                 override fun onResponse(
                     call: Call<ModifyPasswordResponse>,

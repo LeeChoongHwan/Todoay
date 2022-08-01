@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.loginService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callLoginService
 import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.api.domain.auth.login.dto.response.LoginResponse
 import com.todoay.api.util.response.error.ErrorResponse
@@ -15,7 +15,7 @@ import retrofit2.Response
 
 /**
  * 로그인 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: LoginService.kt
+ * API Interface: callLoginService().kt
  */
 class LoginAPI {
 
@@ -28,7 +28,7 @@ class LoginAPI {
             email = _email,
             password = _password
         )
-        loginService.postLogin(request)
+        callLoginService().postLogin(request)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
                     call: Call<LoginResponse>,

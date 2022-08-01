@@ -20,12 +20,9 @@ class ChangePasswordFragment : Fragment() {
 
     private var mBinding : FragmentChangePasswordBinding?= null
 
-    var isPresentPassword : Boolean = false
+    var isOriginPassword : Boolean = false
     var isChangedPassword : Boolean = false
     var isChangedCheckPassword : Boolean = false
-
-    var originPassword : String = ""
-    var modifiedPassword : String = ""
 
     val modifyPasswordService = ModifyPasswordAPI()
 
@@ -41,8 +38,8 @@ class ChangePasswordFragment : Fragment() {
 
         //툴바 확인 버튼
         mBinding?.changepasswordToolbarConfirmBtn?.setOnClickListener {
-            originPassword = mBinding?.changepasswordPresentpasswordEt?.text.toString()
-            modifiedPassword = mBinding?.changepasswordChangedpassowordEt?.text.toString()
+            val originPassword = mBinding?.changepasswordOriginPasswordEt?.text.toString()
+            val modifiedPassword = mBinding?.changepasswordChangedpassowordEt?.text.toString()
 
             //비밀번호 변경 API 호출
             modifyPasswordService.modifyPassword(
@@ -51,13 +48,15 @@ class ChangePasswordFragment : Fragment() {
                 onResponse = {
                     Log.d("modify password", "onResponse() called in ChangePasswordFragment")
                     Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
-//                    UserLogout.logout()
+                    UserLogout.logout()
                     Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_loginFragment)
                 },
                 onErrorResponse = {
                     Log.d("modify password", "onErrorResponse() called in ChangePasswordFragment")
-                    // status 400 비밀번호 양식 유효성 실패
-                    // status 401 JWT 토큰 에러
+                    // status 404 비밀번호 양식 유효성 실패
+                    mBinding?.changepasswordOriginPasswordErrorMessage?.visibility = View.VISIBLE
+                    mBinding?.changepasswordOriginPasswordEt?.setText("")
+                    mBinding?.changepasswordOriginPasswordEt?.requestFocus()
                 },
                 onFailure = {
                     Log.d("modify password", "onFailure() called in ChangePasswordFragment")
@@ -67,12 +66,12 @@ class ChangePasswordFragment : Fragment() {
         }
 
         //현재 비밀번호 edittext
-        mBinding?.changepasswordPresentpasswordEt?.addTextChangedListener(object : TextWatcher {
+        mBinding?.changepasswordOriginPasswordEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                isPresentPassword = mBinding?.changepasswordPresentpasswordEt?.text.toString() != ""
+                isOriginPassword = mBinding?.changepasswordOriginPasswordEt?.text.toString() != ""
                 changeConfirmButton()
             }
 
@@ -91,7 +90,7 @@ class ChangePasswordFragment : Fragment() {
                     if(Pattern.matches("^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$",mBinding?.changepasswordChangedpassowordEt?.text.toString())) {
                         isChangedPassword = true
                         mBinding?.changepasswordchangeErrorMessage?.visibility = View.GONE
-                        }
+                    }
                     else {
                         isChangedPassword = false
                         mBinding?.changepasswordchangeErrorMessage?.visibility = View.VISIBLE
@@ -116,7 +115,7 @@ class ChangePasswordFragment : Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(mBinding?.changepasswordChangedpassowordcheckEt?.text.toString() != "") {
                     if(mBinding?.changepasswordChangedpassowordcheckEt?.text.toString() ==
-                        mBinding?.changepasswordChangedpassowordcheckEt?.text.toString()) {
+                        mBinding?.changepasswordChangedpassowordEt?.text.toString()) {
                         mBinding?.changepasswordcheckErrorMessage?.visibility = View.GONE
                         isChangedCheckPassword = true
                     }
@@ -141,7 +140,7 @@ class ChangePasswordFragment : Fragment() {
 
 
     private fun changeConfirmButton() {
-        if(isChangedCheckPassword && isChangedPassword && isPresentPassword) {
+        if(isChangedCheckPassword && isChangedPassword && isOriginPassword) {
             mBinding?.changepasswordToolbarConfirmBtn?.setTextColor(resources.getColor(R.color.main_color))
             mBinding?.changepasswordToolbarConfirmBtn?.isEnabled = true
         }
