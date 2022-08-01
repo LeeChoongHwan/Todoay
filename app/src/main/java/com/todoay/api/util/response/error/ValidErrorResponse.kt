@@ -1,6 +1,7 @@
 package com.todoay.api.util.response.error
 
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDateTime
 
 class ValidErrorResponse(
     timestamp: String,

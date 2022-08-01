@@ -123,7 +123,6 @@ class LoginFragment : Fragment() {
                                 )
                                 if(TodoayApplication.pref.getAccessToken()!="") {
                                     mBinding?.loginProgressBar?.visibility = View.GONE
-                                    RetrofitService.refresh() // Retrofit 객체 초기화
                                     Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
                                 }
                                 else {
@@ -146,9 +145,21 @@ class LoginFragment : Fragment() {
                     }
                     // 이메일 인증을 하지 않은 경우
                     else {
-                        Log.d("check email verified", "Do not email verified in LoginFragment")
-                        Toast.makeText(requireContext(), "이메일 인증을 완료해주세요", Toast.LENGTH_LONG).show()
-                        mBinding?.loginProgressBar?.visibility = View.GONE
+                        // 인증메일 재전송
+                        emailService.sendCertMail(
+                            inputEmail,
+                            onResponse = {
+                                Log.d("check email verified", "Do not email verified in LoginFragment")
+                                mBinding?.loginProgressBar?.visibility = View.GONE
+                                Toast.makeText(requireContext(), "이메일 인증을 완료해주세요\n인증메일을 재전송하였습니다", Toast.LENGTH_LONG).show()
+                            },
+                            onErrorResponse = {
+
+                            },
+                            onFailure = {
+
+                            }
+                        )
                     }
                 },
                 onErrorResponse = {

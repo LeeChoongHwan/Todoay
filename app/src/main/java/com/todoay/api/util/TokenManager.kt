@@ -11,6 +11,7 @@ class TokenManager {
             refreshService.refreshTokenToAccessToken(
                 refreshToken,
                 onResponse = {
+                    TodoayApplication.pref.clearToken()
                     TodoayApplication.pref.setUser(
                         TodoayApplication.pref.getEmail(),
                         it.accessToken,
