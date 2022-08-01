@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="600dp">
+
+    <TextView
+        android:id="@+id/calanderAddplan_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="제목"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/calanderAddplan_title_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_title_tv" />
+
+    <TextView
+        android:id="@+id/calanderAddplan_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="내용"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_title_et" />
+
+    <EditText
+        android:id="@+id/calanderAddplan_content_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_content_tv" />
+
+    <TextView
+        android:id="@+id/calanderAddplan_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="시간"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_content_et" />
+
+    <Button
+        android:id="@+id/calanderAddplan_settime_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="시간 설정"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_content_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_time_tv" />
+
+    <Button
+        android:id="@+id/calanderAddplan_setalarm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:text="알람 설정"
+        app:layout_constraintLeft_toRightOf="@+id/calanderAddplan_settime_btn"
+        app:layout_constraintTop_toTopOf="@+id/calanderAddplan_settime_btn" />
+
+    <TextView
+        android:id="@+id/calanderAddplan_place_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="장소"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_setalarm_btn" />
+
+    <EditText
+        android:id="@+id/calanderAddplan_place_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_place_tv" />
+
+    <TextView
+        android:id="@+id/calanderAddplan_colleague_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="함께할 사람"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_place_et" />
+
+    <EditText
+        android:id="@+id/calanderAddplan_colleague_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_colleague_tv" />
+
+    <TextView
+        android:id="@+id/calanderAddplan_hashtag_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/special"
+        android:text="해시태그"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/calanderAddplan_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_colleague_et" />
+
+    <EditText
+        android:id="@+id/calanderAddplan_hashtag_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calanderAddplan_hashtag_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

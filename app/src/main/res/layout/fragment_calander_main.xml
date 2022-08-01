@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/calanderMain_menu_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/menu_btn" />
+
+    <TextView
+        android:id="@+id/calanderMain_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blackoblique"
+        android:text="Todoay"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/calanderMain_menu_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/calanderMain_menu_btn" />
+
+    <ImageView
+        android:id="@+id/calanderMain_bell_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/calanderMain_menu_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/calanderMain_menu_btn"
+        app:srcCompat="@drawable/ic_bell" />
+
+    <ImageView
+        android:id="@+id/calenderMain_divline"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/calanderMain_title_tv"
+        app:srcCompat="@drawable/divline" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/calenderMain_calendar_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Button"
+        app:layout_constraintLeft_toLeftOf="@id/calanderMain_menu_btn"
+        app:layout_constraintTop_toBottomOf="@id/calenderMain_divline" />
+
+    <Button
+        android:id="@+id/calenderMain_todo_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintLeft_toRightOf="@id/calenderMain_calendar_btn"
+        app:layout_constraintTop_toTopOf="@id/calenderMain_calendar_btn" />
+
+    <ImageView
+        android:id="@+id/calenderMain_setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@id/calanderMain_bell_iv"
+        app:layout_constraintTop_toTopOf="@id/calenderMain_calendar_btn"
+        app:srcCompat="@drawable/ic_setting" />
+
+    <CalendarView
+        android:id="@+id/calenderMain_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/calenderMain_todo_btn" />
+
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
