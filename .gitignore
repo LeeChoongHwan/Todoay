@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,android,androidstudio,kotlin
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,android,androidstudio,kotlin
 
+### Custom ###
+# Retrofit URL
+RetrofitURL.kt
+
 ### Android ###
 # Gradle files
 .gradle/

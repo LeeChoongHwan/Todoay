@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.login.SignUpEmailCertAlertFragment">
+
+    <ImageView
+        android:id="@+id/sign_up_email_cert_alert_backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        app:srcCompat="@drawable/ic_back"
+        android:clickable="true"
+        />
+
+    <TextView
+        android:id="@+id/sign_up_email_cert_alert_top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/sign_up_email_cert_alert_backBtn"
+        app:layout_constraintBottom_toBottomOf="@id/sign_up_email_cert_alert_backBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="Todoay"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:fontFamily="@font/blackoblique" />
+
+    <View
+        android:id="@+id/sign_up_email_cert_alert_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_email_cert_alert_backBtn"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/sign_up_email_cert_alert_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_email_cert_alert_backBtn"
+        app:layout_constraintLeft_toLeftOf="@id/sign_up_email_cert_alert_backBtn"
+        android:layout_marginTop="50dp"
+        android:text="회원가입"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:fontFamily="@font/bold" />
+
+    <TextView
+        android:id="@+id/sign_up_email_cert_alert_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_email_cert_alert_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="100dp"
+        android:text="인증 메일을 전송하였습니다\n\n메일을 확인하여 주세요"
+        android:gravity="center"
+        android:fontFamily="@font/white"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        />
+
+    <android.widget.Button
+        android:id="@+id/sign_up_email_cert_alert_confirm_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_email_cert_alert_message"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="320dp"
+        android:text="확인"
+        android:textColor="@color/white"
+        android:fontFamily="@font/regular"
+        android:background="@drawable/confirmbtn_background"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
