@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.login
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.MainActivity
+import com.todoay.R
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.login.LoginAPI
@@ -38,11 +40,18 @@ class LoginFragment : Fragment() {
         val userEmail = TodoayApplication.pref.getEmail()
         if(userEmail != "") {
             mBinding?.loginEmailEditText?.setText(userEmail)
+            isId = true
         }
+
+        if(TodoayApplication.pref.getAccessToken()!="")
+            Log.d(javaClass.name, "Token is Exist!!!")
 
         // 아이디 edit text
         mBinding?.loginEmailEditText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(mBinding?.loginEmailNonExistsErrorMessage?.visibility == View.VISIBLE) {
+                    mBinding?.loginEmailNonExistsErrorMessage?.visibility = View.GONE
+                }
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -164,7 +173,7 @@ class LoginFragment : Fragment() {
 
         //비밀번호 찾기 text
         mBinding?.loginFindPwTextBtn?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_emailCertForgetPasswordFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_sendMailUpdatePasswordFragment)
         }
 
         return mBinding?.root
@@ -174,12 +183,12 @@ class LoginFragment : Fragment() {
     /**
      * 자동 로그인
      */
-//    override fun onStart() {
-//        super.onStart()
-//        if(TodoayApplication.pref.getAccessToken()!="") {
-//            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
-//        }
-//    }
+    override fun onStart() {
+        super.onStart()
+        if(TodoayApplication.pref.getAccessToken()!="") {
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+        }
+    }
 
     //로그인 button 색상 변경 위한 함수
     private fun changeConfirmButtonColor() {

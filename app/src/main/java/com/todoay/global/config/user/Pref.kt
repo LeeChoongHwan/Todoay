@@ -22,27 +22,12 @@ class Pref(context: Context) {
         return emailPref.getString("email", "").toString()
     }
 
-    fun setEmail(_email: String) {
-        emailEditor.putString("email", _email)
-        emailEditor.apply()
-    }
-
     fun getAccessToken() : String {
         return tokenPref.getString("accessToken", "").toString()
     }
 
-    fun setAccessToken(_accessToken: String) {
-        tokenEditor.putString("accessToken", _accessToken)
-        tokenEditor.apply()
-    }
-
     fun getRefreshToken(): String {
         return tokenPref.getString("refreshToken", "").toString()
-    }
-
-    fun setRefreshToken(_refreshToken: String) {
-        tokenEditor.putString("refreshToken", _refreshToken)
-        tokenEditor.apply()
     }
 
     fun clearEmail() {

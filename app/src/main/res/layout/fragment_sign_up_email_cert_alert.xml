@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpEmailCertAlertFragment">
+    tools:context=".view.login.SignUpEmailCertAlertFragment">
 
     <ImageView
         android:id="@+id/sign_up_email_cert_alert_backBtn"

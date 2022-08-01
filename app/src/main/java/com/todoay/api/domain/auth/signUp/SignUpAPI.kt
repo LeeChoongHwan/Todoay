@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.signUpService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callSignUpService
 import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
 import com.todoay.api.util.response.error.FailureResponse
@@ -29,7 +29,7 @@ class SignUpAPI {
             password = _password,
             nickname = _nickname
         )
-        signUpService.postSignUp(request)
+        callSignUpService().postSignUp(request)
             .enqueue(object : Callback<SignUpResponse> {
                 override fun onResponse(
                     call: Call<SignUpResponse>,

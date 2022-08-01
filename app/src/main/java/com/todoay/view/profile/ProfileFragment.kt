@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.profile
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.R
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.FragmentProfileBinding
 import com.todoay.global.util.TodoayApplication
+import com.todoay.global.util.UserLogout
 
 class ProfileFragment : Fragment() {
 
@@ -39,6 +41,9 @@ class ProfileFragment : Fragment() {
             onErrorResponse = {
                 // status 401 JWT 토큰 에러
                 Log.d("profile-get", "onErrorResponse() called in profileFragment")
+
+
+
                 Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
 
             },
@@ -59,8 +64,7 @@ class ProfileFragment : Fragment() {
         // 메뉴바 버튼
         // Test를 위해 로그아웃 진행
         mBinding?.profileMenubtn?.setOnClickListener {
-            TodoayApplication.pref.clearToken()
-            RetrofitService.refresh()
+            UserLogout.logout()
             Navigation.findNavController(requireView()).navigate(R.id.action_profileFragment_to_loginFragment)
         }
 

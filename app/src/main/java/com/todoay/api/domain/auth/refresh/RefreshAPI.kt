@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
-import com.todoay.api.config.ServiceRepository.AuthServiceRepository.refreshService
+import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callRefreshService
 import com.todoay.api.domain.auth.refresh.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
 import com.todoay.api.util.response.error.ErrorResponse
@@ -15,7 +15,7 @@ import retrofit2.Response
 
 /**
  * RefreshToken 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: RefreshService.kt
+ * API Interface: callRefreshService().kt
  */
 class RefreshAPI {
 
@@ -27,7 +27,7 @@ class RefreshAPI {
         val request = RefreshRequest(
             refreshToken = refreshToken
         )
-        refreshService.postRefreshToken(request)
+        callRefreshService().postRefreshToken(request)
             .enqueue(object : Callback<RefreshResponse> {
                 override fun onResponse(
                     call: Call<RefreshResponse>,

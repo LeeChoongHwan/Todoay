@@ -1,4 +1,4 @@
-package com.todoay
+package com.todoay.view.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.R
 import com.todoay.databinding.FragmentSignUpEmailCertAlertBinding
 
 class SignUpEmailCertAlertFragment : Fragment() {
