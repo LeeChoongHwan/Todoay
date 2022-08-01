@@ -18,7 +18,9 @@ import retrofit2.Response
  * API Interface: callLoginService().kt
  */
 class LoginAPI {
-
+    
+    val TAG = "LOGIN API"
+    
     /**
      * 로그인 수행
      * [POST]("/auth/login")
@@ -38,13 +40,13 @@ class LoginAPI {
                     if(response.isSuccessful) {
                         val loginResponse : LoginResponse = response.body()!!
                         onResponse(loginResponse)
-                        Log.d("login", "login - success {${loginResponse}}")
+                        Log.d(TAG, "[로그인] - 성공 {${loginResponse}}")
                     }
                     // 로그인 실패
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("login", "login - failed {${errorResponse}}")
+                        Log.d(TAG, "[로그인] - 실패 {${errorResponse}}")
                     }
                 }
 
@@ -54,7 +56,7 @@ class LoginAPI {
                         t,  "/auth/login"
                     )
                     onFailure(failure)
-                    Log.d("login", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
             })
     }

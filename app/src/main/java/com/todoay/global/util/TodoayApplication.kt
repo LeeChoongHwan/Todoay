@@ -10,10 +10,7 @@ class TodoayApplication: Application() {
 
     override fun onCreate() {
         pref = Pref(applicationContext)
-
-        // 테스트를 위해 자동로그인을 해제한 기능
-        pref.clearToken()
-
+//        pref.clearToken()
         super.onCreate()
     }
 }

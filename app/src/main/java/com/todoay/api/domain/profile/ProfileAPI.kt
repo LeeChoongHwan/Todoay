@@ -3,6 +3,7 @@ package com.todoay.api.domain.profile
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.gson.JsonSyntaxException
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.callProfileService
 import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
@@ -20,6 +21,8 @@ import retrofit2.Response
  */
 class ProfileAPI {
 
+    val TAG = "PROFILE API"
+
     /**
      * 유저 정보(Profile) 조회 수행
      * [GET]("/profile/my")
@@ -34,12 +37,17 @@ class ProfileAPI {
                     if(response.isSuccessful) {
                         val profileResponse : ProfileResponse = response.body()!!
                         onResponse(profileResponse)
-                        Log.d("profile", "get profile - success {$profileResponse}")
+                        Log.d(TAG, "[내 정보 조회] - 성공 {$profileResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        Log.d("profile", "get profile - failed {$errorResponse}")
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            Log.d(TAG, "[내 정보 조회] - 성공 {$errorResponse}")
+                        }
+                        catch (t: Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 
@@ -49,7 +57,7 @@ class ProfileAPI {
                         t, "/profile/my"
                     )
                     onFailure(failure)
-                    Log.d("profile", "system - failed {${failure}}")
+                    Log.d(TAG, "SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -76,12 +84,12 @@ class ProfileAPI {
                             status = response.code()
                         )
                         onResponse(modifyProfileResponse)
-                        Log.d("profile", "modify profile - success {$modifyProfileResponse}")
+                        Log.d(TAG, "[내 정보 변경] - 성공 {$modifyProfileResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("profile", "modify profile - failed {$errorResponse}")
+                        Log.d(TAG, "[내 정보 변경] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -91,7 +99,7 @@ class ProfileAPI {
                         t,  "/profile/my"
                     )
                     onFailure(failure)
-                    Log.d("profile", "system - failed {${failure}}")
+                    Log.d(TAG, "SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })

@@ -1,7 +1,6 @@
 package com.todoay.view.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.R
-import com.todoay.api.config.RetrofitService
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.FragmentProfileBinding
-import com.todoay.global.util.TodoayApplication
-import com.todoay.global.util.UserLogout
+import com.todoay.global.util.UserAccount
 
 class ProfileFragment : Fragment() {
 
@@ -23,10 +20,8 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("profile", "onCreate() called for profile-get API in profileFragment")
         profileService.getProfile(
             onResponse = {
-                Log.d("profile-get", "onResponse() called in profileFragment")
                 mBinding?.profileJoinemailText?.text = it.email
                 mBinding?.profileNicknameText?.text = it.nickname
                 // 프로필 사진 세팅
@@ -40,23 +35,16 @@ class ProfileFragment : Fragment() {
             },
             onErrorResponse = {
                 // status 401 JWT 토큰 에러
-                Log.d("profile-get", "onErrorResponse() called in profileFragment")
-
-
-
                 Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
 
             },
             onFailure = {
-                Log.d("profile-get", "onFailure() called in profileFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("profile", "onCreateView() called in profileFragment")
-
         val binding = FragmentProfileBinding.inflate(inflater,container,false)
 
         mBinding = binding
@@ -64,7 +52,7 @@ class ProfileFragment : Fragment() {
         // 메뉴바 버튼
         // Test를 위해 로그아웃 진행
         mBinding?.profileMenubtn?.setOnClickListener {
-            UserLogout.logout()
+            UserAccount.logout()
             Navigation.findNavController(requireView()).navigate(R.id.action_profileFragment_to_loginFragment)
         }
 

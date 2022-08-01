@@ -3,7 +3,6 @@ package com.todoay.view.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -77,7 +76,6 @@ class SendMailUpdatePasswordFragment : Fragment() {
             EmailAPI().sendMailForUpdatePassword(
                 inputEmail,
                 onResponse = {
-                    Log.d("send mail for update password", "onResponse() called in SendMailUpdatePasswordFragment")
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일이 전송되었습니다"
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.setTextColor(resources.getColor(R.color.green))
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.visibility = View.VISIBLE
@@ -89,14 +87,12 @@ class SendMailUpdatePasswordFragment : Fragment() {
                 },
                 onErrorResponse = {
                     if(it is ValidErrorResponse){
-                        Log.d("send mail for update password", "onErrorResponse() called in SendMailUpdatePasswordFragment")
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일 전송이 실패하였습니다"
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.setTextColor(resources.getColor(R.color.red))
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.visibility = View.VISIBLE
                     }
                 },
                 onFailure = {
-                    Log.d("send mail for update password", "onFailure() called in SendMailUpdatePasswordFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )

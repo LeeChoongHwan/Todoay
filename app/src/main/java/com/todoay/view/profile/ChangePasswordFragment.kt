@@ -3,7 +3,6 @@ package com.todoay.view.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.navigation.Navigation
 import com.todoay.R
 import com.todoay.api.domain.auth.password.ModifyPasswordAPI
 import com.todoay.databinding.FragmentChangePasswordBinding
-import com.todoay.global.util.UserLogout
+import com.todoay.global.util.UserAccount
 import java.util.regex.Pattern
 
 class ChangePasswordFragment : Fragment() {
@@ -46,20 +45,17 @@ class ChangePasswordFragment : Fragment() {
                 originPassword,
                 modifiedPassword,
                 onResponse = {
-                    Log.d("modify password", "onResponse() called in ChangePasswordFragment")
                     Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
-                    UserLogout.logout()
+                    UserAccount.logout()
                     Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_loginFragment)
                 },
                 onErrorResponse = {
-                    Log.d("modify password", "onErrorResponse() called in ChangePasswordFragment")
                     // status 404 비밀번호 양식 유효성 실패
                     mBinding?.changepasswordOriginPasswordErrorMessage?.visibility = View.VISIBLE
                     mBinding?.changepasswordOriginPasswordEt?.setText("")
                     mBinding?.changepasswordOriginPasswordEt?.requestFocus()
                 },
                 onFailure = {
-                    Log.d("modify password", "onFailure() called in ChangePasswordFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )

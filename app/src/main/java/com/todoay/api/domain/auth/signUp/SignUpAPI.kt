@@ -18,6 +18,8 @@ import retrofit2.Response
  * API Interface: SignUpService.kt
  */
 class SignUpAPI {
+    
+    val TAG = "SIGNUP API"
 
     /**
      * 유저 회원가입 수행
@@ -40,12 +42,12 @@ class SignUpAPI {
                             status = response.code()
                         )
                         onResponse(signUpResponse)
-                        Log.d("sign-up", "success {$signUpResponse}")
+                        Log.d(TAG, "[회원가입 요청] - 성공 {$signUpResponse}")
                     }
                     else {
                         val validErrorResponse = RetrofitService.getValidErrorResponse(response)
                         onErrorResponse(validErrorResponse)
-                        Log.d("sign-up", "failed {$validErrorResponse}")
+                        Log.d(TAG, "[회원가입 요청] - 실패 {$validErrorResponse}")
                     }
                 }
 
@@ -55,7 +57,7 @@ class SignUpAPI {
                         t, "/auth/sign-up"
                     )
                     onFailure(failure)
-                    Log.d("sign-up", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

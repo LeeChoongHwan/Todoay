@@ -22,6 +22,7 @@ import retrofit2.Response
  */
 class EmailAPI {
 
+    val TAG = "EMAIL API"
     /**
      * 이메일 중복확인 수행
      * [GET]("/auth/email-exists")
@@ -36,11 +37,11 @@ class EmailAPI {
                     if (response.isSuccessful) {
                         val emailExistsResponse : EmailExistsResponse = response.body()!!
                         onResponse(emailExistsResponse)
-                        Log.d("email", "check email exists - success {$emailExistsResponse}")
+                        Log.d(TAG, "[이메일 중복] - 성공 {$emailExistsResponse}")
                     } else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("email", "check email exists - failed {${errorResponse}}")
+                        Log.d(TAG, "[이메일 중복] - 실패 {${errorResponse}}")
                     }
                 }
 
@@ -50,7 +51,7 @@ class EmailAPI {
                         t, "/auth/email-exists"
                     )
                     onFailure(failure)
-                    Log.d("email", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
             })
     }
@@ -71,11 +72,11 @@ class EmailAPI {
                             status = response.code()
                         )
                         onResponse(sendCertMailResponse)
-                        Log.d("email", "send cert mail - success {$sendCertMailResponse}")
+                        Log.d(TAG, "[인증 메일 전송] - 성공 {$sendCertMailResponse}")
                     } else {
                         val validErrorResponse = RetrofitService.getValidErrorResponse(response)
                         onErrorResponse(validErrorResponse)
-                        Log.d("email", "send cert mail - failed {$validErrorResponse}")
+                        Log.d(TAG, "[인증 메일 전송] - 실패 {$validErrorResponse}")
                     }
                 }
 
@@ -85,7 +86,7 @@ class EmailAPI {
                         t, "/auth/send-mail"
                     )
                     onFailure(failure)
-                    Log.d("email", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -105,12 +106,12 @@ class EmailAPI {
                     if(response.isSuccessful) {
                         val checkEmailVerifiedResponse : CheckEmailVerifiedResponse = response.body()!!
                         onResponse(checkEmailVerifiedResponse)
-                        Log.d("email", "check email verified - success {$checkEmailVerifiedResponse}")
+                        Log.d(TAG, "[이메일 인증 여부 확인] - 성공 {$checkEmailVerifiedResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("email", "check email verified - failed {$errorResponse}")
+                        Log.d(TAG, "[이메일 인증 여부 확인] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -120,7 +121,7 @@ class EmailAPI {
                         t, "/auth/{email}/email-verified"
                     )
                     onFailure(failure)
-                    Log.d("email", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -142,12 +143,12 @@ class EmailAPI {
                             status = response.code()
                         )
                         onResponse(sendMailUpdatePasswordResponse)
-                        Log.d("email", "send mail for update password - success {$sendMailUpdatePasswordResponse}")
+                        Log.d(TAG, "[임시 비밀번호 메일 전송 요청] - 성공 {$sendMailUpdatePasswordResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("email", "send mail for update password - failed {$errorResponse}")
+                        Log.d(TAG, "[임시 비밀번호 메일 전송 요청] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -156,7 +157,7 @@ class EmailAPI {
                         t, "/auth/send-mail/update-password"
                     )
                     onFailure(failure)
-                    Log.d("email", "system - failed {$failure}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

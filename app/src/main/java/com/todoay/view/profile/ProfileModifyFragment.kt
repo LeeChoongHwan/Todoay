@@ -10,7 +10,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,6 @@ class ProfileModifyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileService.getProfile(
             onResponse = {
-                Log.d("profile-get", "onResponse() called in profileModifyFragment")
                 currentNickname = it.nickname
                 mBinding?.profileModifyNicknameEt?.setText(currentNickname)
                 // 프로필 사진 세팅
@@ -64,11 +62,9 @@ class ProfileModifyFragment : Fragment() {
             },
             onErrorResponse = {
                 // status 401 JWT 토큰 에러
-                Log.d("profile-get", "onErrorResponse() called in profileModifyFragment")
                 Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
             },
             onFailure = {
-                Log.d("profile-get", "onFailure() called in profileModifyFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
@@ -168,7 +164,6 @@ class ProfileModifyFragment : Fragment() {
 
                 },
                 onFailure = {
-                    Log.d("put-profile", "onFailure() called in profileModifyFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
@@ -194,7 +189,6 @@ class ProfileModifyFragment : Fragment() {
             inputNickname,
             onResponse = {
                 if (!it.nicknameExist) {
-                    Log.d("nickname-exists", "onResponse() of nickname NotExists called in profileModifyFragment")
                     mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
                     mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
                     mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -202,7 +196,6 @@ class ProfileModifyFragment : Fragment() {
                     changeConfirmButton()
                 }
                 else {
-                    Log.d("nickname-exists", "onResponse() of nickname Exists called in profileModifyFragment")
                     mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
                     mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
                     mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -213,7 +206,6 @@ class ProfileModifyFragment : Fragment() {
             onErrorResponse = {
                 // status 400 유효성 검사 실패
                 if(it.details[0].code == "NotBlank" && it.details[0].field == "nickname") {
-                    Log.d("nickname-exists", "onErrorResponse() called in profileModifyFragment")
                     mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
                     mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
                     mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -222,7 +214,6 @@ class ProfileModifyFragment : Fragment() {
                 }
             },
             onFailure = {
-                Log.d("nickname-exists", "onFailure() called in profileModifyFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
