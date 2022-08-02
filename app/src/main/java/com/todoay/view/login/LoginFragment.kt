@@ -3,7 +3,6 @@ package com.todoay.view.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -42,9 +41,6 @@ class LoginFragment : Fragment() {
             mBinding?.loginEmailEditText?.setText(userEmail)
             isId = true
         }
-
-        if(TodoayApplication.pref.getAccessToken()!="")
-            Log.d(javaClass.name, "Token is Exist!!!")
 
         // 아이디 edit text
         mBinding?.loginEmailEditText?.addTextChangedListener(object : TextWatcher {
@@ -106,7 +102,6 @@ class LoginFragment : Fragment() {
             emailService.checkEmailVerified(
                 inputEmail,
                 onResponse = {
-                    Log.d("check email verified", "onResponse() called in LoginFragment")
                     // 이메일 인증을 완료한 경우
                     if(it.emailVerified) {
                         // 로그인 API
@@ -114,8 +109,6 @@ class LoginFragment : Fragment() {
                             inputEmail,
                             inputPassword,
                             onResponse = {
-                                Log.d("login", "onResponse() called in LoginFragment")
-                                Log.d("user-email", "$inputEmail")
                                 TodoayApplication.pref.setUser(
                                     inputEmail,
                                     it.accessToken,
@@ -131,13 +124,11 @@ class LoginFragment : Fragment() {
                                 }
                             },
                             onErrorResponse = {
-                                Log.d("login", "onErrorResponse() called in LoginFragment")
                                 mBinding?.loginErrorMessage?.visibility = View.VISIBLE
                                 mBinding?.loginEtPassword?.setText("")
                                 mBinding?.loginProgressBar?.visibility = View.GONE
                             },
                             onFailure = {
-                                Log.d("login", "onFailure() called in LoginFragment")
                                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                                 mBinding?.loginProgressBar?.visibility = View.GONE
                             }
@@ -149,7 +140,6 @@ class LoginFragment : Fragment() {
                         emailService.sendCertMail(
                             inputEmail,
                             onResponse = {
-                                Log.d("check email verified", "Do not email verified in LoginFragment")
                                 mBinding?.loginProgressBar?.visibility = View.GONE
                                 Toast.makeText(requireContext(), "이메일 인증을 완료해주세요\n인증메일을 재전송하였습니다", Toast.LENGTH_LONG).show()
                             },
@@ -164,13 +154,11 @@ class LoginFragment : Fragment() {
                 },
                 onErrorResponse = {
                     // Status 404 이메일에 해당하는 계정이 없음
-                    Log.d("check email verified", "onErrorResponse() called in LoginFragment")
                     mBinding?.loginEmailNonExistsErrorMessage?.visibility = View.VISIBLE
                     mBinding?.loginEtPassword?.setText("")
                     mBinding?.loginProgressBar?.visibility = View.GONE
                 },
                 onFailure = {
-                    Log.d("check email verified", "onFailure() called in LoginFragment")
                     Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                     mBinding?.loginProgressBar?.visibility = View.GONE
                 }

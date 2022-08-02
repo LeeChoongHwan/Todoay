@@ -18,13 +18,14 @@ import retrofit2.Response
  * API Interface: ModifyPasswordService.kt
  */
 class ModifyPasswordAPI {
+    
+    val TAG = "MODIFYPASSWORD API"
 
     /**
      * 유저 비밀번호 변경 수행
      * [PATCH]("/auth/password")
      */
     fun modifyPassword(originPassword: String, modifiedPassword: String, onResponse: (ModifyPasswordResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        Log.d(javaClass.name, "started modify password api")
         val request = ModifyPasswordRequest(
             originPassword = originPassword,
             modifiedPassword = modifiedPassword
@@ -40,12 +41,12 @@ class ModifyPasswordAPI {
                             status = response.code()
                         )
                         onResponse(modifyPasswordResponse)
-                        Log.d("modify password", "success {$modifyPasswordResponse}")
+                        Log.d(TAG, "[비밀번호 변경] - 성공 {$modifyPasswordResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d("modify password", "failed {$errorResponse}")
+                        Log.d(TAG, "[비밀번호 변경] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -55,7 +56,7 @@ class ModifyPasswordAPI {
                         t,  "/auth/password"
                     )
                     onFailure(failure)
-                    Log.d("modify password", "system - failed {${failure}}")
+                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

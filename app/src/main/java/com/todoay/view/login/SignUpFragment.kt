@@ -3,7 +3,6 @@ package com.todoay.view.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -195,7 +194,6 @@ class SignUpFragment : Fragment() {
             inputNickname,
             onResponse = {
                 if (!it.nicknameExist) {
-                    Log.d("nickname-exists", "onResponse() of nickname NotExists called in SignUpFragment")
                     mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 있는 닉네임입니다"
                     mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.green))
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -203,7 +201,6 @@ class SignUpFragment : Fragment() {
                     changeConfirmButton()
                 }
                 else {
-                    Log.d("nickname-exists", "onResponse() of nickname Exists called in SignUpFragment")
                     mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
                     mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -214,7 +211,6 @@ class SignUpFragment : Fragment() {
             onErrorResponse = {
                 // status 400 유효성 검사 실패
                 if(it.details[0].code == "NotBlank" && it.details[0].field == "nickname") {
-                    Log.d("nickname-exists", "onErrorResponse() called in SignUpFragment")
                     mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
                     mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
                     mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
@@ -223,7 +219,6 @@ class SignUpFragment : Fragment() {
                 }
             },
             onFailure = {
-                Log.d("nickname-exists", "onFailure() called in SignUpFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
@@ -245,13 +240,11 @@ class SignUpFragment : Fragment() {
             onResponse = {
                 // 이메일이 중복하지 않을 경우
                 if (!it.emailExists) {
-                    Log.d("email-exists", "onResponse() of email NotExists called in SignUpFragment")
                     signUp(inputEmail, inputPassword, inputNickname)
                     mBinding?.signUpProgressBar?.visibility = View.VISIBLE
                 }
                 // 이메일이 중복할 경우
                 else {
-                    Log.d("email-exists", "onResponse() of email Exists called in SignUpFragment")
                     mBinding?.signUpEmailEt?.requestFocus()
                     mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
                     mBinding?.signUpProgressBar?.visibility = View.GONE
@@ -259,13 +252,11 @@ class SignUpFragment : Fragment() {
             },
             onErrorResponse = {
                 // status == 400 이메일 패턴 유효성 검사 실패
-                Log.d("email-exists", "onErrorResponse() called in SignUpFragment")
                 mBinding?.signUpEmailEt?.requestFocus()
                 mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             },
             onFailure = {
-                Log.d("email-exists", "onFailure() called in SignUpFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
@@ -282,7 +273,6 @@ class SignUpFragment : Fragment() {
             inputNickname,
             onResponse = {
                 if (it.status == HttpURLConnection.HTTP_NO_CONTENT) {
-                    Log.d("sign-up", "onResponse() called in SignUpFragment")
                     sendCertMail(inputEmail)
                 }
             },
@@ -290,7 +280,6 @@ class SignUpFragment : Fragment() {
                 // Status == 400 유효성 검사 실패
                 // Status == 409 이메일 혹은 닉네임 중복
                 it.details.stream().map { validDetail ->
-                    Log.d("sign-up", "onErrorResponse() ${validDetail.field} called in SignUpFragment")
                     when(validDetail.field) {
                         "email" -> {
                             mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
@@ -319,7 +308,6 @@ class SignUpFragment : Fragment() {
                 }
             },
             onFailure = {
-                Log.d("sign-up", "onFailure() called in SignUpFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
@@ -333,21 +321,17 @@ class SignUpFragment : Fragment() {
         emailService.sendCertMail(
             inputEmail,
             onResponse = {
-                Log.d("send cert mail", "onResponse() called in SignUpFragment")
-
                 // SignUpEmailCertAlertFragment 로 이동
                 Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
             },
             onErrorResponse = {
                 // status == 400 유효성 검사 실패
-                Log.d("send cert mail", "onErrorResponse() ${it.status} called in SignUpFragment")
                 mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
                 mBinding?.signUpEmailEt?.requestFocus()
                 isEmail = false
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             },
             onFailure = {
-                Log.d("send cert mail", "onFailure() called in SignUpFragment")
                 Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
