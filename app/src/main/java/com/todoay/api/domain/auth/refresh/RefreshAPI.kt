@@ -18,7 +18,7 @@ class RefreshAPI {
      * 토큰 재발행 수행
      * [POST]("/auth/refresh")
      */
-    fun refreshTokenToAccessToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
+    fun refreshTokenToAccessToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) : Boolean {
         val request = RefreshRequest(
             refreshToken = refreshToken
         )
@@ -29,10 +29,12 @@ class RefreshAPI {
         if(response.isSuccessful) {
             val refreshResponse : RefreshResponse = response.body()!!
             onResponse(refreshResponse)
+            return true
         }
         else {
             val errorResponse = RetrofitService.getErrorResponse(response)
             onErrorResponse(errorResponse)
+            return false
         }
     }
 

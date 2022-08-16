@@ -10,7 +10,7 @@ class TodoayApplication: Application() {
 
     override fun onCreate() {
         pref = Pref(applicationContext)
-//        pref.clearToken()
+        pref.clearToken()
         super.onCreate()
     }
 }

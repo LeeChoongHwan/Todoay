@@ -14,10 +14,7 @@ import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.global.util.TodoayApplication
 import kotlinx.coroutines.delay
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -120,10 +117,20 @@ object RetrofitService {
                 요청 시 기존 response 초기화(close())하고 동기식 처리로 Refresh Token을
                 서버로부터 받아와서 다시 request를 요청한다.
                  */
-                TokenManager.refreshToken(TodoayApplication.pref.getRefreshToken())
-                val newAccessToken = TodoayApplication.pref.getAccessToken()
-                response.close()
-                return chain.proceed(newRequestWithAccessToken(request, newAccessToken))
+                if(TokenManager.refreshToken(TodoayApplication.pref.getRefreshToken())) {
+                    val newAccessToken = TodoayApplication.pref.getAccessToken()
+                    response.close()
+                    return chain.proceed(newRequestWithAccessToken(request, newAccessToken))
+                }
+                else {
+                    return Response.Builder()
+                        .code(600)
+                        .protocol(Protocol.HTTP_2)
+                        .body(ResponseBody.create(null, ""))
+                        .message("Dummy Response")
+                        .request(chain.request())
+                        .build()
+                }
             }
             return response
         }

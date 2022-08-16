@@ -3,7 +3,6 @@ package com.todoay.api.domain.profile
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.google.gson.JsonSyntaxException
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.callProfileService
 import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
