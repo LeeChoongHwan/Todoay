@@ -1,4 +1,4 @@
-package com.todoay.global.util
+package com.todoay
 
 import android.app.Application
 import com.todoay.global.config.user.Pref
@@ -10,7 +10,6 @@ class TodoayApplication: Application() {
 
     override fun onCreate() {
         pref = Pref(applicationContext)
-        pref.clearToken()
         super.onCreate()
     }
 }

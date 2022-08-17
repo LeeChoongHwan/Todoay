@@ -1,13 +1,13 @@
 package com.todoay.api.domain.auth.nickname
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callNicknameService
 import com.todoay.api.domain.auth.nickname.dto.response.NicknameResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
+import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +18,6 @@ import retrofit2.Response
  */
 class NicknameAPI {
 
-    val TAG = "NICKNAME API"
-    
     /**
      * 유저 닉네임 중복확인 수행
      * [GET]("/auth/nickname-exists")
@@ -34,12 +32,12 @@ class NicknameAPI {
                     if(response.isSuccessful) {
                         val nickNameResponse : NicknameResponse = response.body()!!
                         onResponse(nickNameResponse)
-                        Log.d(TAG, "[닉네임 중복확인] - 성공 {$nickNameResponse}")
+                        printLog("[닉네임 중복확인] - 성공 {$nickNameResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getValidErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d(TAG, "[닉네임 중복확인] - 실패 {$errorResponse}")
+                        printLog("[닉네임 중복확인] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -49,7 +47,7 @@ class NicknameAPI {
                         t, "/auth/nickname-exists"
                     )
                     onFailure(failure)
-                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

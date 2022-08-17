@@ -1,7 +1,6 @@
 package com.todoay.api.domain.auth.password
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callModifyPasswordService
@@ -9,6 +8,7 @@ import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
 import com.todoay.api.domain.auth.password.dto.response.ModifyPasswordResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,12 +41,12 @@ class ModifyPasswordAPI {
                             status = response.code()
                         )
                         onResponse(modifyPasswordResponse)
-                        Log.d(TAG, "[비밀번호 변경] - 성공 {$modifyPasswordResponse}")
+                        printLog("[비밀번호 변경] - 성공 {$modifyPasswordResponse}")
                     }
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d(TAG, "[비밀번호 변경] - 실패 {$errorResponse}")
+                        printLog("[비밀번호 변경] - 실패 {$errorResponse}")
                     }
                 }
 
@@ -56,7 +56,7 @@ class ModifyPasswordAPI {
                         t,  "/auth/password"
                     )
                     onFailure(failure)
-                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

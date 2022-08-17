@@ -1,7 +1,6 @@
 package com.todoay.api.domain.auth.login
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callLoginService
@@ -9,6 +8,7 @@ import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.api.domain.auth.login.dto.response.LoginResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +18,6 @@ import retrofit2.Response
  * API Interface: callLoginService().kt
  */
 class LoginAPI {
-    
-    val TAG = "LOGIN API"
     
     /**
      * 로그인 수행
@@ -40,13 +38,13 @@ class LoginAPI {
                     if(response.isSuccessful) {
                         val loginResponse : LoginResponse = response.body()!!
                         onResponse(loginResponse)
-                        Log.d(TAG, "[로그인] - 성공 {${loginResponse}}")
+                        printLog("[로그인] - 성공 {${loginResponse}}")
                     }
                     // 로그인 실패
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d(TAG, "[로그인] - 실패 {${errorResponse}}")
+                        printLog("[로그인] - 실패 {${errorResponse}}")
                     }
                 }
 
@@ -56,7 +54,7 @@ class LoginAPI {
                         t,  "/auth/login"
                     )
                     onFailure(failure)
-                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
             })
     }

@@ -7,7 +7,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.MainActivity
@@ -15,6 +14,7 @@ import com.todoay.R
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentSendMailUpdatePasswordBinding
+import com.todoay.global.util.Utils.Companion.printLogView
 
 class SendMailUpdatePasswordFragment : Fragment() {
 
@@ -24,6 +24,8 @@ class SendMailUpdatePasswordFragment : Fragment() {
         val binding = FragmentSendMailUpdatePasswordBinding.inflate(inflater,container,false)
 
         mBinding = binding
+
+        printLogView(this)
 
         //뒤로가기 버튼
         mBinding?.sendMailUpdatePasswordBackBtn?.setOnClickListener {
@@ -72,9 +74,12 @@ class SendMailUpdatePasswordFragment : Fragment() {
             val act = activity as MainActivity
             act.hideKeyboard(requireView())
 
-            // 임시비밀번호 메일 전송 API 호출
+            /**
+             * 임시 비밀번호 메일 전송 API
+             */
             EmailAPI().sendMailForUpdatePassword(
                 inputEmail,
+                /* 임시 비밀번호 메일 전송 성공 */
                 onResponse = {
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일이 전송되었습니다"
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.setTextColor(resources.getColor(R.color.green))
@@ -85,6 +90,7 @@ class SendMailUpdatePasswordFragment : Fragment() {
 
                     mBinding?.sendMailUpdatePasswordConfirmMessage?.visibility = View.VISIBLE
                 },
+                /* 임시 비밀번홈 메일 전송 실패 */
                 onErrorResponse = {
                     if(it is ValidErrorResponse){
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일 전송이 실패하였습니다"
@@ -92,8 +98,8 @@ class SendMailUpdatePasswordFragment : Fragment() {
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.visibility = View.VISIBLE
                     }
                 },
+                /* 디바이스 Exception */
                 onFailure = {
-                    Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
         }

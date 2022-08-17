@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.FragmentProfileBinding
-import com.todoay.global.util.UserAccount
+import com.todoay.global.util.Utils.Companion.printLogView
 
 class ProfileFragment : Fragment() {
 
@@ -20,6 +20,9 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        printLogView(this)
+
         profileService.getProfile(
             onResponse = {
                 mBinding?.profileJoinemailText?.text = it.email
@@ -34,12 +37,9 @@ class ProfileFragment : Fragment() {
                 }
             },
             onErrorResponse = {
-                // status 401 JWT 토큰 에러
-                Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
-
+                /* 처리할 것 없음 */
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -51,9 +51,8 @@ class ProfileFragment : Fragment() {
 
         // 메뉴바 버튼
         // Test를 위해 로그아웃 진행
-        mBinding?.profileMenubtn?.setOnClickListener {
-            UserAccount.logout()
-            Navigation.findNavController(requireView()).navigate(R.id.action_profileFragment_to_loginFragment)
+        mBinding?.profileBackBtn?.setOnClickListener {
+            mainAct.logout()
         }
 
         //  Edit 버튼

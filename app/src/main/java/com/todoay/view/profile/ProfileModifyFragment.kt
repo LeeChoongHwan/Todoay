@@ -16,10 +16,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.profile.ProfileAPI
+import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentProfileModifyBinding
+import com.todoay.global.util.Utils.Companion.printLogView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -45,6 +48,9 @@ class ProfileModifyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        printLogView(this)
+
         profileService.getProfile(
             onResponse = {
                 currentNickname = it.nickname
@@ -61,11 +67,9 @@ class ProfileModifyFragment : Fragment() {
                 }
             },
             onErrorResponse = {
-                // status 401 JWT 토큰 에러
-                Toast.makeText(requireContext(), "로그인을 다시 해주세요", Toast.LENGTH_LONG).show()
+                /* 처리할 것 없음 */
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -159,12 +163,36 @@ class ProfileModifyFragment : Fragment() {
                     Navigation.findNavController(view!!).navigate(R.id.action_profileModifyFragment_to_profileFragment)
                 },
                 onErrorResponse = {
-                    // Status 400 유효성 검사 실패
-                    // Status 401 JWT 토큰 에러
-
+                    /*
+                     * 400 유효성 검사 실패
+                     * 403 허용되지 않은 접근
+                     */
+                    if(it.status == 400 && it is ValidErrorResponse) {
+                        when(it.details[0].field) {
+                            "nickname" -> {
+                                mBinding?.profileModifyNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
+                                mBinding?.profileModifyNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                                mBinding?.profileModifyNicknameAlertMsgTv?.visibility = View.VISIBLE
+                                mBinding?.profileModifyNicknameEt?.requestFocus()
+                                isModifyNickname = false
+                                changeConfirmButton()
+                            }
+                            "introMsg" -> {
+                                mainAct.showShortToast("상태메시지를 수정해주세요")
+                                mBinding?.profileModifyMessageEt?.setText("")
+                                mBinding?.profileModifyMessageEt?.requestFocus()
+                                isModifyIntroMsg = false
+                                changeConfirmButton()
+                            }
+                            "imageUrl" -> {
+                                mainAct.showShortToast("프로필 사진을 수정해주세요")
+                                isModifyImageUrl = false
+                                changeConfirmButton()
+                            }
+                        }
+                    }
                 },
                 onFailure = {
-                    Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
         }
@@ -214,7 +242,6 @@ class ProfileModifyFragment : Fragment() {
                 }
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }

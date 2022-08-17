@@ -20,10 +20,10 @@
         android:id="@+id/profile_modify_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/blackoblique"
-        android:text="Todoay"
+        android:fontFamily="@font/bold"
+        android:text="프로필"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/profile_modify_backbtn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -45,28 +45,16 @@
         app:layout_constraintTop_toTopOf="@id/profile_modify_backbtn" />
 
     <TextView
-        android:id="@+id/profile_modify_modify_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/bold"
-        android:text="내 정보 변경"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"
-        app:layout_constraintTop_toBottomOf="@id/profile_modify_backbtn" />
-
-    <TextView
         android:id="@+id/profile_modify_changepicture_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/regular"
         android:text="프로필 사진"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"
-        app:layout_constraintTop_toBottomOf="@id/profile_modify_modify_title_tv" />
+        app:layout_constraintTop_toBottomOf="@id/profile_modify_top_line" />
 
     <ImageView
         android:id="@+id/profile_modify_addpicture_btn"

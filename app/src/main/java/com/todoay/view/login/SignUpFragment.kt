@@ -7,15 +7,17 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
+import com.todoay.TodoayApplication
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI
 import com.todoay.databinding.FragmentSignUpBinding
-import com.todoay.global.util.TodoayApplication
+import com.todoay.global.util.Utils
+import com.todoay.global.util.Utils.Companion.printLogView
 import java.net.HttpURLConnection
 import java.util.regex.Pattern
 
@@ -37,15 +39,12 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(inflater,container,false)
 
         mBinding = binding
+        printLogView(this)
 
-        /**
-         * 토큰 초기화
-         */
-        TodoayApplication.pref.clearToken()
+        /* 토큰 초기화 */
+        TodoayApplication.pref.clear()
 
-        /**
-         * 이메일 필드 입력
-         */
+        /* 이메일 필드 입력 */
         mBinding?.signUpEmailEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -82,9 +81,7 @@ class SignUpFragment : Fragment() {
 
         })
 
-        /**
-         * 비밀번호 필드 입력
-         */
+        /* 비밀번호 필드 입력 */
         mBinding?.signUpPasswordEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -106,9 +103,7 @@ class SignUpFragment : Fragment() {
 
         })
 
-        /**
-         * 비밀번호 확인 필드 입력
-         */
+        /* 비밀번호 확인 필드 입력 */
         mBinding?.signUpPasswordCheckEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -130,9 +125,7 @@ class SignUpFragment : Fragment() {
 
         })
 
-        /**
-         * 닉네임 필드 입력
-         */
+        /* 닉네임 필드 입력 */
         mBinding?.signUpNicknameEt?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -162,14 +155,12 @@ class SignUpFragment : Fragment() {
 
         })
 
-        /**
-         * 뒤로가기 버튼
-         */
+        /* 뒤로가기 버튼 */
         mBinding?.signUpBackBtn?.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_loginFragment)
         }
 
-        /**
+        /*
          * 가입하기 버튼
          * 1. 이메일 중복확인 API 호출
          * 2. 회원가입 API 호출
@@ -180,6 +171,9 @@ class SignUpFragment : Fragment() {
             val inputPassword = mBinding?.signUpPasswordEt?.text.toString()
             val inputNickname = mBinding?.signUpNicknameEt?.text.toString()
 
+            /**
+             * 회원가입 API Start
+             */
             signUpLogicForAPI(inputEmail, inputPassword, inputNickname)
         }
 
@@ -209,17 +203,14 @@ class SignUpFragment : Fragment() {
                 }
             },
             onErrorResponse = {
-                // status 400 유효성 검사 실패
-                if(it.details[0].code == "NotBlank" && it.details[0].field == "nickname") {
-                    mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
-                    mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
-                    mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
-                    isNickname = false
-                    changeConfirmButton()
-                }
+                /* 400 유효성 검사 실패 */
+                mBinding?.signUpNicknameAlertMsgTv?.text = "사용할 수 없는 닉네임입니다"
+                mBinding?.signUpNicknameAlertMsgTv?.setTextColor(resources.getColor(R.color.red))
+                mBinding?.signUpNicknameAlertMsgTv?.visibility = View.VISIBLE
+                isNickname = false
+                changeConfirmButton()
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
             }
         )
     }
@@ -238,12 +229,12 @@ class SignUpFragment : Fragment() {
         emailService.checkEmailExists(
             inputEmail,
             onResponse = {
-                // 이메일이 중복하지 않을 경우
+                /* 이메일이 중복하지 않을 경우 */
                 if (!it.emailExists) {
                     signUp(inputEmail, inputPassword, inputNickname)
                     mBinding?.signUpProgressBar?.visibility = View.VISIBLE
                 }
-                // 이메일이 중복할 경우
+                /* 이메일이 중복할 경우 */
                 else {
                     mBinding?.signUpEmailEt?.requestFocus()
                     mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
@@ -251,13 +242,12 @@ class SignUpFragment : Fragment() {
                 }
             },
             onErrorResponse = {
-                // status == 400 이메일 패턴 유효성 검사 실패
+                /* 400 이메일 패턴 유효성 검사 실패 */
                 mBinding?.signUpEmailEt?.requestFocus()
                 mBinding?.signUpEmailCheckErrorMessageTv?.visibility = View.VISIBLE
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
         )
@@ -278,7 +268,7 @@ class SignUpFragment : Fragment() {
             },
             onErrorResponse = {
                 // Status == 400 유효성 검사 실패
-                // Status == 409 이메일 혹은 닉네임 중복
+                // Status == 403 이메일 혹은 닉네임 중복
                 it.details.stream().map { validDetail ->
                     when(validDetail.field) {
                         "email" -> {
@@ -301,14 +291,13 @@ class SignUpFragment : Fragment() {
                             isNickname = false
                         }
                         else -> {
-                            Toast.makeText(requireContext(), "아이디/비밀번호/닉네임이 유효하지 않습니다", Toast.LENGTH_LONG).show()
+                            mainAct.showLongToast("아이디/비밀번호/닉네임이 유효하지 않습니다")
                         }
                     }
                     mBinding?.signUpProgressBar?.visibility = View.GONE
                 }
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
         )
@@ -321,18 +310,16 @@ class SignUpFragment : Fragment() {
         emailService.sendCertMail(
             inputEmail,
             onResponse = {
-                // SignUpEmailCertAlertFragment 로 이동
                 Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
             },
             onErrorResponse = {
-                // status == 400 유효성 검사 실패
+                /* 400 유효성 검사 실패 */
                 mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
                 mBinding?.signUpEmailEt?.requestFocus()
                 isEmail = false
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             },
             onFailure = {
-                Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 mBinding?.signUpProgressBar?.visibility = View.GONE
             }
         )
