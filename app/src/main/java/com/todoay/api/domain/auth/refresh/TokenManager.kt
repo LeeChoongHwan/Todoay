@@ -1,8 +1,7 @@
-package com.todoay.api.util
+package com.todoay.api.domain.auth.refresh
 
 import com.todoay.MainActivity
 import com.todoay.TodoayApplication
-import com.todoay.api.domain.auth.refresh.RefreshAPI
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.global.util.Utils.Companion.printLog

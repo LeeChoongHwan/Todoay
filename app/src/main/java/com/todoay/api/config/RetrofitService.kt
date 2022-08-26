@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.todoay.MainActivity
 import com.todoay.TodoayApplication
 import com.todoay.api.config.RetrofitURL.ipAddress
-import com.todoay.api.util.TokenManager
+import com.todoay.api.domain.auth.refresh.TokenManager
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
