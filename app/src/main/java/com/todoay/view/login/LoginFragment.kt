@@ -15,6 +15,7 @@ import com.todoay.R
 import com.todoay.TodoayApplication
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.login.LoginAPI
+import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.databinding.FragmentLoginBinding
 import com.todoay.global.util.Utils.Companion.printLog
 import com.todoay.global.util.Utils.Companion.printLogView
@@ -184,9 +185,10 @@ class LoginFragment : Fragment() {
      * 로그인 API 호출
      */
     private fun login(inputEmail: String, inputPassword: String) {
+        val request  = LoginRequest(inputEmail, inputPassword)
+
         loginService.login(
-            inputEmail,
-            inputPassword,
+            request,
             /* 로그인 성공 */
             onResponse = {
                 TodoayApplication.pref.setUser(

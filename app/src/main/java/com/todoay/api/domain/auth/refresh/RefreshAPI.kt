@@ -8,7 +8,9 @@ import com.todoay.api.util.response.error.ErrorResponse
 
 /**
  * RefreshToken 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callRefreshService().kt
+ *
+ * @see RefreshService
+ * @see TokenManager
  */
 class RefreshAPI {
 
@@ -16,10 +18,7 @@ class RefreshAPI {
      * 토큰 재발행 수행
      * [POST]("/auth/refresh")
      */
-    fun refreshTokenToAccessToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
-        val request = RefreshRequest(
-            refreshToken = refreshToken
-        )
+    fun refreshTokenToAccessToken(request: RefreshRequest, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
         /* execute()를 통한 동기성 처리 */
         val response = callRefreshService().postRefreshToken(request).execute()
         if(response.isSuccessful) {

@@ -15,7 +15,8 @@ import retrofit2.Response
 
 /**
  * 로그인 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callLoginService().kt
+ *
+ * @see LoginService
  */
 class LoginAPI {
     
@@ -23,11 +24,7 @@ class LoginAPI {
      * 로그인 수행
      * [POST]("/auth/login")
      */
-    fun login(_email: String, _password: String, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        val request = LoginRequest(
-            email = _email,
-            password = _password
-        )
+    fun login(request: LoginRequest, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callLoginService().postLogin(request)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(

@@ -1,8 +1,8 @@
 package com.todoay.api.domain.profile
 
 import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
-import com.todoay.api.domain.profile.dto.response.ModifyProfileResponse
 import com.todoay.api.domain.profile.dto.response.ProfileResponse
+import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,5 +16,5 @@ interface ProfileService {
     fun getProfile() : Call<ProfileResponse>
 
     @PUT("/profile/my")
-    fun putProfile(@Body body: ModifyProfileRequest) : Call<ModifyProfileResponse>
+    fun putProfile(@Body body: ModifyProfileRequest) : Call<SuccessResponse>
 }

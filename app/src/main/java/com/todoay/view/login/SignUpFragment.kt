@@ -15,6 +15,7 @@ import com.todoay.TodoayApplication
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI
+import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.databinding.FragmentSignUpBinding
 import com.todoay.global.util.Utils
 import com.todoay.global.util.Utils.Companion.printLogView
@@ -257,10 +258,10 @@ class SignUpFragment : Fragment() {
      * 회원가입 유저 리소스 생성 요청 API 호출 메소드
      */
     private fun signUp(inputEmail: String, inputPassword: String, inputNickname: String) {
+        val request = SignUpRequest(inputEmail, inputPassword, inputNickname)
+
         signUpService.signUp(
-            inputEmail,
-            inputPassword,
-            inputNickname,
+            request,
             onResponse = {
                 if (it.status == HttpURLConnection.HTTP_NO_CONTENT) {
                     sendCertMail(inputEmail)

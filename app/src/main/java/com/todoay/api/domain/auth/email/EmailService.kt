@@ -2,8 +2,7 @@ package com.todoay.api.domain.auth.email
 
 import com.todoay.api.domain.auth.email.dto.response.CheckEmailVerifiedResponse
 import com.todoay.api.domain.auth.email.dto.response.EmailExistsResponse
-import com.todoay.api.domain.auth.email.dto.response.SendCertMailResponse
-import com.todoay.api.domain.auth.email.dto.response.SendMailUpdatePasswordResponse
+import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -24,7 +23,7 @@ interface EmailService {
      * 이메일 인증메일 전송 요청
      */
     @GET("/auth/send-mail")
-    fun getSendCertMail(@Query("email") email: String) : Call<SendCertMailResponse>
+    fun getSendCertMail(@Query("email") email: String) : Call<SuccessResponse>
 
     /**
      * 이메일 인증여부 확인
@@ -36,7 +35,7 @@ interface EmailService {
      * 임시 비밀번호 메일 전송 요청
      */
     @GET("/auth/send-mail/update-password")
-    fun getSendMailForUpdatePassword(@Query("email") email: String) : Call<SendMailUpdatePasswordResponse>
+    fun getSendMailForUpdatePassword(@Query("email") email: String) : Call<SuccessResponse>
 
 
 

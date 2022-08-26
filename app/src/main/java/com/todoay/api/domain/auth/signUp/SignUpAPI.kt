@@ -5,9 +5,9 @@ import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callSignUpService
 import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
-import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
+import com.todoay.api.util.response.success.SuccessResponse
 import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,32 +15,28 @@ import retrofit2.Response
 
 /**
  * 유저 회원가입 API 호출 및 응답을 처리하는 클래스.
- * API Interface: SignUpService.kt
+ *
+ * @see SignUpService
  */
 class SignUpAPI {
     
     /**
      * 유저 회원가입 수행
-     * [POST]("/auth/sign-up")
+     * @see SignUpService.postSignUp
      */
-    fun signUp(_email: String, _password: String, _nickname: String, onResponse: (SignUpResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        val request = SignUpRequest(
-            email = _email,
-            password = _password,
-            nickname = _nickname
-        )
+    fun signUp(request: SignUpRequest, onResponse: (SuccessResponse) -> Unit, onErrorResponse: (ValidErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callSignUpService().postSignUp(request)
-            .enqueue(object : Callback<SignUpResponse> {
+            .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
-                    call: Call<SignUpResponse>,
-                    response: Response<SignUpResponse>
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val signUpResponse = SignUpResponse(
+                        val successResponse = SuccessResponse(
                             status = response.code()
                         )
-                        onResponse(signUpResponse)
-                        printLog("[회원가입 요청] - 성공 {$signUpResponse}")
+                        onResponse(successResponse)
+                        printLog("[회원가입 요청] - 성공 {$successResponse}")
                     }
                     else {
                         val validErrorResponse = RetrofitService.getValidErrorResponse(response)
@@ -50,7 +46,7 @@ class SignUpAPI {
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
                         t, "/auth/sign-up"
                     )

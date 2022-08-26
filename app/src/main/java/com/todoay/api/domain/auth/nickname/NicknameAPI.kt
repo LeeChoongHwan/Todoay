@@ -14,7 +14,8 @@ import retrofit2.Response
 
 /**
  * 유저 닉네임 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callNicknameService().kt
+ *
+ * @see NicknameService
  */
 class NicknameAPI {
 

@@ -20,6 +20,7 @@ import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.profile.ProfileAPI
+import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentProfileModifyBinding
 import com.todoay.global.util.Utils.Companion.printLogView
@@ -151,14 +152,14 @@ class ProfileModifyFragment : Fragment() {
          * 확인 버튼
          */
         mBinding?.profileModifyConfirmBtn?.setOnClickListener {
-            val inputImageUrl = ""
             val inputNickname = mBinding?.profileModifyNicknameEt?.text.toString()
+            val inputImageUrl = ""
             val inputIntroMsg = mBinding?.profileModifyMessageEt?.text.toString()
+
+            val request = ModifyProfileRequest(inputNickname, inputImageUrl, inputIntroMsg)
             // 프로필 수정 API 호출
             profileService.putProfile(
-                inputNickname,
-                inputIntroMsg,
-                inputImageUrl,
+                request,
                 onResponse = {
                     Navigation.findNavController(view!!).navigate(R.id.action_profileModifyFragment_to_profileFragment)
                 },

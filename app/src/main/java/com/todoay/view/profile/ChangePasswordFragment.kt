@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.auth.password.ModifyPasswordAPI
+import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
 import com.todoay.databinding.FragmentChangePasswordBinding
 import com.todoay.global.util.Utils
 import com.todoay.global.util.Utils.Companion.printLogView
@@ -44,10 +45,11 @@ class ChangePasswordFragment : Fragment() {
             val originPassword = mBinding?.changepasswordOriginPasswordEt?.text.toString()
             val modifiedPassword = mBinding?.changepasswordChangedpassowordEt?.text.toString()
 
+            val request = ModifyPasswordRequest(originPassword, modifiedPassword)
+
             //비밀번호 변경 API 호출
             modifyPasswordService.modifyPassword(
-                originPassword,
-                modifiedPassword,
+                request,
                 onResponse = {
                     mainAct.logout("다시 로그인해주세요")
                 },

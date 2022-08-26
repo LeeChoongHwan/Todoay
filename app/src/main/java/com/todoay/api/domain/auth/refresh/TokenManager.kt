@@ -2,19 +2,32 @@ package com.todoay.api.domain.auth.refresh
 
 import com.todoay.MainActivity
 import com.todoay.TodoayApplication
+import com.todoay.api.domain.auth.refresh.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.global.util.Utils.Companion.printLog
 import java.net.HttpURLConnection
 import java.time.LocalDateTime
 
+/**
+ * TokenManager 클래스는 AccessToken 만료 시 RefreshToken을 이용하여 Token 재발급을 하도록 하는 클래스이다.
+ * 유효한 Refresh Token을 이용한 정상적인 Token 재발급 시
+ * 서버로부터 받아온 AccessToken, RefreshToken을 디바이스에 다시 저장한다.
+ * 하지만, 유효하지 않은 Refresh Token 또는 기타 이유로 인한 서버의 ErrorResponse에 대해서는
+ * MainActivity에서 로그아웃을 진행하고, 로그인 페이지로 이동하도록 한다.
+ *
+ * @see com.todoay.api.config.RetrofitService.TokenInterceptor.intercept
+ * @see RefreshAPI
+ */
 class TokenManager {
     companion object {
         private val refreshService : RefreshAPI = RefreshAPI()
         fun refreshToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
             printLog("[토큰 요청] Refresh Token 요청")
+            val request = RefreshRequest(refreshToken)
+
             refreshService.refreshTokenToAccessToken(
-                refreshToken,
+                request,
                 onResponse = {
                     /* Response 토큰 정상 세팅 */
                     if(it.accessToken != "" && it.refreshToken != "") {

@@ -1,7 +1,7 @@
 package com.todoay.api.domain.auth.password
 
 import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
-import com.todoay.api.domain.auth.password.dto.response.ModifyPasswordResponse
+import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.PATCH
@@ -11,5 +11,5 @@ import retrofit2.http.PATCH
  */
 interface ModifyPasswordService {
     @PATCH("/auth/password")
-    fun patchModifyPassword(@Body request: ModifyPasswordRequest) : Call<ModifyPasswordResponse>
+    fun patchModifyPassword(@Body request: ModifyPasswordRequest) : Call<SuccessResponse>
 }
