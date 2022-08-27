@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_loginFragment_to_sendMailUpdatePasswordFragment"
             app:destination="@id/sendMailUpdatePasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_calanderMainFragment"
+            app:destination="@id/calanderMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -80,4 +83,70 @@
             android:id="@+id/action_signUpEmailCertAlertFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/calanderMainFragment"
+        android:name="com.todoay.view.todo.CalanderMainFragment"
+        android:label="CalanderMainFragment" >
+        <action
+            android:id="@+id/action_calanderMainFragment_to_todoMainFragment"
+            app:destination="@id/todoMainFragment" />
+        <action
+            android:id="@+id/action_calanderMainFragment_to_categorySettingFragment"
+            app:destination="@id/categorySettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoMainFragment"
+        android:name="com.todoay.view.todo.TodoMainFragment"
+        android:label="TodoMainFragment" >
+        <action
+            android:id="@+id/action_todoMainFragment_to_calanderMainFragment"
+            app:destination="@id/calanderMainFragment" />
+        <action
+            android:id="@+id/action_todoMainFragment_to_todoMainAlignDuedateFragment2"
+            app:destination="@id/todoMainAlignDuedateFragment" />
+        <action
+            android:id="@+id/action_todoMainFragment_to_todoMainFinishFragment"
+            app:destination="@id/todoMainFinishFragment" />
+        <action
+            android:id="@+id/action_todoMainFragment_to_categorySettingFragment"
+            app:destination="@id/categorySettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoMainAlignDuedateFragment"
+        android:name="com.todoay.view.todo.TodoMainAlignDuedateFragment"
+        android:label="TodoMainAlignDuedateFragment" >
+        <action
+            android:id="@+id/action_todoMainAlignDuedateFragment_to_todoMainFragment"
+            app:destination="@id/todoMainFragment" />
+        <action
+            android:id="@+id/action_todoMainAlignDuedateFragment_to_calanderMainFragment"
+            app:destination="@id/calanderMainFragment" />
+        <action
+            android:id="@+id/action_todoMainAlignDuedateFragment_self"
+            app:destination="@id/todoMainAlignDuedateFragment" />
+        <action
+            android:id="@+id/action_todoMainAlignDuedateFragment_to_todoMainFinishFragment"
+            app:destination="@id/todoMainFinishFragment" />
+        <action
+            android:id="@+id/action_todoMainAlignDuedateFragment_to_categorySettingFragment"
+            app:destination="@id/categorySettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoMainFinishFragment"
+        android:name="com.todoay.view.todo.TodoMainFinishFragment"
+        android:label="TodoMainFinishFragment" >
+        <action
+            android:id="@+id/action_todoMainFinishFragment_to_todoMainFragment"
+            app:destination="@id/todoMainFragment" />
+        <action
+            android:id="@+id/action_todoMainFinishFragment_to_calanderMainFragment"
+            app:destination="@id/calanderMainFragment" />
+        <action
+            android:id="@+id/action_todoMainFinishFragment_to_categorySettingFragment"
+            app:destination="@id/categorySettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categorySettingFragment"
+        android:name="com.example.bottomfragmenttest.CategorySettingFragment"
+        android:label="CategorySettingFragment" />
 </navigation>

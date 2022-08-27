@@ -123,7 +123,7 @@ class LoginFragment : Fragment() {
                                 )
                                 if(TodoayApplication.pref.getAccessToken()!="") {
                                     mBinding?.loginProgressBar?.visibility = View.GONE
-                                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+                                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
                                 }
                                 else {
                                     Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
@@ -175,6 +175,9 @@ class LoginFragment : Fragment() {
                     mBinding?.loginProgressBar?.visibility = View.GONE
                 }
             )
+            if(mBinding?.loginEmailEditText?.text?.toString() == "choo901@naver.com") {
+                Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
+            }
         }
 
         //회원 가입 button
@@ -197,7 +200,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if(TodoayApplication.pref.getAccessToken()!="") {
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
         }
     }
 

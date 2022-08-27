@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddDTodoFragment"
+    android:background="@drawable/bg_bottom_dialog"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp" >
+
+    <ImageView
+        android:id="@+id/add_d_todo_cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="450dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_d_todo_public_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock_public"
+                    android:clickable="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+                <ImageView
+                    android:id="@+id/add_d_todo_private_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:clickable="true"
+                    android:src="@drawable/ic_lock_private"
+                    />
+
+                <TextView
+                    android:id="@+id/add_d_todo_todo_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@+id/add_d_todo_public_btn"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_public_btn"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="TODO" />
+
+                <EditText
+                    android:id="@+id/add_d_todo_todo_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_todo_title_tv"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_todo_title_tv"
+                    android:inputType="textPersonName"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/add_d_todo_date_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_todo_et"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_todo_et"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="Due-Date" />
+
+                <TextView
+                    android:id="@+id/add_d_todo_date_select_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_date_title_tv"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_date_title_tv"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/white"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="20XX/XX/XX" />
+
+                <ImageView
+                    android:id="@+id/add_d_todo_calendar_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/add_d_todo_date_select_tv"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_calendar" />
+
+                <TextView
+                    android:id="@+id/add_d_todo_priority_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_date_select_tv"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_date_title_tv"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="우선순위" />
+
+                <RadioGroup
+                    android:id="@+id/add_d_todo_priority_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_priority_title_tv"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/add_d_todo_priority_high_btn"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:button="@null"
+                        android:paddingLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_priority_high_btn"
+                        android:fontFamily="@font/regular"
+                        android:textColor="@drawable/txt_priority_checked_color"
+                        android:text="상" />
+
+                    <RadioButton
+                        android:id="@+id/add_d_todo_priority_mid_btn"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:button="@null"
+                        android:paddingLeft="15dp"
+                        android:background="@drawable/bg_priority_mid_btn"
+                        android:fontFamily="@font/regular"
+                        android:textColor="@drawable/txt_priority_checked_color"
+                        android:checked="true"
+                        android:text="중" />
+
+                    <RadioButton
+                        android:id="@+id/add_d_todo_priority_low_btn"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:button="@null"
+                        android:paddingLeft="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bg_priority_low_btn"
+                        android:fontFamily="@font/regular"
+                        android:textColor="@drawable/txt_priority_checked_color"
+                        android:text="하" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/add_d_todo_hashtag_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_priority_group"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_priority_title_tv"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/regular"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="해시태그" />
+
+                <EditText
+                    android:id="@+id/add_d_todo_hashtag_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_hashtag_title_tv"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_hashtag_title_tv"
+                    android:fontFamily="@font/white"
+                    android:hint="해시태그 추가 시 TODO가 공개로 전환됩니다"
+                    android:textColorHint="@color/gray"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/add_d_todo_description_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_hashtag_et"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_hashtag_et"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="TODO 설명" />
+
+                <EditText
+                    android:id="@+id/add_d_todo_description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:layout_constraintTop_toBottomOf="@id/add_d_todo_description_title_tv"
+                    app:layout_constraintLeft_toLeftOf="@id/add_d_todo_description_title_tv"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/light_gray"
+                    android:fontFamily="@font/white"
+                    android:textSize="15sp"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <android.widget.Button
+            android:id="@+id/add_d_todo_confirm_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/bg_primary_btn"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="추가하기" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
