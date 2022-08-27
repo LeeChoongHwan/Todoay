@@ -11,6 +11,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.todoay.databinding.ActivityMainBinding
+import com.todoay.databinding.ToastBoardBinding
 import com.todoay.global.config.network.NetworkConnection
 import com.todoay.global.util.Utils.Companion.printLog
 import com.todoay.view.global.NetworkNotFoundFragment
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var mainActivityBinding : ActivityMainBinding
+    lateinit var toastBinding: ToastBoardBinding
 
     private var inputMethodManager : InputMethodManager? = null
     private var currentDestination : NavDestination? = null
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         mainAct = this
 
         mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
+        toastBinding = ToastBoardBinding.inflate(layoutInflater)
+
         setContentView(mainActivityBinding.root)
 
         inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as
@@ -83,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 현재 보여지고 있는 Current Fragment에서 Destination Fragment로
      * 이동하는 메소드.
-     * @param destinationId : 이동하고자 하는 Fragment Destination Id
+     * @param destinationId 이동하고자 하는 Fragment Destination Id
      */
     fun navigateToDestinationFromCurrent(destinationId: Int) {
         runOnUiThread {
@@ -98,18 +102,24 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Toast를 보여주는 메소드.
-     * @param message : Toast에 보여줄 메시지
-     * @param duration : Toast를 보여줄 지속 기간
+     *
+     * @param message Toast에 보여줄 메시지
+     * @param duration Toast를 보여줄 지속 기간
      */
     private fun showToast(message: String, duration: Int) {
         runOnUiThread {
-            Toast.makeText(applicationContext, message, duration).show()
+            Toast(applicationContext).apply {
+                toastBinding.toastMessage.text = message
+                this.duration = duration
+                this.view = toastBinding.root
+                show()
+            }
         }
     }
 
     /**
      * Toast를 짧게 보여주는 메소드.
-     * @param message : Toast에 보여줄 메시지
+     * @param message Toast에 보여줄 메시지
      */
     fun showShortToast(message: String) {
         showToast(message, Toast.LENGTH_SHORT)
@@ -117,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Toast를 길게 보여주는 메소드.
-     * @param message : Toast에 보여줄 메시지
+     * @param message Toast에 보여줄 메시지
      */
     fun showLongToast(message: String) {
         showToast(message, Toast.LENGTH_LONG)
