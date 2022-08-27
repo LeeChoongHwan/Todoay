@@ -9,10 +9,9 @@ import com.todoay.api.domain.auth.signUp.SignUpService
 import com.todoay.api.domain.category.CategoryService
 import com.todoay.api.domain.hashtag.HashtagService
 import com.todoay.api.domain.profile.ProfileService
-import com.todoay.api.domain.todo.TodoService
+import com.todoay.api.domain.todo.common.TodoService
 import com.todoay.api.domain.todo.daily.DailyTodoService
 import com.todoay.api.domain.todo.dueDate.DueDateTodoService
-import java.sql.Ref
 
 /**
  * Retrofit Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
