@@ -1,7 +1,7 @@
 package com.todoay.api.domain.auth.signUp
 
 import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
-import com.todoay.api.domain.auth.signUp.dto.response.SignUpResponse
+import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,5 +11,5 @@ import retrofit2.http.POST
  */
 interface SignUpService {
     @POST("/auth/sign-up")
-    fun postSignUp(@Body requestBody: SignUpRequest) : Call<SignUpResponse>
+    fun postSignUp(@Body requestBody: SignUpRequest) : Call<SuccessResponse>
 }

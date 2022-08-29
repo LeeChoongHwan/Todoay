@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bottomfragmenttest.TimePickerDialogFragment
 import com.todoay.databinding.DialogListItemBinding
 import com.todoay.databinding.FragmentAlarmSettingDialogBinding
 import java.time.LocalDateTime
@@ -88,7 +89,8 @@ class AlarmSettingDialog(val time: LocalDateTime) : DialogFragment() {
                         timePickerDialog.limitTime = time
                         timePickerDialog.show(parentFragmentManager, timePickerDialog.tag)
                         dismissNow()
-                        timePickerDialog.result = object : TimePickerDialogFragment.TimePickerDialogResult {
+                        timePickerDialog.result = object :
+                            TimePickerDialogFragment.TimePickerDialogResult {
                             override fun getTime(time: LocalDateTime) {
                                 this@AlarmSettingDialog.selectedAlarm = time
                                 result.getAlarm(this@AlarmSettingDialog.selectedAlarm,

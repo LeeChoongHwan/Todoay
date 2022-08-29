@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.content.res.Configuration
 import android.graphics.Color
@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.todoay.R
 import com.todoay.databinding.FragmentCategoryAddBinding
+import com.todoay.view.todo.CategoryColorSettingDialog
 
 class CategoryAddFragment : BottomSheetDialogFragment() {
 

@@ -6,8 +6,12 @@ import com.todoay.api.domain.auth.nickname.NicknameService
 import com.todoay.api.domain.auth.password.ModifyPasswordService
 import com.todoay.api.domain.auth.refresh.RefreshService
 import com.todoay.api.domain.auth.signUp.SignUpService
+import com.todoay.api.domain.category.CategoryService
+import com.todoay.api.domain.hashtag.HashtagService
 import com.todoay.api.domain.profile.ProfileService
-import java.sql.Ref
+import com.todoay.api.domain.todo.common.TodoService
+import com.todoay.api.domain.todo.daily.DailyTodoService
+import com.todoay.api.domain.todo.dueDate.DueDateTodoService
 
 /**
  * Retrofit Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
@@ -91,6 +95,7 @@ object ServiceRepository {
 
     /**
      * Profile Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
+     * NEED TOKEN !!
      */
     object ProfileServiceRepository {
 
@@ -101,7 +106,66 @@ object ServiceRepository {
         fun callProfileService() : ProfileService {
             return createServiceWithToken(ProfileService::class.java)
         }
+    }
 
+    /**
+     * 투두 Service를 사용하는 Service의 객체롤 초기화하는 object 클래스.
+     * NEED TOKEN !!
+     */
+    object TodoServiceRepository {
+
+        /**
+         * 토큰이 필요한 TodoService 객체를 생성하고 호출하는 메소드.
+         *
+         * @return todoService
+         */
+        fun callTodoService() : TodoService {
+            return createServiceWithToken(TodoService::class.java)
+        }
+
+        /**
+         * 토큰이 필요한 DailyTodoService 객체를 생성하고 호출하는 메소드.
+         * @return dailyTodoService
+         */
+        fun callDailyTodoService() : DailyTodoService {
+            return createServiceWithToken(DailyTodoService::class.java)
+        }
+
+        /**
+         * 토큰이 필요한 DueDateTodoService 객체를 생성하고 호출하는 메소드.
+         * @return dueDateTodoService
+         */
+        fun callDueDateTodoService() : DueDateTodoService {
+            return createServiceWithToken(DueDateTodoService::class.java)
+        }
+    }
+
+    /**
+     * Category Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
+     * NEED TOKEN !!
+     */
+    object CategoryServiceRepository {
+
+        /**
+         * 토큰이 필요한 CategoryService 객체를 생성하고 호출하는 메소드.
+         */
+        fun callCategoryService() : CategoryService {
+            return createServiceWithToken(CategoryService::class.java)
+        }
+    }
+
+    /**
+     * Hashtag Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
+     * NEED TOKEN !!
+     */
+    object HashtagServiceRepository {
+
+        /**
+         * 토큰이 필요한 HashtagService 객체를 생성하고 호출하는 메소드.
+         */
+        fun callHashtagService() : HashtagService {
+            return createServiceWithToken(HashtagService::class.java)
+        }
     }
 
 }

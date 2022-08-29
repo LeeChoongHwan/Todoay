@@ -5,6 +5,17 @@
     android:id="@+id/todoay_nav"
     app:startDestination="@id/loginFragment">
 
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/todoay_nav"
+        app:popUpToInclusive="true"/>
+
+    <action
+        android:id="@+id/action_global_networkNotFoundFragment"
+        app:destination="@id/networkNotFoundFragment"
+        />
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.todoay.view.login.LoginFragment"
@@ -22,6 +33,7 @@
             android:id="@+id/action_loginFragment_to_calanderMainFragment"
             app:destination="@id/calanderMainFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.todoay.view.profile.ProfileFragment"
@@ -83,6 +95,11 @@
             android:id="@+id/action_signUpEmailCertAlertFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/networkNotFoundFragment"
+        android:name="com.todoay.view.global.NetworkNotFoundFragment"
+        android:label="fragment_network_not_found"
+        tools:layout="@layout/fragment_network_not_found" />
     <fragment
         android:id="@+id/calanderMainFragment"
         android:name="com.todoay.view.todo.CalanderMainFragment"
@@ -147,6 +164,6 @@
     </fragment>
     <fragment
         android:id="@+id/categorySettingFragment"
-        android:name="com.example.bottomfragmenttest.CategorySettingFragment"
+        android:name="com.todoay.view.todo.CategorySettingFragment"
         android:label="CategorySettingFragment" />
 </navigation>

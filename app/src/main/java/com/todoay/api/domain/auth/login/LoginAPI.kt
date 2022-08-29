@@ -1,7 +1,6 @@
 package com.todoay.api.domain.auth.login
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callLoginService
@@ -9,27 +8,23 @@ import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.api.domain.auth.login.dto.response.LoginResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 /**
  * 로그인 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callLoginService().kt
+ *
+ * @see LoginService
  */
 class LoginAPI {
-    
-    val TAG = "LOGIN API"
     
     /**
      * 로그인 수행
      * [POST]("/auth/login")
      */
-    fun login(_email: String, _password: String, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        val request = LoginRequest(
-            email = _email,
-            password = _password
-        )
+    fun login(request: LoginRequest, onResponse: (LoginResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callLoginService().postLogin(request)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
@@ -40,13 +35,13 @@ class LoginAPI {
                     if(response.isSuccessful) {
                         val loginResponse : LoginResponse = response.body()!!
                         onResponse(loginResponse)
-                        Log.d(TAG, "[로그인] - 성공 {${loginResponse}}")
+                        printLog("[로그인] - 성공 {${loginResponse}}")
                     }
                     // 로그인 실패
                     else {
                         val errorResponse = RetrofitService.getErrorResponse(response)
                         onErrorResponse(errorResponse)
-                        Log.d(TAG, "[로그인] - 실패 {${errorResponse}}")
+                        printLog("[로그인] - 실패 {${errorResponse}}")
                     }
                 }
 
@@ -56,7 +51,7 @@ class LoginAPI {
                         t,  "/auth/login"
                     )
                     onFailure(failure)
-                    Log.d(TAG, "[SYSTEM ERROR] - 실패 {${failure}}")
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
             })
     }

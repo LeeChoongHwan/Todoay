@@ -1,16 +1,12 @@
 package com.todoay.view.todo
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.RecyclerView
-import com.example.bottomfragmenttest.AddDTodoFragment
 import com.todoay.R
-import com.todoay.adapter.CalendarRVA
 import com.todoay.adapter.TodoRVA
 import com.todoay.data.TodoData
 import com.todoay.databinding.FragmentTodoMainAlignDuedateBinding

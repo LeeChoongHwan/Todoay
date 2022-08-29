@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.todoay.databinding.FragmentTodoayAlertDialogBinding
-import java.lang.RuntimeException
 
 class TodoayAlertDialogFragment : DialogFragment(){
 

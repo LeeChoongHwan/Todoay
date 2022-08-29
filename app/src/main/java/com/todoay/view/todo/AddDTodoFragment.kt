@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
@@ -10,16 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
+import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.todo.dueDate.DueDateTodoAPI
+import com.todoay.api.domain.todo.dueDate.dto.request.CreateDueDateTodoRequest
 import com.todoay.databinding.FragmentAddDTodoBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
 
 class AddDTodoFragment : BottomSheetDialogFragment() {
 
@@ -32,14 +33,17 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
     var todo : String = ""
     var isTodo : Boolean = false
     /* 투두 날짜 */
-    var dueDate : LocalDate? = null
+    var dueDate : LocalDate = LocalDate.now()
     /* 우선순위 */
-    var priority : Int? = null
+    lateinit var priority : String
     /* 해시태그 */
-    var hashtagList : List<String>? = null
+    var hashtagList : List<HashtagDto>? = null
     var isHashtag : Boolean = false
     /* 투두 설명 */
     var description : String? = null
+
+    /* API 서비스 */
+    private val service : DueDateTodoAPI = DueDateTodoAPI()
 
     /* 애니메이션 선언 */
     lateinit var  flipFront : Animator
@@ -88,10 +92,12 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(todoEditText.text.toString() != "") {
                     isTodo = true
+                    todo = todoEditText.text.toString()
                     checkEnableConfirmButton(binding.addDTodoConfirmBtn)
                 }
                 else {
                     isTodo = false
+                    todo = ""
                     checkEnableConfirmButton(binding.addDTodoConfirmBtn)
                 }
             }
@@ -101,7 +107,7 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
         })
 
         /* 날짜 입력 */
-        binding.addDTodoDateSelectTv.text = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+        binding.addDTodoDateSelectTv.text = dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
         binding.addDTodoCalendarBtn.setOnClickListener {
             val datePickerFragment = DatePickerDialogFragment(LocalDate.now())
             datePickerFragment.show(parentFragmentManager, datePickerFragment.tag)
@@ -117,25 +123,25 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
         /* 우선순위 선택 */
         when(binding.addDTodoPriorityGroup.checkedRadioButtonId) {
             R.id.add_d_todo_priority_high_btn -> {
-                priority = 0
+                priority = "HIGH"
             }
             R.id.add_d_todo_priority_mid_btn -> {
-                priority = 1
+                priority = "MIDDLE"
             }
             R.id.add_d_todo_priority_low_btn -> {
-                priority = 2
+                priority = "LOW"
             }
         }
         binding.addDTodoPriorityGroup.setOnCheckedChangeListener { radioGroup, id ->
             when(id) {
                 R.id.add_d_todo_priority_high_btn -> {
-                    priority = 0
+                    priority = "HIGH"
                 }
                 R.id.add_d_todo_priority_mid_btn -> {
-                    priority = 1
+                    priority = "MIDDLE"
                 }
                 R.id.add_d_todo_priority_low_btn -> {
-                    priority = 2
+                    priority = "LOW"
                 }
             }
         }
@@ -148,12 +154,12 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
             }
             hashtagSearchDialog.show(parentFragmentManager, hashtagSearchDialog.tag)
             hashtagSearchDialog.result = object : HashtagSearchDialog.HashtagSearchDialogResult {
-                override fun getResultList(hashtagResult: List<String>) {
+                override fun getResultList(hashtagResult: List<HashtagDto>) {
                     if(hashtagResult.isNotEmpty()) {
                         hashtagList = hashtagResult
                         val pHashtag = StringBuilder()
                         hashtagList!!.forEach {
-                            pHashtag.append("#$it ")
+                            pHashtag.append("#${it.name} ")
                         }
                         binding.addDTodoHashtagEt.setText(pHashtag)
                         isHashtag = true
@@ -175,7 +181,26 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
 
         /* 추가하기 버튼 */
         binding.addDTodoConfirmBtn.setOnClickListener {
+            val request = CreateDueDateTodoRequest(
+                todo = this.todo,
+                description = if(binding.addDTodoDescriptionEt.text.toString().isNotEmpty())
+                    binding.addDTodoDescriptionEt.text.toString() else "",
+                isPublic = this.isPublic,
+                dueDate = this.dueDate,
+                priority = this.priority,
+                hashtagList = if(this.hashtagList.isNullOrEmpty())
+                    null else this.hashtagList
+            )
+            service.createDueDateTodo(
+                request,
+                onResponse = {
+                             mainAct.showShortToast("DueDate Todo 추가 성공 id : ${it.id}")
+                },
+                onErrorResponse = {
 
+                },
+                onFailure = {}
+            )
         }
 
         return binding.root

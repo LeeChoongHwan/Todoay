@@ -1,16 +1,16 @@
 package com.todoay.api.domain.auth.refresh
 
-import android.util.Log
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.AuthServiceRepository.callRefreshService
 import com.todoay.api.domain.auth.refresh.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
 import com.todoay.api.util.response.error.ErrorResponse
-import com.todoay.api.util.response.error.FailureResponse
 
 /**
  * RefreshToken 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callRefreshService().kt
+ *
+ * @see RefreshService
+ * @see TokenManager
  */
 class RefreshAPI {
 
@@ -18,13 +18,8 @@ class RefreshAPI {
      * 토큰 재발행 수행
      * [POST]("/auth/refresh")
      */
-    fun refreshTokenToAccessToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
-        val request = RefreshRequest(
-            refreshToken = refreshToken
-        )
-        /*
-        execute()를 통한 동기성 처리
-         */
+    fun refreshTokenToAccessToken(request: RefreshRequest, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
+        /* execute()를 통한 동기성 처리 */
         val response = callRefreshService().postRefreshToken(request).execute()
         if(response.isSuccessful) {
             val refreshResponse : RefreshResponse = response.body()!!
