@@ -49,17 +49,17 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readAllDueDateTodo(order : String, onResponse : (ReadAllDueDateTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun readAllDueDateTodo(order : String, onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDueDateTodoService().readAllDueDateTodo(order)
-            .enqueue(object : Callback<ReadAllDueDateTodoResponse> {
+            .enqueue(object : Callback<List<ReadAllDueDateTodoResponse>> {
                 override fun onResponse(
-                    call: Call<ReadAllDueDateTodoResponse>,
-                    response: Response<ReadAllDueDateTodoResponse>
+                    call: Call<List<ReadAllDueDateTodoResponse>>,
+                    response: Response<List<ReadAllDueDateTodoResponse>>
                 ) {
                     TODO("Not yet implemented")
                 }
 
-                override fun onFailure(call: Call<ReadAllDueDateTodoResponse>, t: Throwable) {
+                override fun onFailure(call: Call<List<ReadAllDueDateTodoResponse>>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
 
@@ -98,17 +98,17 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readFinishedDueDateTodo(onResponse : (ReadAllDueDateTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun readFinishedDueDateTodo(onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDueDateTodoService().readFinishedDueDateTodo()
-            .enqueue(object : Callback<ReadAllDueDateTodoResponse> {
+            .enqueue(object : Callback<List<ReadAllDueDateTodoResponse>> {
                 override fun onResponse(
-                    call: Call<ReadAllDueDateTodoResponse>,
-                    response: Response<ReadAllDueDateTodoResponse>
+                    call: Call<List<ReadAllDueDateTodoResponse>>,
+                    response: Response<List<ReadAllDueDateTodoResponse>>
                 ) {
                     TODO("Not yet implemented")
                 }
 
-                override fun onFailure(call: Call<ReadAllDueDateTodoResponse>, t: Throwable) {
+                override fun onFailure(call: Call<List<ReadAllDueDateTodoResponse>>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
 

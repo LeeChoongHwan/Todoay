@@ -19,11 +19,11 @@ interface DueDateTodoService {
     fun createDueDateTodo(@Body request : CreateDueDateTodoRequest) : Call<CreateDueDateTodoResponse>
 
     /**
-     * 모든 DueDateTodo의 정보를 가져오는 인터페이스 메소드.
+     * 모든 DueDateTodo의 정보 리스트를 가져오는 인터페이스 메소드.
      * Http Method : GET
      */
     @GET("/todo/due-date/my")
-    fun readAllDueDateTodo(@Query("order") order : String) : Call<ReadAllDueDateTodoResponse>
+    fun readAllDueDateTodo(@Query("order") order : String) : Call<List<ReadAllDueDateTodoResponse>>
 
     /**
      * 특정 DueDateTodo의 정보를 가져오는 인터페이스 메소드.
@@ -33,11 +33,11 @@ interface DueDateTodoService {
     fun readDueDateTodo(@Path("id") id: Int) : Call<ReadDueDateTodoResponse>
 
     /**
-     * 완료한 DueDateTodo의 정보를 가져오는 인터페이스 메소드.
+     * 완료한 DueDateTodo의 정보 리스트를 가져오는 인터페이스 메소드.
      * Http Method : GET
      */
     @GET("/todo/due-date/my/finished")
-    fun readFinishedDueDateTodo() : Call<ReadAllDueDateTodoResponse>
+    fun readFinishedDueDateTodo() : Call<List<ReadAllDueDateTodoResponse>>
 
     /**
      * DueDateTodo의 정보를 수정하는 인터페이스 메소드.

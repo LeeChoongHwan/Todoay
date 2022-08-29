@@ -23,7 +23,7 @@ interface DailyTodoService {
      * Http Method: GET
      */
     @GET("/todo/daily/my")
-    fun readAllDailyTodo(@Query("localDate") date : String) : Call<ReadAllDailyTodoResponse>
+    fun readAllDailyTodo(@Query("localDate") date : String) : Call<List<ReadAllDailyTodoResponse>>
 
     /**
      * 특정 DailyTodo의 정보를 가져오는 인터페이스 메소드.

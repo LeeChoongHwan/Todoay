@@ -39,8 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(mainActivityBinding.root)
 
-        inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as
-                InputMethodManager?
+        inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         /* 네트워크 연결 확인 */
         val connection = NetworkConnection(applicationContext)
@@ -60,9 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideKeyboard(v: View) {
-        if(v!=null) {
-            inputMethodManager?.hideSoftInputFromWindow(v.windowToken, 0)
-        }
+        inputMethodManager?.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
     /**

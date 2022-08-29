@@ -51,17 +51,17 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readAllDailyTodo(date : LocalDate, onResponse : (ReadAllDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun readAllDailyTodo(date : LocalDate, onResponse : (List<ReadAllDailyTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDailyTodoService().readAllDailyTodo(date.toString())
-            .enqueue(object : Callback<ReadAllDailyTodoResponse> {
+            .enqueue(object : Callback<List<ReadAllDailyTodoResponse>> {
                 override fun onResponse(
-                    call: Call<ReadAllDailyTodoResponse>,
-                    response: Response<ReadAllDailyTodoResponse>
+                    call: Call<List<ReadAllDailyTodoResponse>>,
+                    response: Response<List<ReadAllDailyTodoResponse>>
                 ) {
                     TODO("Not yet implemented")
                 }
 
-                override fun onFailure(call: Call<ReadAllDailyTodoResponse>, t: Throwable) {
+                override fun onFailure(call: Call<List<ReadAllDailyTodoResponse>>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
 
