@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CategorySettingFragment">
+
+    <ImageView
+        android:id="@+id/category_setting_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        app:srcCompat="@drawable/ic_back"
+        android:clickable="true"
+        />
+
+    <TextView
+        android:id="@+id/category_setting_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/category_setting_back_btn"
+        app:layout_constraintBottom_toBottomOf="@id/category_setting_back_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="카테고리 설정"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:fontFamily="@font/bold" />
+
+    <ImageView
+        android:id="@+id/category_setting_plus_btn"
+        app:layout_constraintTop_toTopOf="@id/category_setting_back_btn"
+        app:layout_constraintBottom_toBottomOf="@id/category_setting_back_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus" />
+
+    <View
+        android:id="@+id/category_setting_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/category_setting_back_btn"
+        android:layout_marginTop="15dp"
+        />
+
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/category_setting_top_line"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_setting_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:listitem="@layout/list_item_category"/>
+
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

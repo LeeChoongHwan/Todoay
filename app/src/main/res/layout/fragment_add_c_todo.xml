@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddCTodoFragment"
+    android:background="@drawable/bg_bottom_dialog"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp">
+
+    <ImageView
+        android:id="@+id/add_c_todo_cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_c_todo_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/add_c_todo_public_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lock_public"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="30dp"
+            />
+        <ImageView
+            android:id="@+id/add_c_todo_private_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lock_private"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="30dp"
+            />
+
+        <android.widget.Button
+            android:id="@+id/add_c_todo_category_btn"
+            android:background="@drawable/bg_add_c_todo_category_btn"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="@id/add_c_todo_public_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="50dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:text="카테고리명"
+            />
+
+        <TextView
+            android:id="@+id/add_c_todo_todo_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@+id/add_c_todo_public_btn"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_public_btn"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="TODO" />
+
+        <EditText
+            android:id="@+id/add_c_todo_todo_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_todo_title_tv"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_todo_title_tv"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/add_c_todo_hashtag_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_todo_et"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_todo_et"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="해시태그" />
+
+        <EditText
+            android:id="@+id/add_c_todo_hashtag_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_hashtag_title_tv"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_hashtag_title_tv"
+            android:fontFamily="@font/white"
+            android:hint="해시태그 추가 시 TODO가 공개로 전환됩니다"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/add_c_todo_details_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_hashtag_et"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="15dp"
+
+            android:fontFamily="@font/regular"
+            android:textColor="@color/main_color"
+            android:clickable="true"
+            android:textSize="15sp"
+            android:text="추가 정보 입력 >" />
+
+        <android.widget.Button
+            android:id="@+id/add_c_todo_confirm_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:enabled="false"
+            android:background="@drawable/bg_primary_fail_btn"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="추가하기" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_c_todo_details_layout"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/add_c_todo_details_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_back_btn" />
+
+        <TextView
+            android:id="@+id/add_c_todo_details_time_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_details_back_btn"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_back_btn"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="시간" />
+
+        <android.widget.Button
+            android:id="@+id/add_c_todo_details_time_setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:drawableLeft="@drawable/ic_clock"
+            android:drawablePadding="20dp"
+            app:layout_constraintTop_toTopOf="@id/add_c_todo_details_time_title_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_clock_setting_btn"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/gray"
+            android:textAlignment="textEnd"
+            android:text="시간 설정" />
+
+        <ImageView
+            android:id="@+id/add_c_todo_details_alarm_setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="@id/add_c_todo_details_time_setting_btn"
+            app:layout_constraintLeft_toRightOf="@id/add_c_todo_details_time_setting_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/ic_alarm_default" />
+
+        <TextView
+            android:id="@+id/add_c_todo_details_location_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_time_setting_btn"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_details_time_title_tv"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/regular"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="장소" />
+
+        <EditText
+            android:id="@+id/add_c_todo_details_location_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_location_title_tv"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_details_location_title_tv"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/add_c_todo_details_partner_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_details_time_title_tv"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_location_et"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="함께하는 사람" />
+
+        <EditText
+            android:id="@+id/add_c_todo_details_partner_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/add_c_todo_details_partner_title_tv"
+            app:layout_constraintTop_toBottomOf="@id/add_c_todo_details_partner_title_tv"
+            android:inputType="textPersonName"
+            android:text="" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
