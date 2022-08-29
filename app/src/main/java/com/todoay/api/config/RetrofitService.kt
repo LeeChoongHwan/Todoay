@@ -3,9 +3,12 @@ package com.todoay.api.config
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.todoay.MainActivity
 import com.todoay.TodoayApplication
 import com.todoay.api.config.RetrofitURL.ipAddress
+import com.todoay.api.config.gson.LocalDateConverter
+import com.todoay.api.config.gson.LocalDateTimeConverter
 import com.todoay.api.domain.auth.refresh.TokenManager
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
@@ -19,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 /**
@@ -58,9 +62,15 @@ object RetrofitService {
     fun getServiceWithToken() : Retrofit {
         if(retrofitServiceWithToken == null) {
             printLog("[Retrofit 서비스 생성] RetrofitServiceWithToken 생성")
+            val gson = GsonBuilder()
+                .registerTypeAdapter(LocalDate::class.java, LocalDateConverter.LocalDateSerializer())
+                .registerTypeAdapter(LocalDate::class.java, LocalDateConverter.LocalDateDeserializer())
+                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeConverter.LocalDateTimeSerializer())
+                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeConverter.LocalDateTimeDeserializer())
+                .create()
             retrofitServiceWithToken = Retrofit.Builder()
                 .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(getClientWithToken())
                 .build()
         }

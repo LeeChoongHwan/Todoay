@@ -38,6 +38,31 @@ class TodoAPI {
                 }
 
             })
-
     }
+
+    /**
+     * 투두를 삭제한다.
+     *
+     * @param id 삭제할 투두 id
+     * @param onResponse
+     * @param onErrorResponse
+     * @param onFailure
+     */
+    fun deleteTodo(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callTodoService().deleteTodo(id)
+            .enqueue(object : Callback<SuccessResponse> {
+                override fun onResponse(
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
 }

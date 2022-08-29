@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.content.Context
 import android.graphics.Color
@@ -9,8 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager

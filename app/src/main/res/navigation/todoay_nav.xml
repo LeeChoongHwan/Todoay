@@ -164,6 +164,6 @@
     </fragment>
     <fragment
         android:id="@+id/categorySettingFragment"
-        android:name="com.example.bottomfragmenttest.CategorySettingFragment"
+        android:name="com.todoay.view.todo.CategorySettingFragment"
         android:label="CategorySettingFragment" />
 </navigation>

@@ -2,6 +2,7 @@ package com.todoay.api.domain.todo.common
 
 import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
+import retrofit2.http.DELETE
 import retrofit2.http.PATCH
 import retrofit2.http.Path
 
@@ -18,5 +19,15 @@ interface TodoService {
      */
     @PATCH("/todo/{id}/switch")
     fun switchTodoComplete(@Path("id") id : Int) : Call<SuccessResponse>
+
+    /**
+     * 투두를 삭제하는 인터페이스 메소드.
+     * Http Method : DELETE
+     *
+     * @param id 삭제할 투두 id
+     * @return Call<SuccessResponse>
+     */
+    @DELETE("/todo/{id}")
+    fun deleteTodo(@Path("id") id : Int) : Call<SuccessResponse>
 
 }

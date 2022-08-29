@@ -168,30 +168,5 @@ class DailyTodoAPI {
             })
     }
 
-    /**
-     * 특정 DailyTodo를 삭제한다.
-     *
-     * @param id 삭제할 DailyTodo의 id
-     * @param onResponse
-     * @param onErrorResponse
-     * @param onFailure
-     */
-    fun deleteDailyTodo(id : Int, onResponse : (DeleteDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDailyTodoService().deleteDailyTodo(id)
-            .enqueue(object : Callback<DeleteDailyTodoResponse> {
-                override fun onResponse(
-                    call: Call<DeleteDailyTodoResponse>,
-                    response: Response<DeleteDailyTodoResponse>
-                ) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onFailure(call: Call<DeleteDailyTodoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-    }
-
 }
 

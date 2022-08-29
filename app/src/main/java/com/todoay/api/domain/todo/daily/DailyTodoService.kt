@@ -53,12 +53,4 @@ interface DailyTodoService {
     @PATCH("/todo/daily/{id}/daily-date")
     fun modifyDailyTodoDate(@Path("id") id : Int) : Call<SuccessResponse>
 
-    /**
-     * DailyTodo를 삭제하는 인터페이스 메소드.
-     * Http Method: DELETE
-     */
-    @DELETE("/todo/daily/{id}")
-    fun deleteDailyTodo(@Path("id") id : Int) : Call<DeleteDailyTodoResponse>
-
-
 }

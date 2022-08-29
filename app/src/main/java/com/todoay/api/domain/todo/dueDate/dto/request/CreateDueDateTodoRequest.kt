@@ -8,7 +8,7 @@ data class CreateDueDateTodoRequest(
     @SerializedName("title")
     val todo : String,
     @SerializedName("description")
-    val description : String,
+    val description : String?,
     @SerializedName("publicBool")
     val isPublic : Boolean,
     @SerializedName("dueDate")
@@ -16,5 +16,5 @@ data class CreateDueDateTodoRequest(
     @SerializedName("importance")
     val priority : String,
     @SerializedName("hashtagNames")
-    val hashtagList : List<HashtagDto>
+    val hashtagList : List<HashtagDto>?
 )

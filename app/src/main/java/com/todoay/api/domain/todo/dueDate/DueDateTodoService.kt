@@ -46,11 +46,4 @@ interface DueDateTodoService {
     @PUT("/todo/due-date/{id}")
     fun modifyDueDateTodo(@Path("id") id: Int) : Call<ModifyDueDateTodoResponse>
 
-    /**
-     * DueDateTodo를 삭제하는 인터페이스 메소드.
-     * Http Method : DELETE
-     */
-    @DELETE("/todo/due-date/{id}")
-    fun deleteDueDateTodo(@Path("id") id: Int) : Call<DeleteDueDateTodoResponse>
-
 }

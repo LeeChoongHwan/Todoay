@@ -199,7 +199,7 @@ class LoginFragment : Fragment() {
                 if (TodoayApplication.pref.hasAccessToken()) {
                     printLog("[USER] 로그인")
                     mBinding?.loginProgressBar?.visibility = View.GONE
-                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
                 } else {
                     mainAct.showLongToast("다시 로그인해주세요")
                     mBinding?.loginProgressBar?.visibility = View.GONE
@@ -225,7 +225,7 @@ class LoginFragment : Fragment() {
         super.onStart()
         if(TodoayApplication.pref.hasAccessToken()) {
             printLog("[USER] 자동 로그인")
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_profileFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
         }
     }
 

@@ -1,10 +1,12 @@
 package com.todoay.api.domain.hashtag
 
+import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.HashtagServiceRepository.callHashtagService
 import com.todoay.api.domain.hashtag.dto.response.HashtagAutoResponse
 import com.todoay.api.domain.hashtag.dto.response.HashtagResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.global.util.Utils.Companion.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,13 +60,30 @@ class HashtagAPI {
                     call: Call<HashtagAutoResponse>,
                     response: Response<HashtagAutoResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val hashtagAutoResponse : HashtagAutoResponse = response.body()!!
+                        onResponse(hashtagAutoResponse)
+                        printLog("[Hashtag Auto Search] - 성공 {$hashtagAutoResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Hashtag Auto Search] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<HashtagAutoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/hashtag/auto"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
-
             })
     }
 

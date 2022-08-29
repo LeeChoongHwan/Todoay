@@ -17,13 +17,13 @@ interface HashtagService {
      * Http Method : GET
      */
     @GET("/hashtag")
-    fun getHashtag(@Query("name") name : String, @Query("pageNum") pageNum : Int) : Call<HashtagResponse>
+    fun getHashtag(@Query("name", encoded = true) name : String, @Query("pageNum") pageNum : Int) : Call<HashtagResponse>
 
     /**
      * 해시태그를 자동검색하는 인터페이스 메소드.
      * Http Method : GET
      */
     @GET("/hashtag/auto")
-    fun getHashtagAuto(@Query("name") name : String) : Call<HashtagAutoResponse>
+    fun getHashtagAuto(@Query("name", encoded = true) name : String) : Call<HashtagAutoResponse>
 
 }

@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.content.res.Configuration
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -7,7 +7,6 @@ import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.time.LocalDate
 import java.util.*
-import kotlin.math.max
 
 class DatePickerDialogFragment(val date: LocalDate) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 

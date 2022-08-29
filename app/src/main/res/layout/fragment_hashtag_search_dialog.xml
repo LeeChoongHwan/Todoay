@@ -42,7 +42,7 @@
             android:fontFamily="@font/regular"
             android:textColor="@color/main_color"
             android:textSize="14sp"
-            android:text="확인" />
+            android:text="취소" />
 
     </LinearLayout>
 

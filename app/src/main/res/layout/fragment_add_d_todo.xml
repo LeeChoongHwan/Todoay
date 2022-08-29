@@ -184,6 +184,8 @@
                     android:id="@+id/add_d_todo_hashtag_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:layout_constraintLeft_toLeftOf="@id/add_d_todo_hashtag_title_tv"
                     app:layout_constraintTop_toBottomOf="@id/add_d_todo_hashtag_title_tv"
                     android:fontFamily="@font/white"

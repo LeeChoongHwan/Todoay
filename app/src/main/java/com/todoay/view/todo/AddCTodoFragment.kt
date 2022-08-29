@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
@@ -18,8 +18,10 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import com.example.bottomfragmenttest.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.todoay.R
+import com.todoay.api.domain.hashtag.dto.HashtagDto
 import com.todoay.databinding.FragmentAddCTodoBinding
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -42,7 +44,7 @@ class AddCTodoFragment(val date: LocalDate) : BottomSheetDialogFragment() {
     var todo : String = ""
     var isTodo: Boolean = false
     /* 해시태그 */
-    var hashtagList : List<String>? = null
+    var hashtagList : List<HashtagDto>? = null
     var isHashtag : Boolean = false
     /* Target 시간 */
     var time : LocalDateTime? = null
@@ -118,7 +120,8 @@ class AddCTodoFragment(val date: LocalDate) : BottomSheetDialogFragment() {
         categoryBtn.setOnClickListener {
             val categorySettingDialog = AddCTodoCategorySettingDialog()
             categorySettingDialog.show(parentFragmentManager, categorySettingDialog.tag)
-            categorySettingDialog.result = object : AddCTodoCategorySettingDialog.AddCTodoCategorySettingDialogResult {
+            categorySettingDialog.result = object :
+                AddCTodoCategorySettingDialog.AddCTodoCategorySettingDialogResult {
                 override fun getCategory(category: AddCTodoCategorySettingDialog.CategorySettingItem) {
                     categoryName = category.name
                     categoryColor = categoryColor
@@ -160,12 +163,12 @@ class AddCTodoFragment(val date: LocalDate) : BottomSheetDialogFragment() {
             }
             hashtagSearchDialog.show(parentFragmentManager, hashtagSearchDialog.tag)
             hashtagSearchDialog.result = object : HashtagSearchDialog.HashtagSearchDialogResult {
-                override fun getResultList(hashtagResult: List<String>) {
+                override fun getResultList(hashtagResult: List<HashtagDto>) {
                     if(hashtagResult.isNotEmpty()) {
                         hashtagList = hashtagResult
                         val pHashtag = StringBuilder()
                         hashtagList!!.forEach {
-                            pHashtag.append("#$it ")
+                            pHashtag.append("#${it.name} ")
                         }
                         binding.addCTodoHashtagEt.setText(pHashtag)
                         isHashtag = true

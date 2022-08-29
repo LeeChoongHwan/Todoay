@@ -1,4 +1,4 @@
-package com.example.bottomfragmenttest
+package com.todoay.view.todo
 
 import android.content.Context
 import android.graphics.Point
@@ -17,6 +17,8 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.todoay.api.domain.hashtag.HashtagAPI
+import com.todoay.api.domain.hashtag.dto.HashtagDto
 import com.todoay.databinding.FragmentHashtagSearchDialogBinding
 import com.todoay.databinding.ListItemHashtagBinding
 import java.util.*
@@ -27,15 +29,15 @@ class HashtagSearchDialog : DialogFragment() {
     lateinit var binding : FragmentHashtagSearchDialogBinding
     lateinit var result : HashtagSearchDialogResult
     var currentHashtag: String? = null
-    lateinit var resultHashtagList : ArrayList<String>
+    lateinit var resultHashtagList : ArrayList<HashtagDto>
     /* Recycler View List */
-    var hashtagList: ArrayList<HashtagItem> = ArrayList()
+    var hashtagList: ArrayList<HashtagDto> = ArrayList()
 
     /* 해시태그 검색 시작 인덱스 (해시태그 클릭 시 edittext의 텍스트 변경에 사용) */
     var hashtagStartIndex = 0
 
     interface HashtagSearchDialogResult {
-        fun getResultList(hashtagResult: List<String>)
+        fun getResultList(hashtagResult: List<HashtagDto>)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,12 +57,6 @@ class HashtagSearchDialog : DialogFragment() {
             }
         }
         binding.hashtagSearchDialogList.adapter = adapter
-
-        /* 리스트 테스트 데이터*/
-        // TODO: 현재 테스트 데이터임으로 API 연동 이후 삭제 요망
-        for(i: Int in 0..10) {
-            hashtagList.add(HashtagItem("해시태그_예시_$i"))
-        }
 
         if(currentHashtag != null) {
             if(currentHashtag!!.endsWith(" ")) {
@@ -89,6 +85,7 @@ class HashtagSearchDialog : DialogFragment() {
                     if(search.last().toString().startsWith(" ")) {
                         isHashtagSearchStart = false
                     }
+                    adapter.isSearchStart = isHashtagSearchStart
                     if(isHashtagSearchStart) {
                         if(search.last().toString() != "#") {
                             text = search.toString().substring(search.toString().lastIndexOf("#")+1, search.length)
@@ -102,11 +99,19 @@ class HashtagSearchDialog : DialogFragment() {
                 }
                 else {
                     text = ""
+                    isHashtagSearchStart = false
+                    adapter.isSearchStart = isHashtagSearchStart
                     binding.hashtagSearchDialogList.visibility = View.GONE
                 }
             }
 
             override fun afterTextChanged(str: Editable?) {
+                if(binding.hashtagSearchDialogHashtagEt.text.toString().isNullOrBlank()) {
+                    binding.hashtagSearchDialogConfirmBtn.text = "취소"
+                }
+                else {
+                    binding.hashtagSearchDialogConfirmBtn.text = "확인"
+                }
             }
 
         })
@@ -124,8 +129,8 @@ class HashtagSearchDialog : DialogFragment() {
     }
 
     private fun isCorrectHashtag(hashtag: String) : Boolean {
+        resultHashtagList = ArrayList()
         if(hashtag.isNotEmpty()) {
-            resultHashtagList = ArrayList()
             val strTokenizer = StringTokenizer(hashtag, "#", true)
             var s: String
             var isToken = false
@@ -148,7 +153,7 @@ class HashtagSearchDialog : DialogFragment() {
                                 Toast.makeText(requireContext(), "해시태그는 #을 입력해야 합니다!", Toast.LENGTH_SHORT).show()
                                 return false
                             }
-                            resultHashtagList.add(s)
+                            resultHashtagList.add(HashtagDto(s))
                             isToken = false
                         }
                     }
@@ -164,17 +169,18 @@ class HashtagSearchDialog : DialogFragment() {
 
     class HashtagAdapter() : RecyclerView.Adapter<HashtagAdapter.ViewHolder>() {
 
-        lateinit var filterHashtagList : ArrayList<HashtagItem>
-        lateinit var unFilterHashtagList : ArrayList<HashtagItem>
+        lateinit var filterHashtagList : ArrayList<HashtagDto>
         lateinit var onClickListener: HashtagOnClickListener
+        var isSearchStart : Boolean = false
 
-        constructor(unFilterHashtagList: ArrayList<HashtagItem>) : this() {
-            this.unFilterHashtagList = unFilterHashtagList
-            this.filterHashtagList = unFilterHashtagList
-        }
+        private val service : HashtagAPI = HashtagAPI()
 
         interface HashtagOnClickListener {
             fun onClick(hashtag: String)
+        }
+
+        constructor(hashtagList: ArrayList<HashtagDto>) : this() {
+            this.filterHashtagList = hashtagList
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -182,7 +188,7 @@ class HashtagSearchDialog : DialogFragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.hashtag.text = StringBuilder(filterHashtagList[position].hashtag).insert(0, "#")
+            holder.hashtag.text = StringBuilder(filterHashtagList[position].name).insert(0, "#")
 
             holder.hashtag.setOnClickListener {
                 onClickListener.onClick((it as TextView).text.toString())
@@ -197,17 +203,25 @@ class HashtagSearchDialog : DialogFragment() {
             return object : Filter() {
                 override fun performFiltering(constraint: CharSequence?): FilterResults {
                     val search = constraint.toString()
-                    if(search.isEmpty()) {
-                        filterHashtagList = unFilterHashtagList
-                    }
-                    else {
-                        val filteringList = ArrayList<HashtagItem>()
-                        for(hashtagItem: HashtagItem in unFilterHashtagList) {
-                            if(hashtagItem.hashtag.contains(search)) {
-                                filteringList.add(hashtagItem)
-                            }
-                        }
-                        filterHashtagList = filteringList
+                    if(search.isNotEmpty() && isSearchStart) {
+                        // TODO #은 테스트로 추가한 것!!!
+                        val s = StringBuilder(search)
+                        s.insert(0, "#")
+                        val filteringList = ArrayList<HashtagDto>()
+                        service.getHashtagAuto(
+                            s.toString(),
+                            onResponse = {
+                                for(hashtagDto : HashtagDto in it.hashtagList) {
+                                    filteringList.add(hashtagDto)
+                                }
+                                filterHashtagList = filteringList
+                                notifyDataSetChanged()
+                            },
+                            onErrorResponse = {
+
+                            },
+                            onFailure = {}
+                        )
                     }
                     val filterResults = FilterResults()
                     filterResults.values = filterHashtagList
@@ -216,8 +230,8 @@ class HashtagSearchDialog : DialogFragment() {
 
                 override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                     if(results != null) {
-                        filterHashtagList = results.values as ArrayList<HashtagItem>
-                        notifyDataSetChanged()
+                        Log.d("hashtagss", "${results.values}")
+                        filterHashtagList = results.values as ArrayList<HashtagDto>
                     }
                 }
 
@@ -228,9 +242,6 @@ class HashtagSearchDialog : DialogFragment() {
             var hashtag: TextView = binding.hashtagName
         }
     }
-
-    class HashtagItem(val hashtag: String)
-
 
     override fun onResume() {
         super.onResume()
