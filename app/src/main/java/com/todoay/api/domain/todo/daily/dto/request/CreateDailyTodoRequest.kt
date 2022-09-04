@@ -1,7 +1,7 @@
 package com.todoay.api.domain.todo.daily.dto.request
 
 import com.google.gson.annotations.SerializedName
-import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.hashtag.dto.Hashtag
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -21,7 +21,7 @@ data class CreateDailyTodoRequest(
     @SerializedName("categoryId")
     val categoryId : Int,
     @SerializedName("hashtagNames")
-    val hashtagList : List<HashtagDto>,
+    val hashtagList : List<Hashtag>,
     @SerializedName("public")
     val isPublic : Boolean
 )

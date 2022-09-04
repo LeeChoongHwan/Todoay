@@ -170,7 +170,6 @@ object RetrofitService {
             message = gsonError.message,
             path = gsonError.path
         )
-        printLog("[Error Response 발생] {$errorResponse}")
         return errorResponse
     }
 
@@ -189,7 +188,6 @@ object RetrofitService {
             path = gsonError.path,
             details = gsonError.details
         )
-        printLog("[Valid Error Response 발생] {$validErrorResponse}")
         return validErrorResponse
     }
 
@@ -213,7 +211,6 @@ object RetrofitService {
             path = "$path"
         )
         MainActivity.mainAct.showLongToast(code)
-        printLog("[Failure 발생] {$failureResponse}")
         return failureResponse
     }
 }

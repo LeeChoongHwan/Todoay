@@ -211,8 +211,7 @@ class SignUpFragment : Fragment() {
                 isNickname = false
                 changeConfirmButton()
             },
-            onFailure = {
-            }
+            onFailure = {}
         )
     }
 
@@ -264,6 +263,7 @@ class SignUpFragment : Fragment() {
             request,
             onResponse = {
                 if (it.status == HttpURLConnection.HTTP_NO_CONTENT) {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
                     sendCertMail(inputEmail)
                 }
             },
@@ -310,19 +310,11 @@ class SignUpFragment : Fragment() {
     private fun sendCertMail(inputEmail: String) {
         emailService.sendCertMail(
             inputEmail,
-            onResponse = {
-                Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
-            },
+            onResponse = {},
             onErrorResponse = {
-                /* 400 유효성 검사 실패 */
-                mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
-                mBinding?.signUpEmailEt?.requestFocus()
-                isEmail = false
-                mBinding?.signUpProgressBar?.visibility = View.GONE
+
             },
-            onFailure = {
-                mBinding?.signUpProgressBar?.visibility = View.GONE
-            }
+            onFailure = {}
         )
     }
 

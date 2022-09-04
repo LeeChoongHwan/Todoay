@@ -1,7 +1,7 @@
 package com.todoay.api.domain.todo.dueDate.dto.response
 
 import com.google.gson.annotations.SerializedName
-import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.hashtag.dto.Hashtag
 import java.time.LocalDate
 
 data class ReadDueDateTodoResponse(
@@ -12,7 +12,7 @@ data class ReadDueDateTodoResponse(
     @SerializedName("description")
     val description : String,
     @SerializedName("hashtagInfoDtos")
-    val hashtagList : List<HashtagDto>,
+    val hashtagList : List<Hashtag>,
     @SerializedName("dueDate")
     val dueDate : LocalDate,
     @SerializedName("importance")

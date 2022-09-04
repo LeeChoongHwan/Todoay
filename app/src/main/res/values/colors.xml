@@ -12,9 +12,9 @@
     <color name="gray">#9F9F9F</color>
     <color name="green">#55DF00</color>
     <color name="lightblue">#A7DFFF</color>
-    <color name="lightred">#FFD5D5</color>
-    <color name="lightyellow">#FFEBB8</color>
-    <color name="lightgreen">#B8FFD9</color>
+    <color name="priority_high">#FFD5D5</color>
+    <color name="priority_middle">#FFEBB8</color>
+    <color name="priority_low">#B8FFD9</color>
     <color name="light_gray">#E9E9E9</color>
     <color name="red_bin">#FF8787</color>
     <color name="light_blue">#DCE0FE</color>

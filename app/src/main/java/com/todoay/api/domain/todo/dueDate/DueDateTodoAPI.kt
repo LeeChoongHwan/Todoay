@@ -71,25 +71,42 @@ class DueDateTodoAPI {
     /**
      * 모든 DueDateTodo의 정보를 가져온다.
      *
-     * @param order DueDateTodo 리스트를 정렬할 타입의 String 변수
+     * @param orderType DueDateTodo 리스트를 정렬할 타입의 String 변수
      * @param onResponse
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readAllDueDateTodo(order : String, onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDueDateTodoService().readAllDueDateTodo(order)
+    fun readAllDueDateTodo(orderType : String, onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDueDateTodoService().readAllDueDateTodo(orderType)
             .enqueue(object : Callback<List<ReadAllDueDateTodoResponse>> {
                 override fun onResponse(
                     call: Call<List<ReadAllDueDateTodoResponse>>,
                     response: Response<List<ReadAllDueDateTodoResponse>>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val responseList : List<ReadAllDueDateTodoResponse> = response.body()!!
+                        onResponse(responseList)
+                        printLog("[DueDateTodo 전체 조회] - 성공 {$responseList}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[DueDateTodo 전체 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<List<ReadAllDueDateTodoResponse>>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/auth/send-mail"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
-
             })
     }
 

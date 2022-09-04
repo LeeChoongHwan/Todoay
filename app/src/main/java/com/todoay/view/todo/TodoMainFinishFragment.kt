@@ -26,7 +26,7 @@ class TodoMainFinishFragment: Fragment() {
         mBinding = binding
 
         mBinding?.todoMainAftertodoIv?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_todoMainFinishFragment_to_todoMainFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_todoMainFinishFragment_to_dueDateTodoMainFragment)
         }
 
         mBinding?.todoMainCalanderSelect?.setOnClickListener {
@@ -38,8 +38,8 @@ class TodoMainFinishFragment: Fragment() {
         
         initRecycler()
 
-        mBinding?.todoMainRecyclerview?.addItemDecoration(VerticalItemDecorator(20))
-        mBinding?.todoMainRecyclerview?.addItemDecoration(HorizontalItemDecorator(20))
+        mBinding?.todoMainRecyclerview?.addItemDecoration(DueDateTodoMainFragment.VerticalItemDecorator(20))
+        mBinding?.todoMainRecyclerview?.addItemDecoration(DueDateTodoMainFragment.HorizontalItemDecorator(20))
 
         return mBinding?.root
     }

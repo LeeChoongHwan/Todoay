@@ -15,15 +15,18 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
-import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.hashtag.dto.Hashtag
 import com.todoay.api.domain.todo.dueDate.DueDateTodoAPI
 import com.todoay.api.domain.todo.dueDate.dto.request.CreateDueDateTodoRequest
+import com.todoay.api.util.response.error.ErrorResponse
+import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.databinding.FragmentAddDTodoBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class AddDTodoFragment : BottomSheetDialogFragment() {
 
+    /* 바인딩 */
     lateinit var binding : FragmentAddDTodoBinding
 
     /* variable */
@@ -37,10 +40,16 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
     /* 우선순위 */
     lateinit var priority : String
     /* 해시태그 */
-    var hashtagList : List<HashtagDto>? = null
+    var hashtagList : List<Hashtag>? = null
     var isHashtag : Boolean = false
     /* 투두 설명 */
     var description : String? = null
+
+    /* Return Value Interface */
+    lateinit var result : CreateDueDateTodoResult
+    interface CreateDueDateTodoResult {
+        fun isCreate(isResult : Boolean)
+    }
 
     /* API 서비스 */
     private val service : DueDateTodoAPI = DueDateTodoAPI()
@@ -154,7 +163,7 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
             }
             hashtagSearchDialog.show(parentFragmentManager, hashtagSearchDialog.tag)
             hashtagSearchDialog.result = object : HashtagSearchDialog.HashtagSearchDialogResult {
-                override fun getResultList(hashtagResult: List<HashtagDto>) {
+                override fun getResultList(hashtagResult: List<Hashtag>) {
                     if(hashtagResult.isNotEmpty()) {
                         hashtagList = hashtagResult
                         val pHashtag = StringBuilder()
@@ -172,12 +181,9 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
                         binding.addDTodoHashtagEt.setText("")
                         isHashtag = false
                     }
-
                 }
             }
         }
-
-        /* 투두 설명 et */
 
         /* 추가하기 버튼 */
         binding.addDTodoConfirmBtn.setOnClickListener {
@@ -194,12 +200,14 @@ class AddDTodoFragment : BottomSheetDialogFragment() {
             service.createDueDateTodo(
                 request,
                 onResponse = {
-                             mainAct.showShortToast("DueDate Todo 추가 성공 id : ${it.id}")
+                    result.isCreate(true)
+                    dismiss()
                 },
                 onErrorResponse = {
-
                 },
-                onFailure = {}
+                onFailure = {
+                    dismiss()
+                }
             )
         }
 

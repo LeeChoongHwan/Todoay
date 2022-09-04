@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat
 import com.example.bottomfragmenttest.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.todoay.R
-import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.hashtag.dto.Hashtag
 import com.todoay.databinding.FragmentAddCTodoBinding
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -44,7 +44,7 @@ class AddCTodoFragment(val date: LocalDate) : BottomSheetDialogFragment() {
     var todo : String = ""
     var isTodo: Boolean = false
     /* 해시태그 */
-    var hashtagList : List<HashtagDto>? = null
+    var hashtagList : List<Hashtag>? = null
     var isHashtag : Boolean = false
     /* Target 시간 */
     var time : LocalDateTime? = null
@@ -163,7 +163,7 @@ class AddCTodoFragment(val date: LocalDate) : BottomSheetDialogFragment() {
             }
             hashtagSearchDialog.show(parentFragmentManager, hashtagSearchDialog.tag)
             hashtagSearchDialog.result = object : HashtagSearchDialog.HashtagSearchDialogResult {
-                override fun getResultList(hashtagResult: List<HashtagDto>) {
+                override fun getResultList(hashtagResult: List<Hashtag>) {
                     if(hashtagResult.isNotEmpty()) {
                         hashtagList = hashtagResult
                         val pHashtag = StringBuilder()

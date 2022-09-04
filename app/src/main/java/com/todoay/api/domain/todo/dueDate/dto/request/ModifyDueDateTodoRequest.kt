@@ -1,7 +1,7 @@
 package com.todoay.api.domain.todo.dueDate.dto.request
 
 import com.google.gson.annotations.SerializedName
-import com.todoay.api.domain.hashtag.dto.HashtagDto
+import com.todoay.api.domain.hashtag.dto.Hashtag
 import java.time.LocalDate
 
 data class ModifyDueDateTodoRequest(
@@ -18,5 +18,5 @@ data class ModifyDueDateTodoRequest(
     @SerializedName("importance")
     val priority : String,
     @SerializedName("hashtagNames")
-    val hashtagList : List<HashtagDto>
+    val hashtagList : List<Hashtag>
 )

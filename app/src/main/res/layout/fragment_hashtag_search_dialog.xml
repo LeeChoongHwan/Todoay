@@ -29,6 +29,7 @@
             android:textColorHint="@color/gray"
             android:fontFamily="@font/white"
             android:textSize="15sp"
+            android:imeOptions="actionSearch"
             android:inputType="textPersonName"
             android:text="" />
 
@@ -46,28 +47,47 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/hashtag_search_dialog_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constrainedHeight="true"
         app:layout_constraintTop_toBottomOf="@id/hashtag_search_dialog_top_layout"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.core.widget.NestedScrollView
+        <FrameLayout
+            android:id="@+id/hashtag_search_dialog_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true">
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/hashtag_search_dialog_list"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:visibility="gone"
-                tools:listitem="@layout/list_item_hashtag"/>
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
 
-        </androidx.core.widget.NestedScrollView>
-    </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hashtag_search_dialog_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    tools:listitem="@layout/list_item_hashtag"/>
 
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
 
+        <TextView
+            android:id="@+id/hashtag_search_dialog_view_more_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/gray"
+            android:textSize="15sp"
+            android:text="더보기" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@ class CalanderMainFragment : Fragment() {
         }
         //Todo 전환 버튼
         mBinding?.calanderMainTodoSelect?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_calanderMainFragment_to_todoMainFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_calanderMainFragment_to_dueDateTodoMainFragment)
         }
 
         mBinding?.todoMainSetting?.setOnClickListener {

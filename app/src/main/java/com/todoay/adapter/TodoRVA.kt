@@ -1,31 +1,72 @@
 package com.todoay.adapter
 
-import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.todoay.data.TodoData
-import com.todoay.databinding.ItemCalendarPlanBinding
-import com.todoay.databinding.ItemTodoPlanBinding
-
+import com.todoay.R
+import com.todoay.data.todo.DueDate
+import com.todoay.databinding.ListItemDueDateTodoBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class TodoRVA: RecyclerView.Adapter<TodoRVA.ViewHolder>() {
 
-    var dataList = mutableListOf<TodoData>()
+    var dataList : List<DueDate> = listOf()
 
-    inner class ViewHolder(private val binding: ItemTodoPlanBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ListItemDueDateTodoBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(todoData : TodoData) {
-            binding.todoMainDday.text = todoData.todo_Dday
-            binding.todoMainUrgent.text = todoData.todo_Conditon
-            binding.todoMainContent.text = todoData.todo_Content
-            binding.todoMainDate.text =  todoData.todo_Duedate
+        fun bind(todoData : DueDate) {
+            /* title */
+            binding.listItemDueDateTodoContent.text = todoData.todo
+            /* date */
+            binding.listItemDueDateTodoDate.text = todoData.dueDate.format(DateTimeFormatter.ofPattern("MM/dd"))
+            /* d-day & urgent */
+            val today = LocalDate.now()
+            val dDay = StringBuilder("D")
+            val period = today.until(todoData.dueDate, ChronoUnit.DAYS)
+            binding.listItemDueDateTodoUrgent.visibility = View.INVISIBLE
+            if(period == 0L) {
+                dDay.append("-DAY")
+                binding.listItemDueDateTodoUrgent.visibility = View.VISIBLE
+                binding.listItemDueDateTodoUrgent.text = "긴급!"
+            }
+            else if(period > 0L) {
+                dDay.append("-$period")
+                if(period < 4L) { // D-3부터 표시 ("임박!")
+                    binding.listItemDueDateTodoUrgent.visibility = View.VISIBLE
+                    binding.listItemDueDateTodoUrgent.text = "임박!"
+                }
+            }
+            else { dDay.append("+${period * (-1)}") }
+            binding.listItemDueDateTodoDday.text = dDay
+            /* priority */
+            when(todoData.priority) {
+                "HIGH" -> {
+                    binding.listItemDueDateTodoBg.setImageResource(R.drawable.bg_due_date_todo_high)
+                }
+                "MIDDLE" -> {
+                    binding.listItemDueDateTodoBg.setImageResource(R.drawable.bg_due_date_todo_middle)
+                }
+                "LOW" -> {
+                    binding.listItemDueDateTodoBg.setImageResource(R.drawable.bg_due_date_todo_low)
+                }
+            }
+            /* hashtag */
+            if(todoData.hashtagList != null) {
+                val hashtagSb = StringBuilder()
+                todoData.hashtagList.stream()
+                    .map { h -> "#${h.name} "}
+                    .forEach(hashtagSb::append)
+                binding.listItemDueDateTodoHashtag.text = hashtagSb
+            }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemTodoPlanBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ListItemDueDateTodoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
