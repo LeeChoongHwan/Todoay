@@ -1,14 +1,28 @@
 package com.todoay.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.todoay.data.CalendarData
+import com.todoay.data.CalendarInnerData
+import com.todoay.data.TodoFinishData
 import com.todoay.databinding.ItemCalendarPlanBinding
+import com.todoay.databinding.ItemTodoPlanFinishBinding
 
-class CalendarRVA : RecyclerView.Adapter<CalendarRVA.ViewHolder>(){
+class CalendarRVA: RecyclerView.Adapter<CalendarRVA.ViewHolder>() {
 
     var dataList = mutableListOf<CalendarData>()
+
+    inner class ViewHolder(private val binding: ItemCalendarPlanBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(calendarData: CalendarData) {
+            binding.calanderMainCategory.text = calendarData.category
+            binding.todoMainRecyclerview.adapter = CalendarInnerRVA()
+
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCalendarPlanBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -20,11 +34,4 @@ class CalendarRVA : RecyclerView.Adapter<CalendarRVA.ViewHolder>(){
     }
 
     override fun getItemCount(): Int = dataList.size
-
-    inner class ViewHolder(private val binding: ItemCalendarPlanBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(calenderData : CalendarData) {
-            binding.calanderMainCategory.text
-        }
-    }
 }
-
