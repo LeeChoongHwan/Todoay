@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
 
     <android.widget.Button
         android:id="@+id/calander_main_category"
@@ -25,6 +28,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_category_add" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todo_main_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/item_calendar_plan_inside"
+        app:layout_constraintTop_toBottomOf="@id/calander_main_category"
+        app:layout_constraintLeft_toLeftOf="@id/calander_main_category"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

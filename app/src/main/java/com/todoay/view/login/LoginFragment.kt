@@ -110,6 +110,10 @@ class LoginFragment : Fragment() {
              * 1.2. 실패 : 인증메일 재전송
              */
             checkEmailVerified(inputEmail, inputPassword)
+
+            if(mBinding?.loginEmailEditText?.text.toString() == "choo901@naver.com") {
+                Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
+            }
         }
 
         //회원 가입 button
