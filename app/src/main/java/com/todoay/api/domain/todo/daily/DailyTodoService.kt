@@ -23,34 +23,34 @@ interface DailyTodoService {
      * Http Method: GET
      */
     @GET("/todo/daily/my")
-    fun readAllDailyTodo(@Query("localDate") date : String) : Call<List<ReadAllDailyTodoResponse>>
+    fun readDailyTodoList(@Query("localDate") date : String) : Call<List<ReadAllDailyTodoResponse>>
 
     /**
      * 특정 DailyTodo의 정보를 가져오는 인터페이스 메소드.
      * Http Method: GET
      */
     @GET("/todo/daily/my/{id}")
-    fun readDailyTodo(@Path("id") id: Int) : Call<ReadDailyTodoResponse>
+    fun readDailyTodo(@Path("id") id: Long) : Call<ReadDailyTodoResponse>
 
     /**
      * DailyTodo의 반복 상태를 설정하는 인터페이스 메소드.
      * Http Method: POST
      */
     @POST("/todo/daily/{id}/repeat")
-    fun setDailyTodoRepeat(@Path("id") id : Int) : Call<SuccessResponse>
+    fun setDailyTodoRepeat(@Path("id") id : Long) : Call<SuccessResponse>
 
     /**
      * DailyTodo의 정보를 수정하는 인터페이스 메소드.
      * Http Method: PUT
      */
     @PUT("/todo/daily/{id}")
-    fun modifyDailyTodo(@Path("id") id : Int) : Call<ModifyDailyTodoResponse>
+    fun modifyDailyTodo(@Path("id") id : Long) : Call<ModifyDailyTodoResponse>
 
     /**
      * DailyTodo의 날짜 정보를 수정하는 인터페이스 메소드.
      * Http Method: PATCH
      */
     @PATCH("/todo/daily/{id}/daily-date")
-    fun modifyDailyTodoDate(@Path("id") id : Int) : Call<SuccessResponse>
+    fun modifyDailyTodoDate(@Path("id") id : Long) : Call<SuccessResponse>
 
 }

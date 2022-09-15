@@ -2,6 +2,7 @@ package com.todoay.api.domain.hashtag
 
 import com.todoay.api.domain.hashtag.dto.response.HashtagAutoResponse
 import com.todoay.api.domain.hashtag.dto.response.HashtagResponse
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,13 +18,13 @@ interface HashtagService {
      * Http Method : GET
      */
     @GET("/hashtag")
-    fun getHashtag(@Query("name", encoded = true) name : String, @Query("pageNum") pageNum : Int) : Call<HashtagResponse>
+    fun getHashtag(@Query("name") name : String, @Query("pageNum") pageNum : Int, @Query("quantity") quantity : Int) : Call<HashtagResponse>
 
     /**
      * 해시태그를 자동검색하는 인터페이스 메소드.
      * Http Method : GET
      */
     @GET("/hashtag/auto")
-    fun getHashtagAuto(@Query("name", encoded = true) name : String) : Call<HashtagAutoResponse>
+    fun getHashtagAuto(@Query("name") name : String) : Call<HashtagAutoResponse>
 
 }

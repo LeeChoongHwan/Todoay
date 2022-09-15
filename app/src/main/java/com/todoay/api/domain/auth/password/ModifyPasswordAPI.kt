@@ -8,7 +8,7 @@ import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.success.SuccessResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +19,17 @@ import retrofit2.Response
  * @see ModifyPasswordService
  */
 class ModifyPasswordAPI {
+
+    companion object {
+        private var instance : ModifyPasswordAPI? = null
+        fun getInstance() : ModifyPasswordAPI {
+            return instance ?: synchronized(this) {
+                instance ?: ModifyPasswordAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
     
     /**
      * 유저 비밀번호 변경 수행

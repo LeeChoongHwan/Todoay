@@ -30,8 +30,8 @@
             android:id="@+id/action_loginFragment_to_sendMailUpdatePasswordFragment"
             app:destination="@id/sendMailUpdatePasswordFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_calanderMainFragment"
-            app:destination="@id/calanderMainFragment" />
+            android:id="@+id/action_loginFragment_to_dailyTodoMainFragment"
+            app:destination="@id/dailyTodoMainFragment" />
     </fragment>
 
     <fragment
@@ -101,69 +101,33 @@
         android:label="fragment_network_not_found"
         tools:layout="@layout/fragment_network_not_found" />
     <fragment
-        android:id="@+id/calanderMainFragment"
-        android:name="com.todoay.view.todo.CalanderMainFragment"
-        android:label="CalanderMainFragment" >
+        android:id="@+id/dailyTodoMainFragment"
+        android:name="com.todoay.view.todo.daily.DailyTodoMainFragment"
+        android:label="DailyTodoMainFragment" >
         <action
-            android:id="@+id/action_calanderMainFragment_to_todoMainFragment"
-            app:destination="@id/todoMainFragment" />
+            android:id="@+id/action_dailyTodoMainFragment_to_dueDateTodoMainFragment"
+            app:destination="@id/dueDateTodoMainFragment" />
         <action
-            android:id="@+id/action_calanderMainFragment_to_categorySettingFragment"
-            app:destination="@id/categorySettingFragment" />
+            android:id="@+id/action_dailyTodoMainFragment_to_categorySettingMainFragment"
+            app:destination="@id/categorySettingMainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/todoMainFragment"
-        android:name="com.todoay.view.todo.TodoMainFragment"
-        android:label="TodoMainFragment" >
+        android:id="@+id/dueDateTodoMainFragment"
+        android:name="com.todoay.view.todo.dueDate.DueDateTodoMainFragment"
+        android:label="DueDateTodoMainFragment" >
         <action
-            android:id="@+id/action_todoMainFragment_to_calanderMainFragment"
-            app:destination="@id/calanderMainFragment" />
+            android:id="@+id/action_dueDateTodoMainFragment_to_dailyTodoMainFragment"
+            app:destination="@id/dailyTodoMainFragment" />
         <action
-            android:id="@+id/action_todoMainFragment_to_todoMainAlignDuedateFragment2"
-            app:destination="@id/todoMainAlignDuedateFragment" />
-        <action
-            android:id="@+id/action_todoMainFragment_to_todoMainFinishFragment"
-            app:destination="@id/todoMainFinishFragment" />
-        <action
-            android:id="@+id/action_todoMainFragment_to_categorySettingFragment"
-            app:destination="@id/categorySettingFragment" />
+            android:id="@+id/action_dueDateTodoMainFragment_to_categorySettingMainFragment"
+            app:destination="@id/categorySettingMainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/todoMainAlignDuedateFragment"
-        android:name="com.todoay.view.todo.TodoMainAlignDuedateFragment"
-        android:label="TodoMainAlignDuedateFragment" >
+        android:id="@+id/categorySettingMainFragment"
+        android:name="com.todoay.view.setting.category.CategorySettingMainFragment"
+        android:label="CategorySettingFragment">
         <action
-            android:id="@+id/action_todoMainAlignDuedateFragment_to_todoMainFragment"
-            app:destination="@id/todoMainFragment" />
-        <action
-            android:id="@+id/action_todoMainAlignDuedateFragment_to_calanderMainFragment"
-            app:destination="@id/calanderMainFragment" />
-        <action
-            android:id="@+id/action_todoMainAlignDuedateFragment_self"
-            app:destination="@id/todoMainAlignDuedateFragment" />
-        <action
-            android:id="@+id/action_todoMainAlignDuedateFragment_to_todoMainFinishFragment"
-            app:destination="@id/todoMainFinishFragment" />
-        <action
-            android:id="@+id/action_todoMainAlignDuedateFragment_to_categorySettingFragment"
-            app:destination="@id/categorySettingFragment" />
+            android:id="@+id/action_categorySettingMainFragment_to_dailyTodoMainFragment"
+            app:destination="@id/dailyTodoMainFragment"/>
     </fragment>
-    <fragment
-        android:id="@+id/todoMainFinishFragment"
-        android:name="com.todoay.view.todo.TodoMainFinishFragment"
-        android:label="TodoMainFinishFragment" >
-        <action
-            android:id="@+id/action_todoMainFinishFragment_to_todoMainFragment"
-            app:destination="@id/todoMainFragment" />
-        <action
-            android:id="@+id/action_todoMainFinishFragment_to_calanderMainFragment"
-            app:destination="@id/calanderMainFragment" />
-        <action
-            android:id="@+id/action_todoMainFinishFragment_to_categorySettingFragment"
-            app:destination="@id/categorySettingFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/categorySettingFragment"
-        android:name="com.todoay.view.todo.CategorySettingFragment"
-        android:label="CategorySettingFragment" />
 </navigation>

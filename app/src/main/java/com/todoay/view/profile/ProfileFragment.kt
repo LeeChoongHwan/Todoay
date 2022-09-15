@@ -10,20 +10,19 @@ import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.FragmentProfileBinding
-import com.todoay.global.util.Utils.Companion.printLogView
 
 class ProfileFragment : Fragment() {
 
     private var mBinding : FragmentProfileBinding?= null
 
-    private val profileService: ProfileAPI = ProfileAPI()
+    private val service by lazy { ProfileAPI.getInstance() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = FragmentProfileBinding.inflate(inflater,container,false)
 
-        printLogView(this)
+        mBinding = binding
 
-        profileService.getProfile(
+        service.getProfile(
             onResponse = {
                 mBinding?.profileJoinemailText?.text = it.email
                 mBinding?.profileNicknameText?.text = it.nickname
@@ -42,12 +41,6 @@ class ProfileFragment : Fragment() {
             onFailure = {
             }
         )
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentProfileBinding.inflate(inflater,container,false)
-
-        mBinding = binding
 
         // 메뉴바 버튼
         // Test를 위해 로그아웃 진행

@@ -14,6 +14,17 @@ import com.todoay.api.util.response.error.ErrorResponse
  */
 class RefreshAPI {
 
+    companion object {
+        private var instance : RefreshAPI? = null
+        fun getInstance() : RefreshAPI {
+            return instance ?: synchronized(this) {
+                instance ?: RefreshAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
+
     /**
      * 토큰 재발행 수행
      * [POST]("/auth/refresh")

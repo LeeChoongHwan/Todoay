@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bottom_dialog"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp"
+    tools:context=".view.setting.category.CategoryInfoFragment" >
+
+    <ImageView
+        android:id="@+id/category_info_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/bg_category_color" />
+
+    <TextView
+        android:id="@+id/category_info_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/category_info_color"
+        app:layout_constraintBottom_toBottomOf="@id/category_info_color"
+        app:layout_constraintLeft_toRightOf="@id/category_info_color"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="카테고리 이름" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/category_info_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:paddingTop="5dp">
+
+        <android.widget.Button
+            android:id="@+id/category_info_modify_btn"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_modify"
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/category_info_delete_btn"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textAlignment="textEnd"
+            android:text="수정하기" />
+
+        <android.widget.Button
+            android:id="@+id/category_info_delete_btn"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_bin"
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/category_info_modify_btn"
+            app:layout_constraintRight_toRightOf="@id/category_info_finish_btn"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textAlignment="textEnd"
+            android:text="삭제하기" />
+
+        <android.widget.Button
+            android:id="@+id/category_info_finish_btn"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_finish_category"
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/category_info_delete_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textAlignment="textEnd"
+            android:text="종료하기" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

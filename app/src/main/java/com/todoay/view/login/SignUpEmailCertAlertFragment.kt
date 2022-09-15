@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.R
 import com.todoay.databinding.FragmentSignUpEmailCertAlertBinding
-import com.todoay.global.util.Utils.Companion.printLogView
 
 class SignUpEmailCertAlertFragment : Fragment() {
 
@@ -18,8 +17,6 @@ class SignUpEmailCertAlertFragment : Fragment() {
         var binding = FragmentSignUpEmailCertAlertBinding.inflate(inflater, container, false)
 
         mBinding = binding
-
-        printLogView(this)
 
         /* 확인 버튼 */
         mBinding?.signUpEmailCertAlertConfirmBtn?.setOnClickListener {

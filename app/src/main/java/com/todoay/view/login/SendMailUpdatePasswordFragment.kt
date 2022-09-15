@@ -14,18 +14,17 @@ import com.todoay.R
 import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentSendMailUpdatePasswordBinding
-import com.todoay.global.util.Utils.Companion.printLogView
 
 class SendMailUpdatePasswordFragment : Fragment() {
 
     private var mBinding : FragmentSendMailUpdatePasswordBinding?= null
 
+    private val service by lazy { EmailAPI.getInstance() }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentSendMailUpdatePasswordBinding.inflate(inflater,container,false)
 
         mBinding = binding
-
-        printLogView(this)
 
         //뒤로가기 버튼
         mBinding?.sendMailUpdatePasswordBackBtn?.setOnClickListener {
@@ -77,7 +76,7 @@ class SendMailUpdatePasswordFragment : Fragment() {
             /**
              * 임시 비밀번호 메일 전송 API
              */
-            EmailAPI().sendMailForUpdatePassword(
+            service.sendMailForUpdatePassword(
                 inputEmail,
                 /* 임시 비밀번호 메일 전송 성공 */
                 onResponse = {

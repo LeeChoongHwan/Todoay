@@ -6,7 +6,7 @@ import com.todoay.api.domain.hashtag.dto.response.HashtagAutoResponse
 import com.todoay.api.domain.hashtag.dto.response.HashtagResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +18,17 @@ import retrofit2.Response
  */
 class HashtagAPI {
 
+    companion object {
+        private var instance : HashtagAPI? = null
+        fun getInstance() : HashtagAPI {
+            return instance ?: synchronized(this) {
+                instance ?: HashtagAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
+
     /**
      * 해시태그를 검색한다.
      * 다음 페이지가 존재하면 다음 페이지를 검색한다.
@@ -28,18 +39,36 @@ class HashtagAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun getHashtag(name : String, pageNum : Int, onResponse : (HashtagResponse) -> Unit, onErrorResponse : (ErrorResponse) -> Unit, onFailure : (FailureResponse) -> Unit) {
-        callHashtagService().getHashtag(name, pageNum)
+    fun getHashtag(name : String, pageNum : Int, quantity : Int, onResponse : (HashtagResponse) -> Unit, onErrorResponse : (ErrorResponse) -> Unit, onFailure : (FailureResponse) -> Unit) {
+        callHashtagService().getHashtag(name, pageNum, quantity)
             .enqueue(object : Callback<HashtagResponse> {
                 override fun onResponse(
                     call: Call<HashtagResponse>,
                     response: Response<HashtagResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse : HashtagResponse = response.body()!!
+                        onResponse(successResponse)
+                        printLog("[Hashtag Search] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Hashtag Search] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<HashtagResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/hashtag"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })

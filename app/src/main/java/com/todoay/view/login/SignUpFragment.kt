@@ -17,8 +17,6 @@ import com.todoay.api.domain.auth.nickname.NicknameAPI
 import com.todoay.api.domain.auth.signUp.SignUpAPI
 import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.databinding.FragmentSignUpBinding
-import com.todoay.global.util.Utils
-import com.todoay.global.util.Utils.Companion.printLogView
 import java.net.HttpURLConnection
 import java.util.regex.Pattern
 
@@ -32,15 +30,14 @@ class SignUpFragment : Fragment() {
     var isNickname : Boolean = false
     var isPasswordMatchCondition : Boolean = false
 
-    private val nicknameService : NicknameAPI = NicknameAPI()
-    private val emailService : EmailAPI = EmailAPI()
-    private val signUpService : SignUpAPI = SignUpAPI()
+    private val nicknameService : NicknameAPI by lazy { NicknameAPI.getInstance() }
+    private val emailService : EmailAPI by lazy { EmailAPI.getInstance() }
+    private val signUpService : SignUpAPI by lazy { SignUpAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentSignUpBinding.inflate(inflater,container,false)
 
         mBinding = binding
-        printLogView(this)
 
         /* 토큰 초기화 */
         TodoayApplication.pref.clear()
@@ -211,8 +208,7 @@ class SignUpFragment : Fragment() {
                 isNickname = false
                 changeConfirmButton()
             },
-            onFailure = {
-            }
+            onFailure = {}
         )
     }
 
@@ -264,6 +260,7 @@ class SignUpFragment : Fragment() {
             request,
             onResponse = {
                 if (it.status == HttpURLConnection.HTTP_NO_CONTENT) {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
                     sendCertMail(inputEmail)
                 }
             },
@@ -310,19 +307,11 @@ class SignUpFragment : Fragment() {
     private fun sendCertMail(inputEmail: String) {
         emailService.sendCertMail(
             inputEmail,
-            onResponse = {
-                Navigation.findNavController(requireView()).navigate(R.id.action_joinFragment_to_signUpEmailCertAlertFragment)
-            },
+            onResponse = {},
             onErrorResponse = {
-                /* 400 유효성 검사 실패 */
-                mBinding?.signUpEmailValidTv?.visibility = View.VISIBLE
-                mBinding?.signUpEmailEt?.requestFocus()
-                isEmail = false
-                mBinding?.signUpProgressBar?.visibility = View.GONE
+
             },
-            onFailure = {
-                mBinding?.signUpProgressBar?.visibility = View.GONE
-            }
+            onFailure = {}
         )
     }
 

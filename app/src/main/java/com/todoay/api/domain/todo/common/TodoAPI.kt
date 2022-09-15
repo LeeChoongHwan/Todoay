@@ -1,9 +1,11 @@
 package com.todoay.api.domain.todo.common
 
+import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.TodoServiceRepository.callTodoService
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,6 +17,17 @@ import retrofit2.Response
  */
 class TodoAPI {
 
+    companion object {
+        private var instance : TodoAPI? = null
+        fun getInstance() : TodoAPI {
+            return instance ?: synchronized(this) {
+                instance ?: TodoAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
+
     /**
      * 투두의 완료 상태를 바꾼다.
      *
@@ -23,20 +36,39 @@ class TodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun switchTodoComplete(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse : (ErrorResponse) -> Unit, onFailure : (FailureResponse) -> Unit) {
-        callTodoService().switchTodoComplete(id)
+    fun switchTodoFinishState(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse : (ErrorResponse) -> Unit, onFailure : (FailureResponse) -> Unit) {
+        callTodoService().switchTodoFinishState(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[Todo 완료 상태 변경] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Todo 완료 상태 변경] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/{id}/switch"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
-
             })
     }
 
@@ -48,18 +80,38 @@ class TodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun deleteTodo(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun deleteTodo(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callTodoService().deleteTodo(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[Todo 삭제] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Todo 삭제] - 실패 {$errorResponse}")
+                        }
+                        catch (t: Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/{id}"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })

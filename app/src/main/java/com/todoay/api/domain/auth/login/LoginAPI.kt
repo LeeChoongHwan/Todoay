@@ -8,7 +8,7 @@ import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.api.domain.auth.login.dto.response.LoginResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +19,18 @@ import retrofit2.Response
  * @see LoginService
  */
 class LoginAPI {
-    
+
+    companion object {
+        private var instance : LoginAPI? = null
+        fun getInstance() : LoginAPI {
+            return instance ?: synchronized(this) {
+                instance ?: LoginAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
+
     /**
      * 로그인 수행
      * [POST]("/auth/login")

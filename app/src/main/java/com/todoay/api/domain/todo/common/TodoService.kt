@@ -18,7 +18,7 @@ interface TodoService {
      * @return Call<SuccessResponse>
      */
     @PATCH("/todo/{id}/switch")
-    fun switchTodoComplete(@Path("id") id : Int) : Call<SuccessResponse>
+    fun switchTodoFinishState(@Path("id") id : Long) : Call<SuccessResponse>
 
     /**
      * 투두를 삭제하는 인터페이스 메소드.
@@ -28,6 +28,6 @@ interface TodoService {
      * @return Call<SuccessResponse>
      */
     @DELETE("/todo/{id}")
-    fun deleteTodo(@Path("id") id : Int) : Call<SuccessResponse>
+    fun deleteTodo(@Path("id") id : Long) : Call<SuccessResponse>
 
 }

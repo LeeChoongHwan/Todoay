@@ -5,7 +5,7 @@ import com.todoay.TodoayApplication
 import com.todoay.api.domain.auth.refresh.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
 import com.todoay.api.util.response.error.ErrorResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import java.net.HttpURLConnection
 import java.time.LocalDateTime
 
@@ -16,12 +16,13 @@ import java.time.LocalDateTime
  * 하지만, 유효하지 않은 Refresh Token 또는 기타 이유로 인한 서버의 ErrorResponse에 대해서는
  * MainActivity에서 로그아웃을 진행하고, 로그인 페이지로 이동하도록 한다.
  *
- * @see com.todoay.api.config.RetrofitService.TokenInterceptor.intercept
+ * @see com.todoay.api.config.RetrofitService
  * @see RefreshAPI
  */
 class TokenManager {
+
     companion object {
-        private val refreshService : RefreshAPI = RefreshAPI()
+        private val refreshService by lazy { RefreshAPI.getInstance() }
         fun refreshToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
             printLog("[토큰 요청] Refresh Token 요청")
             val request = RefreshRequest(refreshToken)

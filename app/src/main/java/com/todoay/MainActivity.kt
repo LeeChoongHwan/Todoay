@@ -13,11 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.todoay.databinding.ActivityMainBinding
 import com.todoay.databinding.ToastBoardBinding
 import com.todoay.global.config.network.NetworkConnection
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.global.NetworkNotFoundFragment
 
 class MainActivity : AppCompatActivity() {
-
     companion object {
         lateinit var mainAct: MainActivity
     }

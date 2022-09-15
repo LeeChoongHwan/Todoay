@@ -17,8 +17,7 @@ import com.todoay.api.domain.auth.email.EmailAPI
 import com.todoay.api.domain.auth.login.LoginAPI
 import com.todoay.api.domain.auth.login.dto.request.LoginRequest
 import com.todoay.databinding.FragmentLoginBinding
-import com.todoay.global.util.Utils.Companion.printLog
-import com.todoay.global.util.Utils.Companion.printLogView
+import com.todoay.global.util.PrintUtil.printLog
 
 class LoginFragment : Fragment() {
 
@@ -29,15 +28,13 @@ class LoginFragment : Fragment() {
     //비밀번호 입력 여부 체크
     var isPassword : Boolean = false
 
-    private val loginService: LoginAPI = LoginAPI()
-    private val emailService: EmailAPI = EmailAPI()
+    private val loginService: LoginAPI by lazy { LoginAPI.getInstance() }
+    private val emailService: EmailAPI by lazy { EmailAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentLoginBinding.inflate(inflater,container,false)
 
         mBinding = binding
-
-        printLogView(this)
 
         /*
         로그인 기록이 있는 경우, 저장된 이메일 세팅.
@@ -112,7 +109,7 @@ class LoginFragment : Fragment() {
             checkEmailVerified(inputEmail, inputPassword)
 
             if(mBinding?.loginEmailEditText?.text.toString() == "choo901@naver.com") {
-                Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
+                Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
             }
         }
 
@@ -203,7 +200,7 @@ class LoginFragment : Fragment() {
                 if (TodoayApplication.pref.hasAccessToken()) {
                     printLog("[USER] 로그인")
                     mBinding?.loginProgressBar?.visibility = View.GONE
-                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
                 } else {
                     mainAct.showLongToast("다시 로그인해주세요")
                     mBinding?.loginProgressBar?.visibility = View.GONE
@@ -229,7 +226,7 @@ class LoginFragment : Fragment() {
         super.onStart()
         if(TodoayApplication.pref.hasAccessToken()) {
             printLog("[USER] 자동 로그인")
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_calanderMainFragment)
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
         }
     }
 
