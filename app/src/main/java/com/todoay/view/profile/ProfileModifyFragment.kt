@@ -23,7 +23,6 @@ import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.databinding.FragmentProfileModifyBinding
-import com.todoay.global.util.Utils.Companion.printLogView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -44,13 +43,11 @@ class ProfileModifyFragment : Fragment() {
 
     private var OPEN_GALLERY = 1
 
-    private val profileService: ProfileAPI = ProfileAPI()
-    private val nicknameService : NicknameAPI = NicknameAPI()
+    private val profileService by lazy { ProfileAPI.getInstance() }
+    private val nicknameService by lazy { NicknameAPI.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        printLogView(this)
 
         profileService.getProfile(
             onResponse = {

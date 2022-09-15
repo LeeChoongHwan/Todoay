@@ -3,10 +3,14 @@ package com.todoay.api.domain.todo.dueDate
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.TodoServiceRepository.callDueDateTodoService
 import com.todoay.api.domain.todo.dueDate.dto.request.CreateDueDateTodoRequest
-import com.todoay.api.domain.todo.dueDate.dto.response.*
+import com.todoay.api.domain.todo.dueDate.dto.request.ModifyDueDateTodoRequest
+import com.todoay.api.domain.todo.dueDate.dto.response.CreateDueDateTodoResponse
+import com.todoay.api.domain.todo.dueDate.dto.response.ReadAllDueDateTodoResponse
+import com.todoay.api.domain.todo.dueDate.dto.response.ReadDueDateTodoResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +21,17 @@ import retrofit2.Response
  * @see DueDateTodoService
  */
 class DueDateTodoAPI {
+
+    companion object {
+        private var instance : DueDateTodoAPI? = null
+        fun getInstance() : DueDateTodoAPI {
+            return instance ?: synchronized(this) {
+                instance ?: DueDateTodoAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
 
     /**
      * DueDateTodo를 생성한다.
@@ -76,8 +91,8 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readAllDueDateTodo(orderType : String, onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDueDateTodoService().readAllDueDateTodo(orderType)
+    fun readDueDateTodoList(orderType : String, onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDueDateTodoService().readDueDateTodoList(orderType)
             .enqueue(object : Callback<List<ReadAllDueDateTodoResponse>> {
                 override fun onResponse(
                     call: Call<List<ReadAllDueDateTodoResponse>>,
@@ -102,7 +117,7 @@ class DueDateTodoAPI {
 
                 override fun onFailure(call: Call<List<ReadAllDueDateTodoResponse>>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
-                        t, "/auth/send-mail"
+                        t, "/todo/due-date/my"
                     )
                     onFailure(failure)
                     printLog("[SYSTEM ERROR] - 실패 {${failure}}")
@@ -118,18 +133,36 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readDueDateTodo(id : Int, onResponse : (ReadDueDateTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDueDateTodoService().readDueDateTodo(id)
+    fun readDueDateTodoInfo(id : Long, onResponse : (ReadDueDateTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDueDateTodoService().readDueDateTodoInfo(id)
             .enqueue(object : Callback<ReadDueDateTodoResponse> {
                 override fun onResponse(
                     call: Call<ReadDueDateTodoResponse>,
                     response: Response<ReadDueDateTodoResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = response.body()!!
+                        onResponse(successResponse)
+                        printLog("[DueDate Info 조회] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[DueDate Info 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<ReadDueDateTodoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/due-date/my/{id}"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -142,18 +175,36 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readFinishedDueDateTodo(onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDueDateTodoService().readFinishedDueDateTodo()
+    fun readFinishDueDateTodoList(onResponse : (List<ReadAllDueDateTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDueDateTodoService().readFinishDueDateTodoList()
             .enqueue(object : Callback<List<ReadAllDueDateTodoResponse>> {
                 override fun onResponse(
                     call: Call<List<ReadAllDueDateTodoResponse>>,
                     response: Response<List<ReadAllDueDateTodoResponse>>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = response.body()!!
+                        onResponse(successResponse)
+                        printLog("[Finish DueDateTodo 전체 조회] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Finish DueDateTodo 전체 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<List<ReadAllDueDateTodoResponse>>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/due-date/my/finished"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -167,18 +218,38 @@ class DueDateTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun modifyDueDateTodo(id : Int, onResponse : (ModifyDueDateTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDueDateTodoService().modifyDueDateTodo(id)
-            .enqueue(object : Callback<ModifyDueDateTodoResponse> {
+    fun modifyDueDateTodo(id : Long, request : ModifyDueDateTodoRequest, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDueDateTodoService().modifyDueDateTodo(id, request)
+            .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
-                    call: Call<ModifyDueDateTodoResponse>,
-                    response: Response<ModifyDueDateTodoResponse>
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[DueDate Info 수정] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[DueDate Info 수정] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
-                override fun onFailure(call: Call<ModifyDueDateTodoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/due-date/{id}"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })

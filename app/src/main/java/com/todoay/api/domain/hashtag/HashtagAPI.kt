@@ -6,9 +6,7 @@ import com.todoay.api.domain.hashtag.dto.response.HashtagAutoResponse
 import com.todoay.api.domain.hashtag.dto.response.HashtagResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
-import com.todoay.global.util.Utils.Companion.printLog
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +17,17 @@ import retrofit2.Response
  * @see HashtagService
  */
 class HashtagAPI {
+
+    companion object {
+        private var instance : HashtagAPI? = null
+        fun getInstance() : HashtagAPI {
+            return instance ?: synchronized(this) {
+                instance ?: HashtagAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
 
     /**
      * 해시태그를 검색한다.

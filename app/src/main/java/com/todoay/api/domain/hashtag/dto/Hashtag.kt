@@ -7,4 +7,7 @@ data class Hashtag(
     val name : String
 ) {
     override fun equals(other: Any?): Boolean = (other is Hashtag) && name == other.name
+    override fun toString(): String {
+        return "#$name "
+    }
 }

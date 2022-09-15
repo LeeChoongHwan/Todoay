@@ -2,6 +2,7 @@ package com.todoay.api.domain.category
 
 import com.todoay.api.domain.category.dto.request.CreateCategoryRequest
 import com.todoay.api.domain.category.dto.request.ModifyCategoryOrderIndexRequest
+import com.todoay.api.domain.category.dto.request.ModifyCategoryRequest
 import com.todoay.api.domain.category.dto.response.CreateCategoryResponse
 import com.todoay.api.domain.category.dto.response.ReadCategoryResponse
 import com.todoay.api.util.response.success.SuccessResponse
@@ -32,14 +33,14 @@ interface CategoryService {
      * Http Method : PUT
      */
     @PUT("/category/{id}")
-    fun modifyCategory(@Path("id") id : Int) : Call<SuccessResponse>
+    fun modifyCategory(@Path("id") id : Long, @Body request : ModifyCategoryRequest) : Call<SuccessResponse>
 
     /**
      * 카테고리를 종료하는 인터페이스 메소드.
      * Http Method : PATCH
      */
     @PATCH("/category/{id}/end")
-    fun terminateCategory(@Path("id") id: Int) : Call<SuccessResponse>
+    fun terminateCategory(@Path("id") id: Long) : Call<SuccessResponse>
 
     /**
      * 카테고리의 순서를 변경하는 인터페이스 메소드.
@@ -53,6 +54,6 @@ interface CategoryService {
      * Http Method : DELETE
      */
     @DELETE("/category/{id}")
-    fun deleteCategory(@Path("id") id: Int) : Call<SuccessResponse>
+    fun deleteCategory(@Path("id") id: Long) : Call<SuccessResponse>
 
 }

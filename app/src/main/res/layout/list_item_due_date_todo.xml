@@ -67,7 +67,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/regular"
         android:textSize="14sp"
-        android:text="#해시태그" />
+        android:text="" />
 
     <TextView
         android:id="@+id/list_item_due_date_todo_date"

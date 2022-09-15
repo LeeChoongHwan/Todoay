@@ -11,6 +11,7 @@
     <color name="red">#ED1919</color>
     <color name="gray">#9F9F9F</color>
     <color name="green">#55DF00</color>
+    <color name="light_green">#8EDE87</color>
     <color name="lightblue">#A7DFFF</color>
     <color name="priority_high">#FFD5D5</color>
     <color name="priority_middle">#FFEBB8</color>

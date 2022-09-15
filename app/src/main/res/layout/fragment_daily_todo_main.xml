@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/daily_todo_main_menu_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/menu_btn" />
+
+    <TextView
+        android:id="@+id/daily_todo_main_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blackoblique"
+        android:text="Todoay"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_menu_iv"
+         />
+
+    <View
+        android:id="@+id/daily_todo_main_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="15dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_title_tv" />
+
+
+    <ImageView
+        android:id="@+id/daily_todo_main_daily_todo_select"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_top_line"
+        app:srcCompat="@drawable/selectbtn_calander" />
+
+    <ImageView
+        android:id="@+id/daily_todo_main_todo_select"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="1dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toRightOf="@id/daily_todo_main_daily_todo_select"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_daily_todo_select"
+        app:srcCompat="@drawable/selectbtn_calander_unselect" />
+
+    <ImageView
+        android:id="@+id/daily_todo_main_daily_todo_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_calendar"
+        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_daily_todo_select"
+        app:layout_constraintRight_toRightOf="@id/daily_todo_main_daily_todo_select"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_daily_todo_select"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_daily_todo_select"/>
+
+    <ImageView
+        android:id="@+id/daily_todo_main_todo_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_notebook"
+        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_todo_select"
+        app:layout_constraintRight_toRightOf="@id/daily_todo_main_todo_select"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_todo_select"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_todo_select"/>
+
+    <CalendarView
+        android:id="@+id/daily_todo_main_daily_todoview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_daily_todo_select"
+        android:layout_marginTop="15dp"/>
+
+    <ImageView
+        android:id="@+id/daily_todo_main_bell_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_menu_iv"
+        app:srcCompat="@drawable/ic_bell" />
+
+    <ImageView
+        android:id="@+id/todo_main_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_setting"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_daily_todo_select"
+        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_bell_iv"/>
+
+<!--    <android.widget.Button-->
+<!--        android:id="@+id/daily_todo_main_category"-->
+<!--        android:layout_width="130dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:background="@drawable/category_background"-->
+<!--        android:fontFamily="@font/regular"-->
+<!--        android:text="운동"-->
+<!--        android:textColor="@color/main_color"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_daily_todo_select"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_daily_todoview" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/daily_todo_main_category_add"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:clickable="true"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_category"-->
+<!--        app:layout_constraintTop_toTopOf="@id/daily_todo_main_category"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_bell_iv"-->
+<!--        app:srcCompat="@drawable/ic_category_add"-->
+<!--        />-->
+
+<!--    <CheckBox-->
+<!--        android:id="@+id/daily_todo_main_checkbox"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="스쿼트"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_category"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_category"/>-->
+
+<!--    <CheckBox-->
+<!--        android:id="@+id/daily_todo_main_checkbox_2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="유산소"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_checkbox"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_checkbox"/>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/daily_todo_main_menu_dot"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:srcCompat="@drawable/ic_menu_dot"-->
+<!--        app:layout_constraintTop_toTopOf="@id/daily_todo_main_checkbox"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_checkbox"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_category_add"/>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/daily_todo_main_menu_dot_2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:srcCompat="@drawable/ic_menu_dot"-->
+<!--        app:layout_constraintTop_toTopOf="@id/daily_todo_main_checkbox_2"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_checkbox_2"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_category_add"/>-->
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/daily_todo_main_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_daily_todoview">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/daily_todo_main_recycler_plan"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/daily_todo_main_daily_todoview"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/list_item_daily_todo_category"/>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

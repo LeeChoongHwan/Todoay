@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp"
+    android:background="@drawable/bg_pop_up_list_dialog"
+    tools:context=".DailyRepeatSettingDialog">
+
+    <TextView
+        android:id="@+id/daily_repeat_setting_type_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="반복주기" />
+
+    <RadioGroup
+        android:id="@+id/daily_repeat_setting_type_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/daily_repeat_setting_type_title_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/daily_repeat_setting_type_title_tv"
+        app:layout_constraintBottom_toBottomOf="@id/daily_repeat_setting_type_title_tv"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/daily_repeat_setting_type_daily"
+            android:layout_width="55dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_daily_repeat_type"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="매일" />
+
+        <RadioButton
+            android:id="@+id/daily_repeat_setting_type_weeks"
+            android:layout_width="55dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_daily_repeat_type"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="매주" />
+
+        <RadioButton
+            android:id="@+id/daily_repeat_setting_type_months"
+            android:layout_width="55dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_daily_repeat_type"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="매월" />
+
+        <RadioButton
+            android:id="@+id/daily_repeat_setting_type_years"
+            android:layout_width="55dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_daily_repeat_type"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="매년" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/daily_repeat_setting_duration_layout"
+        app:layout_constraintTop_toBottomOf="@id/daily_repeat_setting_type_title_tv"
+        android:background="@color/light_gray"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/daily_repeat_setting_duration_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="반복기간" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/daily_repeat_setting_duration_btn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="4"
+            android:background="@drawable/bg_button_white_color"
+            android:fontFamily="@font/white"
+            android:textAlignment="textEnd"
+            android:text="한달" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/daily_repeat_setting_duration_picker_layout"
+        app:layout_constraintTop_toBottomOf="@id/daily_repeat_setting_duration_layout"
+        app:layout_constraintLeft_toLeftOf="@id/daily_repeat_setting_duration_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <NumberPicker
+            android:id="@+id/daily_repeat_setting_duration_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/daily_repeat_setting_repeat_layout"
+        app:layout_constraintTop_toBottomOf="@id/daily_repeat_setting_duration_picker_layout"
+        app:layout_constraintLeft_toLeftOf="@id/daily_repeat_setting_duration_picker_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:weightSum="7"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/daily_repeat_setting_repeat_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="반복" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/daily_repeat_setting_repeat_btn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="6"
+            android:background="@drawable/bg_button_white_color"
+            android:fontFamily="@font/white"
+            android:textAlignment="textEnd"
+            android:text="주" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/daily_repeat_setting_repeat_picker_layout"
+        app:layout_constraintTop_toBottomOf="@id/daily_repeat_setting_repeat_layout"
+        app:layout_constraintLeft_toLeftOf="@id/daily_repeat_setting_repeat_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <NumberPicker
+            android:id="@+id/daily_repeat_setting_repeat_picker"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content" />
+
+        <NumberPicker
+            android:id="@+id/daily_repeat_setting_repeat_type_picker"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/daily_repeat_setting_confirm_btn"
+        app:layout_constraintTop_toBottomOf="@id/daily_repeat_setting_repeat_picker_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/main_color"
+        android:textSize="16sp"
+        android:text="확인"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

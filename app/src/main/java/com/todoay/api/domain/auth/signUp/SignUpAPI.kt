@@ -8,7 +8,7 @@ import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.api.util.response.success.SuccessResponse
-import com.todoay.global.util.Utils.Companion.printLog
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +19,17 @@ import retrofit2.Response
  * @see SignUpService
  */
 class SignUpAPI {
+
+    companion object {
+        private var instance : SignUpAPI? = null
+        fun getInstance() : SignUpAPI {
+            return instance ?: synchronized(this) {
+                instance ?: SignUpAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
     
     /**
      * 유저 회원가입 수행

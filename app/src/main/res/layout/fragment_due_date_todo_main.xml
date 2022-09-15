@@ -108,9 +108,9 @@
             android:button="@null"
             android:checked="true"
             android:gravity="center"
-            android:background="@drawable/bg_order_type_importance"
+            android:background="@drawable/bg_radio_order_type_importance"
             android:fontFamily="@font/regular"
-            android:textColor="@drawable/txt_color_order_type"
+            android:textColor="@drawable/txt_color_radio_button"
             android:text="우선순위 순" />
 
         <RadioButton
@@ -120,9 +120,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@drawable/bg_order_type_due_date"
+            android:background="@drawable/bg_radio_order_type_due_date"
             android:fontFamily="@font/regular"
-            android:textColor="@drawable/txt_color_order_type"
+            android:textColor="@drawable/txt_color_radio_button"
             android:text="만기일 순" />
     </RadioGroup>
 
@@ -137,15 +137,40 @@
         tools:layout_editor_absoluteX="357dp"
         app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_bell_iv"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/due_date_todo_main_recyclerview"
+    <FrameLayout
+        android:id="@+id/due_date_todo_main_rv_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_order_type_group"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        tools:listitem="@layout/list_item_due_date_todo"/>
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_order_type_group">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/due_date_todo_main_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/list_item_due_date_todo"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/due_date_todo_main_finish_rv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_order_type_group">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/due_date_todo_main_finish_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/list_item_due_date_todo_finish"/>
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/due_date_todo_main_add_btn"

@@ -8,15 +8,13 @@ data class ModifyDueDateTodoRequest(
     @SerializedName("title")
     val todo : String,
     @SerializedName("description")
-    val description : String,
+    val description : String?,
     @SerializedName("publicBool")
     val isPublic : Boolean,
-    @SerializedName("finishedBool")
-    val isFinish : Boolean,
     @SerializedName("dueDate")
     val dueDate : LocalDate,
     @SerializedName("importance")
     val priority : String,
     @SerializedName("hashtagNames")
-    val hashtagList : List<Hashtag>
+    val hashtagList : List<Hashtag>?
 )

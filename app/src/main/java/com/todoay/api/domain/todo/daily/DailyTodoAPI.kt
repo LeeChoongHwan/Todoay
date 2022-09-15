@@ -1,11 +1,16 @@
 package com.todoay.api.domain.todo.daily
 
+import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.TodoServiceRepository.callDailyTodoService
 import com.todoay.api.domain.todo.daily.dto.request.CreateDailyTodoRequest
-import com.todoay.api.domain.todo.daily.dto.response.*
+import com.todoay.api.domain.todo.daily.dto.response.CreateDailyTodoResponse
+import com.todoay.api.domain.todo.daily.dto.response.ModifyDailyTodoResponse
+import com.todoay.api.domain.todo.daily.dto.response.ReadAllDailyTodoResponse
+import com.todoay.api.domain.todo.daily.dto.response.ReadDailyTodoResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +22,17 @@ import java.time.LocalDate
  * @see DailyTodoService
  */
 class DailyTodoAPI {
+
+    companion object {
+        private var instance : DailyTodoAPI? = null
+        fun getInstance() : DailyTodoAPI {
+            return instance ?: synchronized(this) {
+                instance ?: DailyTodoAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
 
     /**
      * DailyTodo 생성
@@ -33,11 +49,35 @@ class DailyTodoAPI {
                     call: Call<CreateDailyTodoResponse>,
                     response: Response<CreateDailyTodoResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val createResponse : CreateDailyTodoResponse = response.body()!!
+                        onResponse(createResponse)
+                        printLog("[DailyTodo 추가] - 성공 {$createResponse}")
+                    } else {
+                        try {
+                            val errorResponse : ErrorResponse
+                            if(response.code() == 400) {
+                                errorResponse = RetrofitService.getValidErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            else {
+                                errorResponse = RetrofitService.getErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            printLog("[DailyTodo 추가] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<CreateDailyTodoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/daily"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -51,18 +91,36 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readAllDailyTodo(date : LocalDate, onResponse : (List<ReadAllDailyTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callDailyTodoService().readAllDailyTodo(date.toString())
+    fun readDailyTodoList(date : LocalDate, onResponse : (List<ReadAllDailyTodoResponse>) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDailyTodoService().readDailyTodoList(date.toString())
             .enqueue(object : Callback<List<ReadAllDailyTodoResponse>> {
                 override fun onResponse(
                     call: Call<List<ReadAllDailyTodoResponse>>,
                     response: Response<List<ReadAllDailyTodoResponse>>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val responseList : List<ReadAllDailyTodoResponse> = response.body()!!
+                        onResponse(responseList)
+                        printLog("[DueDateTodo 전체 조회] - 성공 {$responseList}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[DailyTodo 전체 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<List<ReadAllDailyTodoResponse>>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/daily/my"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -76,18 +134,35 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun readDailyTodo(id : Int, onResponse : (ReadDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun readDailyTodo(id : Long, onResponse : (ReadDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDailyTodoService().readDailyTodo(id)
             .enqueue(object : Callback<ReadDailyTodoResponse> {
                 override fun onResponse(
                     call: Call<ReadDailyTodoResponse>,
                     response: Response<ReadDailyTodoResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val readDailyTodoResponse : ReadDailyTodoResponse = response.body()!!
+                        onResponse(readDailyTodoResponse)
+                        printLog("[DailyTodo 상세 조회] - 성공 {$readDailyTodoResponse}")
+                    } else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[DailyTodo 상세 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<ReadDailyTodoResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/daily/my"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
                 }
 
             })
@@ -101,7 +176,7 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun setDailyTodoRepeat(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun setDailyTodoRepeat(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDailyTodoService().setDailyTodoRepeat(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
@@ -126,7 +201,7 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun modifyDailyTodo(id : Int, onResponse : (ModifyDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun modifyDailyTodo(id : Long, onResponse : (ModifyDailyTodoResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDailyTodoService().modifyDailyTodo(id)
             .enqueue(object : Callback<ModifyDailyTodoResponse> {
                 override fun onResponse(
@@ -151,7 +226,7 @@ class DailyTodoAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun modifyDailyTodoDate(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun modifyDailyTodoDate(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callDailyTodoService().modifyDailyTodoDate(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(

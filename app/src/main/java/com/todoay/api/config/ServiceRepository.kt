@@ -14,7 +14,7 @@ import com.todoay.api.domain.todo.daily.DailyTodoService
 import com.todoay.api.domain.todo.dueDate.DueDateTodoService
 
 /**
- * Retrofit Service를 사용하는 Service의 객체를 초기화하는 object 클래스.
+ * Retrofit Service를 사용하는 Service Interface 객체를 초기화하는 object 클래스.
  * type:
  *      AuthServiceRepository
  *      ProfileServiceRepository

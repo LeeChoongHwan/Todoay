@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.MainActivity.Companion.mainAct
@@ -14,8 +13,6 @@ import com.todoay.R
 import com.todoay.api.domain.auth.password.ModifyPasswordAPI
 import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
 import com.todoay.databinding.FragmentChangePasswordBinding
-import com.todoay.global.util.Utils
-import com.todoay.global.util.Utils.Companion.printLogView
 import java.util.regex.Pattern
 
 class ChangePasswordFragment : Fragment() {
@@ -26,14 +23,12 @@ class ChangePasswordFragment : Fragment() {
     var isChangedPassword : Boolean = false
     var isChangedCheckPassword : Boolean = false
 
-    val modifyPasswordService = ModifyPasswordAPI()
+    private val service by lazy { ModifyPasswordAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentChangePasswordBinding.inflate(inflater,container,false)
 
         mBinding = binding
-
-        printLogView(this)
 
         //뒤로가기 버튼
         mBinding?.changepasswordBackbtn?.setOnClickListener {
@@ -48,7 +43,7 @@ class ChangePasswordFragment : Fragment() {
             val request = ModifyPasswordRequest(originPassword, modifiedPassword)
 
             //비밀번호 변경 API 호출
-            modifyPasswordService.modifyPassword(
+            service.modifyPassword(
                 request,
                 onResponse = {
                     mainAct.logout("다시 로그인해주세요")

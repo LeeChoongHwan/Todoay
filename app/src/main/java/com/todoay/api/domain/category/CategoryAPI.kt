@@ -1,13 +1,16 @@
 package com.todoay.api.domain.category
 
+import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.CategoryServiceRepository.callCategoryService
 import com.todoay.api.domain.category.dto.request.CreateCategoryRequest
 import com.todoay.api.domain.category.dto.request.ModifyCategoryOrderIndexRequest
+import com.todoay.api.domain.category.dto.request.ModifyCategoryRequest
 import com.todoay.api.domain.category.dto.response.CreateCategoryResponse
 import com.todoay.api.domain.category.dto.response.ReadCategoryResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.global.util.PrintUtil.printLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +21,17 @@ import retrofit2.Response
  * @see CategoryService
  */
 class CategoryAPI {
+
+    companion object {
+        private var instance : CategoryAPI? = null
+        fun getInstance() : CategoryAPI {
+            return instance ?: synchronized(this) {
+                instance ?: CategoryAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
 
     /**
      * 카테고리를 생성한다.
@@ -34,11 +48,29 @@ class CategoryAPI {
                     call: Call<CreateCategoryResponse>,
                     response: Response<CreateCategoryResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse : CreateCategoryResponse = response.body()!!
+                        onResponse(successResponse)
+                        printLog("[카테고리 생성] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 생성] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<CreateCategoryResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -58,11 +90,29 @@ class CategoryAPI {
                     call: Call<ReadCategoryResponse>,
                     response: Response<ReadCategoryResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse : ReadCategoryResponse = response.body()!!
+                        onResponse(successResponse)
+                        printLog("[카테고리 전체 조회] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 전체 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t: Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<ReadCategoryResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category/my"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -76,18 +126,38 @@ class CategoryAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun modifyCategory(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callCategoryService().modifyCategory(id)
+    fun modifyCategory(id : Long, request : ModifyCategoryRequest, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callCategoryService().modifyCategory(id, request)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[카테고리 수정] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 수정] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category/{id}"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -101,18 +171,38 @@ class CategoryAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun terminateCategory(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun terminateCategory(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callCategoryService().terminateCategory(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[카테고리 종료] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 종료] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category/{id}/end"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -133,11 +223,31 @@ class CategoryAPI {
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[카테고리 순서 변경] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 순서 변경] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category/order-indexes"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -151,18 +261,38 @@ class CategoryAPI {
      * @param onErrorResponse
      * @param onFailure
      */
-    fun deleteCategory(id : Int, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+    fun deleteCategory(id : Long, onResponse : (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
         callCategoryService().deleteCategory(id)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    TODO("Not yet implemented")
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(
+                            status = response.code()
+                        )
+                        onResponse(successResponse)
+                        printLog("[카테고리 삭제] - 성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[카테고리 삭제] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    val failure = RetrofitService.getFailure(
+                        t, "/category/{id}"
+                    )
+                    onFailure(failure)
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })

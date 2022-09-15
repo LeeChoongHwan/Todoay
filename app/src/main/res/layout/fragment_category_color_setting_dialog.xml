@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_bottom_dialog"
     android:padding="20dp"
-    tools:context=".CategoryColorSettingDialog">
+    tools:context="com.todoay.view.setting.category.CategoryColorSettingDialog">
 
     <TextView
         android:id="@+id/category_color_setting_dialog_title_tv"

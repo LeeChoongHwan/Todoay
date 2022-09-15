@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 data class ReadDueDateTodoResponse(
     @SerializedName("id")
-    val id : Int,
+    val id : Long,
     @SerializedName("title")
     val todo : String,
     @SerializedName("description")
