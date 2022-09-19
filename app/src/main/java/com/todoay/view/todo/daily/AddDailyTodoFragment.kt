@@ -23,6 +23,7 @@ import com.todoay.R
 import com.todoay.api.domain.hashtag.dto.Hashtag
 import com.todoay.api.domain.todo.daily.DailyTodoAPI
 import com.todoay.api.domain.todo.daily.dto.request.CreateDailyTodoRequest
+import com.todoay.api.domain.todo.daily.dto.request.ModifyDailyTodoRequest
 import com.todoay.data.category.Category
 import com.todoay.data.todo.daily.Alarm
 import com.todoay.data.todo.daily.DailyInfo
@@ -34,6 +35,7 @@ import com.todoay.view.global.interfaces.ModifiedTodoResult
 import com.todoay.view.todo.common.HashtagSearchDialog
 import com.todoay.view.todo.common.TimeExistDialogFragment
 import com.todoay.view.todo.daily.interfaces.AddDailyTodoCategorySettingDialogResult
+import com.todoay.view.todo.daily.interfaces.ModifiedDailyData
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -83,9 +85,11 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
 
         if(isModificationMode) {
             isPublic = modifiedData.isPublic
+
             todo = modifiedData.todo
             binding.addDailyTodoTodoEt.setText(todo)
             isTodo = true
+
             hashtagList = modifiedData.hashtagList
             if(!hashtagList.isNullOrEmpty()) {
                 val hashtagSb = StringBuilder()
@@ -101,6 +105,9 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
             if(alarm  != null) {
                 setAlarmContents(alarm!!)
             }
+
+            binding.addDailyTodoConfirmBtn.text = "수정하기"
+            checkEnableConfirmButton(binding.addDailyTodoConfirmBtn)
         }
 
         /* 취소 버튼 */
@@ -211,30 +218,13 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
             }
         }
 
-        /* 추가하기 버튼 */
+        /* 추가하기 or 수정하기 버튼 */
         binding.addDailyTodoConfirmBtn.setOnClickListener {
-            val request = CreateDailyTodoRequest(
-                todo = binding.addDailyTodoTodoEt.text.toString(),
-                alarm = if(alarm != null) alarm!!.alarmTime else null,
-                time = time,
-                location = binding.addDailyTodoDetailsLocationEt.text.toString(),
-                partner = binding.addDailyTodoDetailsPartnerEt.text.toString(),
-                date = date,
-                categoryId = category.id,
-                hashtagList = hashtagList,
-                isPublic = isPublic
-            )
-            service.createDailyTodo(
-                request,
-                onResponse = {
-                    createResult.isCreate(true)
-                    dismiss()
-                },
-                onErrorResponse = {
-
-                },
-                onFailure = {}
-            )
+            if(isModificationMode) {
+                modifyDailyTodo()
+            } else {
+                createDailyTodo()
+            }
         }
 
         /** /////////////////////////////////////////////////////////////////////////////////////////// */
@@ -262,6 +252,57 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
         return binding.root
     }
 
+    private fun createDailyTodo() {
+        val request = CreateDailyTodoRequest(
+            todo = binding.addDailyTodoTodoEt.text.toString(),
+            alarm = if (alarm != null) alarm!!.alarmTime else null,
+            time = time,
+            location = binding.addDailyTodoDetailsLocationEt.text.toString(),
+            partner = binding.addDailyTodoDetailsPartnerEt.text.toString(),
+            date = date,
+            categoryId = category.id,
+            hashtagList = hashtagList,
+            isPublic = isPublic
+        )
+        service.createDailyTodo(
+            request,
+            onResponse = {
+                createResult.isCreate(true)
+                dismiss()
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {}
+        )
+    }
+
+    private fun modifyDailyTodo() {
+        val request = ModifyDailyTodoRequest(
+            todo = binding.addDailyTodoTodoEt.text.toString(),
+            alarm = this.alarm?.alarmTime,
+            time = this.time,
+            location = binding.addDailyTodoDetailsLocationEt.text.toString(),
+            partner = binding.addDailyTodoDetailsPartnerEt.text.toString(),
+            date = this.date,
+            categoryId = this.category.id,
+            hashtagList = this.hashtagList,
+            isPublic = this.isPublic
+        )
+        service.modifyDailyTodo(
+            modifiedData.id,
+            request,
+            onResponse = {
+                modifiedResult.isModified(true, modifiedData.id)
+                dismiss()
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {}
+        )
+    }
+
     private fun initAnimation() {
         slideFromRight = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_from_right)
         slideFromLeft = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_from_left)
@@ -270,7 +311,6 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
         flipFront = AnimatorInflater.loadAnimator(requireContext(), R.anim.flip_front)
         flipBack = AnimatorInflater.loadAnimator(requireContext(), R.anim.flip_back)
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

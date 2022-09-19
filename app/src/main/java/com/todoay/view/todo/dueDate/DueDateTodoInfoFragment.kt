@@ -47,10 +47,10 @@ class DueDateTodoInfoFragment(private val dueDateId : Long) : BottomSheetDialogF
             }
             modifyDueDateTodoFragment.show(parentFragmentManager, modifyDueDateTodoFragment.tag)
             modifyDueDateTodoFragment.modifiedResult = object : ModifiedTodoResult {
-                override fun isModified(isResult: Boolean, id : Long) {
-                    if(isResult) {
+                override fun isModified(isModified: Boolean, id : Long) {
+                    if(isModified) {
                         getDueDateInfo(id)
-                        result.isChangedState(true)
+                        result.isChangedState(isModified)
                     }
                 }
             }

@@ -1,6 +1,9 @@
 package com.todoay.api.domain.todo.daily
 
 import com.todoay.api.domain.todo.daily.dto.request.CreateDailyTodoRequest
+import com.todoay.api.domain.todo.daily.dto.request.DailyRepeatRequest
+import com.todoay.api.domain.todo.daily.dto.request.ModifyDailyTodoDateRequest
+import com.todoay.api.domain.todo.daily.dto.request.ModifyDailyTodoRequest
 import com.todoay.api.domain.todo.daily.dto.response.*
 import com.todoay.api.util.response.success.SuccessResponse
 import retrofit2.Call
@@ -37,20 +40,20 @@ interface DailyTodoService {
      * Http Method: POST
      */
     @POST("/todo/daily/{id}/repeat")
-    fun setDailyTodoRepeat(@Path("id") id : Long) : Call<SuccessResponse>
+    fun setDailyTodoRepeat(@Path("id") id : Long, @Body request : DailyRepeatRequest) : Call<SuccessResponse>
 
     /**
      * DailyTodo의 정보를 수정하는 인터페이스 메소드.
      * Http Method: PUT
      */
     @PUT("/todo/daily/{id}")
-    fun modifyDailyTodo(@Path("id") id : Long) : Call<ModifyDailyTodoResponse>
+    fun modifyDailyTodo(@Path("id") id : Long, @Body request: ModifyDailyTodoRequest) : Call<SuccessResponse>
 
     /**
      * DailyTodo의 날짜 정보를 수정하는 인터페이스 메소드.
      * Http Method: PATCH
      */
     @PATCH("/todo/daily/{id}/daily-date")
-    fun modifyDailyTodoDate(@Path("id") id : Long) : Call<SuccessResponse>
+    fun modifyDailyTodoDate(@Path("id") id : Long, @Body request : ModifyDailyTodoDateRequest) : Call<SuccessResponse>
 
 }

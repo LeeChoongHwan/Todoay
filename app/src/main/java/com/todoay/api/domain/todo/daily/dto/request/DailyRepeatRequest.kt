@@ -2,7 +2,7 @@ package com.todoay.api.domain.todo.daily.dto.request
 
 import com.google.gson.annotations.SerializedName
 
-data class SetDailyTodoRepeatRequest(
+data class DailyRepeatRequest(
     @SerializedName("repeatType")
     val repeatType : String,
     @SerializedName("duration")

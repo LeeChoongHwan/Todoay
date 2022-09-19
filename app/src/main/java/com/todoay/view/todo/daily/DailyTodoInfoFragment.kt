@@ -21,12 +21,14 @@ import com.todoay.global.util.PrintUtil
 import com.todoay.view.global.TodoayAlertDialogFragment
 import com.todoay.view.global.interfaces.ModifiedTodoResult
 import com.todoay.view.todo.common.interfaces.TodoInfoChangedStateResult
+import com.todoay.view.todo.daily.interfaces.ModifiedDailyData
 
 class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialogFragment() {
 
     lateinit var binding : FragmentDailyTodoInfoBinding
 
-    lateinit var result : TodoInfoChangedStateResult
+    lateinit var modifiedResult : ModifiedDailyData
+    lateinit var deleteResult : TodoInfoChangedStateResult
 
     private val commonService by lazy { TodoAPI.getInstance() }
     private val dailyService by lazy { DailyTodoAPI.getInstance() }
@@ -43,8 +45,9 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
             modifyDailyTodoFragment.show(parentFragmentManager, modifyDailyTodoFragment.tag)
             modifyDailyTodoFragment.modifiedResult = object : ModifiedTodoResult {
                 override fun isModified(isModified: Boolean, id: Long) {
-                    // TODO
-                    result.isChangedState(true)
+                    if(isModified) {
+                        getDailyInfo(id)
+                    }
                 }
             }
         }
@@ -61,7 +64,7 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
                         commonService.deleteTodo(
                             dailyInfo.id,
                             onResponse = {
-                                result.isChangedState(true)
+                                deleteResult.isChangedState(true)
                                 dismiss()
                             },
                             onErrorResponse = {
@@ -82,6 +85,33 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
         displayDailyInfo(dailyInfo)
 
         return binding.root
+    }
+
+    private fun getDailyInfo(id: Long) {
+        dailyService.readDailyTodo(
+            id,
+            onResponse = { dto ->
+                this.dailyInfo = DailyInfo(
+                    id = dto.id,
+                    todo = dto.todo,
+                    alarm = Alarm(dto.alarm),
+                    time = dto.alarm,
+                    location = dto.location,
+                    partner = dto.partner,
+                    date = dto.date,
+                    category = Category(dto.categoryInfoDto.id, dto.categoryInfoDto.name, dto.categoryInfoDto.color),
+                    hashtagList = dto.hashtagList,
+                    isPublic = dto.isPublic,
+                    isFinish = dto.isFinish
+                )
+                displayDailyInfo(this.dailyInfo)
+                modifiedResult.isModified(true, this.dailyInfo)
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {}
+        )
     }
 
     private fun displayDailyInfo(info : DailyInfo) {

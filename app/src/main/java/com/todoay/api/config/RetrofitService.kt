@@ -5,22 +5,18 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.todoay.MainActivity
-import com.todoay.TodoayApplication
-import com.todoay.api.config.RetrofitURL.ipAddress
+import com.todoay.api.config.RetrofitURL.amazonUrl
 import com.todoay.api.config.gson.LocalDateConverter
 import com.todoay.api.config.gson.LocalDateTimeConverter
-import com.todoay.api.domain.auth.refresh.TokenManager
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.global.util.PrintUtil.printLog
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
-import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -31,7 +27,8 @@ import java.time.LocalDateTime
  */
 object RetrofitService {
 
-    private const val baseUrl = "http://${ipAddress}:8080"
+//    private const val baseUrl = "http://${ipAddress}:8080"
+    private const val baseUrl = "http://$amazonUrl"
     // 토큰이 없어도 되는 Retrofit
     private var retrofitServiceWithoutToken: Retrofit? = null
     private var okHttpClientWithoutToken: OkHttpClient? = null

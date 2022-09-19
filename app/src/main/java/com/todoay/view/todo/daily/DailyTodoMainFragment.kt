@@ -17,7 +17,6 @@ import com.todoay.data.todo.daily.DailyInfo
 import com.todoay.databinding.FragmentDailyTodoMainBinding
 import com.todoay.view.global.interfaces.CreateValueResult
 import com.todoay.view.todo.common.interfaces.TodoInfoChangedStateResult
-import com.todoay.view.todo.common.interfaces.TodoOnClickIdListener
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetCategory
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetDaily
 import java.time.Instant
@@ -104,7 +103,13 @@ class DailyTodoMainFragment : Fragment() {
     private fun openDailyInfoMenu(dailyInfo : DailyInfo) {
         val infoMenuDialog = DailyTodoInfoMenuFragment(dailyInfo)
         infoMenuDialog.show(parentFragmentManager, infoMenuDialog.tag)
-
+        infoMenuDialog.result = object : TodoInfoChangedStateResult {
+            override fun isChangedState(isChanged: Boolean) {
+                if(isChanged) {
+                    getDailyTodoData()
+                }
+            }
+        }
     }
 
     private fun getCategoryData() {
