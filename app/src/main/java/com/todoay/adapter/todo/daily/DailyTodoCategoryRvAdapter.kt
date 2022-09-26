@@ -12,7 +12,6 @@ import com.todoay.data.category.Category
 import com.todoay.data.todo.daily.Daily
 import com.todoay.databinding.ListItemDailyTodoCategoryBinding
 import com.todoay.global.util.PrintUtil.printLog
-import com.todoay.view.todo.common.interfaces.TodoOnClickIdListener
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetCategory
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetDaily
 
@@ -23,6 +22,7 @@ class DailyTodoCategoryRvAdapter(val context : Context): RecyclerView.Adapter<Da
 
     lateinit var onClickListenerForAddButton: DailyOnClickListenerForGetCategory
     lateinit var onClickListenerForDotButton : DailyOnClickListenerForGetDaily
+    lateinit var onClickListenerForCheckBox : DailyOnClickListenerForGetDaily
 
     inner class ViewHolder(private val binding: ListItemDailyTodoCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -33,14 +33,10 @@ class DailyTodoCategoryRvAdapter(val context : Context): RecyclerView.Adapter<Da
             binding.dailyTodoCategory.setBackgroundDrawable(drawable)
 
             val dailyAdapter = DailyTodoRvAdapter().apply {
-                this.onClickListener = object : DailyOnClickListenerForGetDaily {
-                    override fun onClick(daily: Daily) {
-                        onClickListenerForDotButton.onClick(daily)
-                    }
-                }
+                this.onClickDotListener = this@DailyTodoCategoryRvAdapter.onClickListenerForDotButton
+                this.onClickCheckListener = this@DailyTodoCategoryRvAdapter.onClickListenerForCheckBox
             }
             if(dailyTodoHashMap.containsKey(category.id)) {
-                printLog("${category.id}'s DailyList : ${dailyTodoHashMap[category.id]}")
                 dailyAdapter.dataList = dailyTodoHashMap[category.id]!!
             }
             dailyAdapter.notifyDataSetChanged()

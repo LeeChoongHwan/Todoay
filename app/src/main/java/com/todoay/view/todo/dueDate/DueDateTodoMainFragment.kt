@@ -96,10 +96,7 @@ class DueDateTodoMainFragment : Fragment() {
                 changeRvTypeForButtonVisibility(DueDateTodoRvType.MAIN)
             }
         }
-        /* 환경설정 버튼 */
-        mBinding?.dueDateTodoMainSetting?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_dueDateTodoMainFragment_to_categorySettingMainFragment)
-        }
+
         /* DueDateTodo 추가 버튼 */
         mBinding?.dueDateTodoMainAddBtn?.setOnClickListener {
             val addDueDateTodoFragment = AddDueDateTodoFragment()
@@ -158,9 +155,14 @@ class DueDateTodoMainFragment : Fragment() {
                 val infoDialog = DueDateTodoInfoFragment(id)
                 infoDialog.show(parentFragmentManager, infoDialog.tag)
                 infoDialog.result = object : TodoInfoChangedStateResult {
-                    override fun isChangedState(isChanged: Boolean) {
-                        if(isChanged) {
+                    override fun isChangedState(isModified: Boolean, isDeleted: Boolean) {
+                        if(isModified) {
                             getDueDateList(orderType)
+                            getFinishDueDateList()
+                        }
+                        if(isDeleted) {
+                            getDueDateList(orderType)
+                            infoDialog.dismiss()
                         }
                     }
                 }
@@ -176,12 +178,17 @@ class DueDateTodoMainFragment : Fragment() {
         finishAdapter = DueDateTodoFinishRvAdapter()
         finishAdapter.onClickListener = object : DueDateTodoFinishRvAdapter.DueDateTodoFinishOnClickListener {
             override fun onClick(id: Long) {
-                val infoDialog = DueDateTodoInfoFragment(id)
+                val infoDialog = DueDateFinishTodoInfoFragment(id)
                 infoDialog.show(parentFragmentManager, infoDialog.tag)
                 infoDialog.result = object : TodoInfoChangedStateResult {
-                    override fun isChangedState(isChanged: Boolean) {
-                        if(isChanged) {
+                    override fun isChangedState(isModified: Boolean, isDeleted: Boolean) {
+                        if(isModified) {
+                            getDueDateList(orderType)
                             getFinishDueDateList()
+                        }
+                        if(isDeleted) {
+                            getFinishDueDateList()
+                            infoDialog.dismiss()
                         }
                     }
                 }

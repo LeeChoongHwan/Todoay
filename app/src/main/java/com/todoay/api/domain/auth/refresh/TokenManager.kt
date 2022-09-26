@@ -1,6 +1,5 @@
 package com.todoay.api.domain.auth.refresh
 
-import com.todoay.MainActivity
 import com.todoay.TodoayApplication
 import com.todoay.api.domain.auth.refresh.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.refresh.dto.response.RefreshResponse
@@ -25,10 +24,8 @@ class TokenManager {
         private val refreshService by lazy { RefreshAPI.getInstance() }
         fun refreshToken(refreshToken: String, onResponse: (RefreshResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit) {
             printLog("[토큰 요청] Refresh Token 요청")
-            val request = RefreshRequest(refreshToken)
-
             refreshService.refreshTokenToAccessToken(
-                request,
+                RefreshRequest(refreshToken),
                 onResponse = {
                     /* Response 토큰 정상 세팅 */
                     if(it.accessToken != "" && it.refreshToken != "") {
@@ -43,7 +40,6 @@ class TokenManager {
                     /* Response 토큰 비정상(없음) 처리 */
                     else {
                         printLog("[토큰 요청] RefreshToken 요청 실패")
-                        MainActivity.mainAct.logout("다시 로그인 해주세요")
                         onErrorResponse(
                             ErrorResponse(
                                 timestamp = LocalDateTime.now().toString(),
@@ -59,7 +55,6 @@ class TokenManager {
                 onErrorResponse = {
                     /* 400 JWT 에러 & 404 토큰 DB 조회 실패 에러 */
                     printLog("[토큰 만료] Refresh Token 만료")
-                    MainActivity.mainAct.logout("다시 로그인 해주세요")
                     onErrorResponse(it)
                 }
             )

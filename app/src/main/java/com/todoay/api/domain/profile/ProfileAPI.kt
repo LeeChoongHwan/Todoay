@@ -4,15 +4,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.callProfileService
-import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
 import com.todoay.api.domain.profile.dto.response.ProfileResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.data.profile.Profile
 import com.todoay.global.util.PrintUtil.printLog
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 /**
  * 유저 정보(Profile) 관련 API 호출 및 응답을 처리하는 클래스.
@@ -76,31 +80,48 @@ class ProfileAPI {
      * 유저 정보(Profile) 변경 수행
      * [PUT]("/profile/my")
      */
-    fun putProfile(request: ModifyProfileRequest, onResponse: (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        callProfileService().putProfile(request)
+    fun putProfile(imageFile: File?, profile: Profile, onResponse: (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        val imageBody : MultipartBody.Part = if(imageFile != null) {
+            MultipartBody.Part.createFormData("image", imageFile.name, RequestBody.create("image/*".toMediaType(), imageFile))
+        } else {
+            MultipartBody.Part.createFormData("image", "", RequestBody.create("image/*".toMediaType(), ""))
+        }
+        if(profile.imageUrl.isNullOrBlank()) {
+            profile.imageUrl = ""
+        }
+        val profileToJson = "{" +
+                "\"nickname\":\"${profile.nickname}\"," +
+                "\"imageUrl\":\"${profile.imageUrl}\"," +
+                "\"introMsg\":\"${profile.introMsg}\"" +
+                "}"
+        val profileBody = MultipartBody.Part.createFormData("profile", "", RequestBody.create("application/json".toMediaType(), profileToJson))
+
+        callProfileService().putProfile(imageBody, profileBody)
             .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val successResponse = SuccessResponse(
-                            status = response.code()
-                        )
+                        val successResponse = SuccessResponse(status = response.code())
                         onResponse(successResponse)
                         printLog("[내 정보 변경] - 성공 {$successResponse}")
                     }
                     else {
-                        var errorResponse: ErrorResponse? = null
-                        if(response.code() == 400) {
-                            errorResponse = RetrofitService.getValidErrorResponse(response)
-                            onErrorResponse(errorResponse)
+                        try {
+                            var errorResponse: ErrorResponse? = null
+                            if(response.code() == 400) {
+                                errorResponse = RetrofitService.getValidErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            else {
+                                errorResponse = RetrofitService.getErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            printLog("[내 정보 변경] - 실패 {$errorResponse}")
+                        } catch (t : Throwable) {
+                            onFailure(call, t)
                         }
-                        else {
-                            errorResponse = RetrofitService.getErrorResponse(response)
-                            onErrorResponse(errorResponse)
-                        }
-                        printLog("[내 정보 변경] - 실패 {$errorResponse?}")
                     }
                 }
 

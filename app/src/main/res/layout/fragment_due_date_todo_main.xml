@@ -15,7 +15,7 @@
         android:clickable="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/menu_btn" />
+        app:srcCompat="@drawable/ic_menu" />
 
     <TextView
         android:id="@+id/due_date_todo_main_title_tv"
@@ -182,14 +182,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_category_add" />
-
-    <ImageView
-        android:id="@+id/due_date_todo_main_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_setting"
-        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_due_date_select"
-        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_bell_iv"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

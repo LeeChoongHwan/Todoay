@@ -15,7 +15,6 @@ import com.todoay.api.domain.todo.daily.DailyTodoAPI
 import com.todoay.api.domain.todo.daily.dto.request.DailyRepeatRequest
 import com.todoay.data.todo.daily.DailyRepeat
 import com.todoay.databinding.FragmentDailyRepeatSettingDialogBinding
-import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.todo.common.interfaces.TodoInfoChangedStateResult
 
 
@@ -102,7 +101,7 @@ class DailyRepeatSettingDialog(private val dailyId : Long) : BottomSheetDialogFr
                 dailyId,
                 request,
                 onResponse = {
-                    result.isChangedState(true)
+                    result.isChangedState(true, false)
                     dismiss()
                 },
                 onErrorResponse = {

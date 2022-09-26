@@ -6,13 +6,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.todoay.databinding.ActivityMainBinding
 import com.todoay.databinding.ToastBoardBinding
-import com.todoay.global.config.network.NetworkConnection
 import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.global.NetworkNotFoundFragment
 
@@ -30,30 +28,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         mainAct = this
-
         mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
         toastBinding = ToastBoardBinding.inflate(layoutInflater)
-
         setContentView(mainActivityBinding.root)
-
         inputMethodManager = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        /* 네트워크 연결 확인 */
-        val connection = NetworkConnection(applicationContext)
-        connection.observe(this, Observer { isConnected ->
-            if(isConnected) {
-                if(currentDestination != null && currentFragment !is NetworkNotFoundFragment) {
-                    printLog("[NETWORK] 네트워크 연결 성공")
-                    navigateToDestinationFromCurrent(currentDestination!!.id)
-                }
-            }
-            else {
-                printLog("[NETWORK] 네트워크 연결 실패")
-                navigateToDestinationFromCurrent(R.id.action_global_networkNotFoundFragment)
-            }
-        })
 
     }
 
@@ -65,18 +44,21 @@ class MainActivity : AppCompatActivity() {
      * 유저 로그아웃 및 메시지 Toast.
      * 로그아웃과 동시에 유저에게 메시지(Toast)를 보여주기 위한 메소드.
      */
-    fun logout(toastMsg: String) {
+    fun logout(toastMsg: String?) {
         logout()
-        showLongToast(toastMsg)
+        if(!toastMsg.isNullOrBlank()) {
+            showLongToast(toastMsg)
+        }
     }
 
     /**
      * 유저 로그아웃.
      * 유저의 토큰을 초기화하고, Login Fragment로 이동.
      */
-    fun logout() {
+    private fun logout() {
         printLog("[USER] 로그아웃")
         TodoayApplication.pref.clearToken()
+        printLog("[USER] IsTokenEmpty: ${TodoayApplication.pref.isTokenEmpty()}")
         navigateToDestinationFromCurrent(R.id.action_global_loginFragment)
     }
 
@@ -85,12 +67,13 @@ class MainActivity : AppCompatActivity() {
      * 이동하는 메소드.
      * @param destinationId 이동하고자 하는 Fragment Destination Id
      */
-    fun navigateToDestinationFromCurrent(destinationId: Int) {
+    private fun navigateToDestinationFromCurrent(destinationId: Int) {
         runOnUiThread {
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
             currentDestination = navHostFragment?.findNavController()?.currentDestination
             currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
             if (currentFragment != null) {
+                printLog("[NavigateFromCurrent] Current : ${currentFragment?.javaClass}")
                 NavHostFragment.findNavController(currentFragment!!).navigate(destinationId)
             }
         }

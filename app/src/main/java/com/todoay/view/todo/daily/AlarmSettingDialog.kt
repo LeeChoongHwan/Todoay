@@ -3,19 +3,19 @@ package com.todoay.view.todo.daily
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.data.todo.daily.Alarm
 import com.todoay.databinding.DialogListItemBinding
 import com.todoay.databinding.FragmentAlarmSettingDialogBinding
 import com.todoay.global.util.PrintUtil
+import com.todoay.global.util.PrintUtil.printLog
 import java.time.LocalDateTime
 
 class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: LocalDateTime) : DialogFragment() {
@@ -46,7 +46,7 @@ class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: Local
                         currentAlarm!!.alarmType!!.typeName
                     }
                 } else {
-                    currentAlarm = Alarm(currentAlarm!!.alarmTime!!)
+                    currentAlarm = Alarm(time, currentAlarm!!.alarmTime!!)
                     currentAlarm!!.alarmType!!.typeName
                 })
             binding.alarmSettingDialogCurrentAlarmTv.text = currentAlarmNameText
@@ -83,14 +83,14 @@ class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: Local
                         timePickerDialog.result = object : TimePickerDialogFragment.TimePickerDialogResult {
                             override fun getTime(time: LocalDateTime) {
                                 this@AlarmSettingDialog.selectedAlarm = time
-                                result.getAlarm(Alarm(this@AlarmSettingDialog.selectedAlarm, Alarm.AlarmType.CUSTOM))
+                                result.getAlarm(Alarm(this@AlarmSettingDialog.time, this@AlarmSettingDialog.selectedAlarm, Alarm.AlarmType.CUSTOM))
                             }
                         }
                     }
                     else -> {
                         dismissNow()
-                        Toast.makeText(requireContext(), "알람 설정 오류가 발생하였습니다", Toast.LENGTH_SHORT).show()
-                        Log.d("ALARM SETTING ERROR", "Could Not Found AlarmTime Instance")
+                        mainAct.showShortToast("알람 설정 오류가 발생하였습니다")
+                        printLog("[ALARM SETTING ERROR] Could Not Found AlarmTime Instance")
                     }
                 }
             }
@@ -103,13 +103,13 @@ class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: Local
 
     fun checkIsBeforeTime(selectedAlarm : LocalDateTime, alarmType: Alarm.AlarmType) {
         if(selectedAlarm.isAfter(time)) {
-            Toast.makeText(requireContext(), "설정한 시간 이후에 알람을 설정할 수 없습니다!", Toast.LENGTH_SHORT).show()
+            mainAct.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
         } else if(selectedAlarm.isBefore(LocalDateTime.now())) {
-            Toast.makeText(requireContext(), "현재 시간 이전에 알람을 설정할 수 없습니다!", Toast.LENGTH_SHORT).show()
+            mainAct.showShortToast("현재 시간 이전에 알람을 설정할 수 없습니다!")
         }
         else {
             this.selectedAlarm = selectedAlarm
-            result.getAlarm(Alarm(this.selectedAlarm, alarmType))
+            result.getAlarm(Alarm(this.time, this.selectedAlarm, alarmType))
             dismissNow()
         }
     }

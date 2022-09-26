@@ -29,13 +29,14 @@ import com.todoay.data.todo.daily.Alarm
 import com.todoay.data.todo.daily.DailyInfo
 import com.todoay.databinding.FragmentAddDailyTodoBinding
 import com.todoay.global.util.PrintUtil
+import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.global.TodoayAlertDialogFragment
 import com.todoay.view.global.interfaces.CreateValueResult
 import com.todoay.view.global.interfaces.ModifiedTodoResult
+import com.todoay.view.global.interfaces.OnClickListener
 import com.todoay.view.todo.common.HashtagSearchDialog
 import com.todoay.view.todo.common.TimeExistDialogFragment
 import com.todoay.view.todo.daily.interfaces.AddDailyTodoCategorySettingDialogResult
-import com.todoay.view.todo.daily.interfaces.ModifiedDailyData
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -84,12 +85,15 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
         initAnimation()
 
         if(isModificationMode) {
+            // 공개여부
             isPublic = modifiedData.isPublic
 
+            // 투두
             todo = modifiedData.todo
             binding.addDailyTodoTodoEt.setText(todo)
             isTodo = true
 
+            // 해시태그
             hashtagList = modifiedData.hashtagList
             if(!hashtagList.isNullOrEmpty()) {
                 val hashtagSb = StringBuilder()
@@ -99,11 +103,24 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
                 binding.addDailyTodoHashtagEt.setText(hashtagSb)
                 isHashtag = true
             }
-            time = modifiedData.time
-            if(time != null) setTimeContents(time!!)
-            alarm = modifiedData.alarm
-            if(alarm  != null) {
-                setAlarmContents(alarm!!)
+
+            // 시간
+            if(modifiedData.time != null) {
+                setTimeContents(modifiedData.time!!)
+            }
+            // 알람
+            if(modifiedData.alarm != null) {
+                setAlarmContents(modifiedData.alarm!!)
+            }
+
+            // 장소
+            if(modifiedData.location != null) {
+                binding.addDailyTodoDetailsLocationEt.setText(modifiedData.location)
+            }
+
+            // 함께하는 사람
+            if(modifiedData.partner != null) {
+                binding.addDailyTodoDetailsPartnerEt.setText(modifiedData.partner)
             }
 
             binding.addDailyTodoConfirmBtn.text = "수정하기"
@@ -129,8 +146,7 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
         /* default 설정에 따른 초기 공개여부 버튼 설정 */
         if(isPublic) {
             publicButton.bringToFront()
-        }
-        else {
+        } else {
             privateButton.bringToFront()
         }
         /* 공개여부 버튼 클릭 시 애니메이션을 이용한 버튼 전환 */
@@ -280,14 +296,14 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
     private fun modifyDailyTodo() {
         val request = ModifyDailyTodoRequest(
             todo = binding.addDailyTodoTodoEt.text.toString(),
-            alarm = this.alarm?.alarmTime,
+            isPublic = this.isPublic,
+            date = this.date,
+            alarm = if(this.alarm!=null) this.alarm!!.alarmTime else null,
             time = this.time,
             location = binding.addDailyTodoDetailsLocationEt.text.toString(),
             partner = binding.addDailyTodoDetailsPartnerEt.text.toString(),
-            date = this.date,
             categoryId = this.category.id,
-            hashtagList = this.hashtagList,
-            isPublic = this.isPublic
+            hashtagList = this.hashtagList
         )
         service.modifyDailyTodo(
             modifiedData.id,
@@ -525,15 +541,16 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
      * 설정된 시간이 없는 경우, 시간 설정 요청 및 시간 설정.
      */
     private fun setAlarmTimeIsNull() {
-        val alarmNotExistTimeDialog = TodoayAlertDialogFragment()
-        alarmNotExistTimeDialog.message = "설정된 시간이 없습니다!\n시간을 설정하시겠어요?"
-        alarmNotExistTimeDialog.show(parentFragmentManager, alarmNotExistTimeDialog.tag)
-        alarmNotExistTimeDialog.result = object : TodoayAlertDialogFragment.AlertDialogResult {
-            override fun getValue(isPositive: Boolean) {
-                if (isPositive) {
-                    setTimeForSettingAlarm()
+        TodoayAlertDialogFragment().apply {
+            this.message = "설정된 시간이 없습니다!\n시간을 설정하시겠어요?"
+            this.onClickListener = object : OnClickListener {
+                override fun onClick(item: Any) {
+                    if (item as Boolean) {
+                        setTimeForSettingAlarm()
+                    }
                 }
             }
+            this.show(this@AddDailyTodoFragment.parentFragmentManager, this.tag)
         }
     }
 

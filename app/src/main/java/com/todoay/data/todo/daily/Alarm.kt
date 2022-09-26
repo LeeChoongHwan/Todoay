@@ -1,25 +1,29 @@
 package com.todoay.data.todo.daily
 
 import com.todoay.global.util.PrintUtil
+import com.todoay.global.util.PrintUtil.printLog
 import java.time.Duration
 import java.time.LocalDateTime
 
 class Alarm() {
 
     lateinit var alarmTime : LocalDateTime
+    lateinit var setTime : LocalDateTime
     var alarmType : AlarmType? = null
 
-    constructor(alarmTime : LocalDateTime?, alarmType: AlarmType) : this() {
-        if (alarmTime != null) {
+    constructor(setTime: LocalDateTime?, alarmTime : LocalDateTime?, alarmType: AlarmType) : this() {
+        if (setTime != null && alarmTime != null) {
+            this.setTime = setTime
             this.alarmTime = alarmTime
             this.alarmType = alarmType
         }
     }
 
-    constructor(alarmTime: LocalDateTime?) : this() {
-        if (alarmTime != null) {
+    constructor(setTime : LocalDateTime?, alarmTime: LocalDateTime?) : this() {
+        if (setTime != null && alarmTime != null) {
+            this.setTime = setTime
             this.alarmTime = alarmTime
-            this.alarmType = setTypeFromTime(alarmTime)
+            this.alarmType = setTypeFromTime(setTime)
         }
     }
 
@@ -55,7 +59,7 @@ class Alarm() {
     }
 
     private fun setTypeFromTime(time : LocalDateTime): AlarmType {
-        val duration = Duration.between(time, this.alarmTime)
+        val duration = Duration.between(this.alarmTime, time)
         return when {
             duration.toMinutes() == 5L -> AlarmType.FIVE_MINUTE
             duration.toMinutes() == 10L -> AlarmType.TEN_MINUTE

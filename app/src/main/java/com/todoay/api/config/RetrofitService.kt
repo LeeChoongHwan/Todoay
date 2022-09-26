@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.todoay.MainActivity
 import com.todoay.api.config.RetrofitURL.amazonUrl
+import com.todoay.api.config.RetrofitURL.ipAddress
 import com.todoay.api.config.gson.LocalDateConverter
 import com.todoay.api.config.gson.LocalDateTimeConverter
 import com.todoay.api.util.response.error.ErrorResponse
@@ -113,9 +114,10 @@ object RetrofitService {
      * API의 onResponse 호출 이후 response가 실패할 경우
      * ErrorResponse 객체를 초기화하여 리턴하기 위함.
      */
-    fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
-        val gsonError: ErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
-        val errorResponse = ErrorResponse(
+    fun <T> getErrorResponse(response: retrofit2.Response<T>): ErrorResponse {
+        val gsonError: ErrorResponse =
+            Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        return ErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
@@ -123,16 +125,16 @@ object RetrofitService {
             message = gsonError.message,
             path = gsonError.path
         )
-        return errorResponse
     }
 
     /**
      * API의 onResponse 호출 이후 response가 실패할 경우
      * 서버의 유효성 검증에 대한 ValidErrorResponse 객체를 초기화하여 리턴하기 위함.
-    */
-    fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
-        val gsonError : ValidErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
-        val validErrorResponse = ValidErrorResponse(
+     */
+    fun <T> getValidErrorResponse(response: retrofit2.Response<T>): ValidErrorResponse {
+        val gsonError: ValidErrorResponse =
+            Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        return ValidErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
@@ -141,7 +143,6 @@ object RetrofitService {
             path = gsonError.path,
             details = gsonError.details
         )
-        return validErrorResponse
     }
 
     /**

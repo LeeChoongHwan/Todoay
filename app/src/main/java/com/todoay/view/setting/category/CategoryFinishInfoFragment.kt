@@ -14,6 +14,7 @@ import com.todoay.api.domain.category.CategoryAPI
 import com.todoay.data.category.Category
 import com.todoay.databinding.FragmentCategoryFinishInfoBinding
 import com.todoay.view.global.TodoayAlertDialogFragment
+import com.todoay.view.global.interfaces.OnClickListener
 import com.todoay.view.setting.category.interfaces.CategoryInfoResult
 
 class CategoryFinishInfoFragment(private val category : Category) : BottomSheetDialogFragment() {
@@ -37,26 +38,26 @@ class CategoryFinishInfoFragment(private val category : Category) : BottomSheetD
 
         /* 삭제 버튼 */
         binding.categoryFinishInfoDeleteBtn.setOnClickListener {
-            val alertDeleteDialog = TodoayAlertDialogFragment().apply {
+            TodoayAlertDialogFragment().apply {
                 this.message = "카테고리를 삭제하면\n관련 TODO 모두 삭제됩니다.\n정말 삭제하시겠어요?"
-            }
-            alertDeleteDialog.show(parentFragmentManager, alertDeleteDialog.tag)
-            alertDeleteDialog.result = object : TodoayAlertDialogFragment.AlertDialogResult {
-                override fun getValue(isPositive: Boolean) {
-                    if(isPositive) {
-                        service.deleteCategory(
-                            category.id,
-                            onResponse = {
-                                result.isChangedState(true)
-                                dismiss()
-                            },
-                            onErrorResponse = {
-                                mainAct.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
-                            },
-                            onFailure = {}
-                        )
+                this.onClickListener = object : OnClickListener {
+                    override fun onClick(item: Any) {
+                        if (item as Boolean) {
+                            service.deleteCategory(
+                                category.id,
+                                onResponse = {
+                                    result.isChangedState(true)
+                                    dismiss()
+                                },
+                                onErrorResponse = {
+                                    mainAct.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
+                                },
+                                onFailure = {}
+                            )
+                        }
                     }
                 }
+                this.show(this@CategoryFinishInfoFragment.parentFragmentManager, this.tag)
             }
         }
 

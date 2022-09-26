@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import com.todoay.R
 import com.todoay.adapter.todo.daily.DailyTodoCategoryRvAdapter
 import com.todoay.api.domain.category.CategoryAPI
+import com.todoay.api.domain.todo.common.TodoAPI
 import com.todoay.api.domain.todo.daily.DailyTodoAPI
 import com.todoay.data.category.Category
 import com.todoay.data.todo.daily.Alarm
@@ -32,6 +33,7 @@ class DailyTodoMainFragment : Fragment() {
 
     private lateinit var date : LocalDate
 
+    private val commonService by lazy { TodoAPI.getInstance() }
     private val categoryService by lazy { CategoryAPI.getInstance() }
     private val dailyService by lazy { DailyTodoAPI.getInstance() }
 
@@ -47,23 +49,18 @@ class DailyTodoMainFragment : Fragment() {
             getDailyTodoData()
         }
 
-        //알림 벨
+        mBinding?.dailyTodoMainMenuIv?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_global_settingMainFragment)
+        }
+
+        // 알림 벨
         mBinding?.dailyTodoMainBellIv?.setOnClickListener {
 
         }
 
-        //달력 전환 버튼
-        mBinding?.dailyTodoMainDailyTodoSelect?.setOnClickListener {
-
-        }
-
-        //투두 전환 버튼
+        // 투두 전환 버튼
         mBinding?.dailyTodoMainTodoSelect?.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_dailyTodoMainFragment_to_dueDateTodoMainFragment)
-        }
-
-        mBinding?.todoMainSetting?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_dailyTodoMainFragment_to_categorySettingMainFragment)
         }
 
         initRecycler()
@@ -80,12 +77,28 @@ class DailyTodoMainFragment : Fragment() {
             }
             this.onClickListenerForDotButton = object : DailyOnClickListenerForGetDaily {
                 override fun onClick(daily: Daily) {
-                    getDailyInfo(daily.id)
+                    getDailyInfo(daily.id, true)
+                }
+            }
+            this.onClickListenerForCheckBox = object : DailyOnClickListenerForGetDaily {
+                override fun onClick(daily: Daily) {
+                    switchFinish(daily.id)
                 }
             }
         }
         getCategoryData()
         mBinding?.dailyTodoMainRecyclerPlan?.adapter = dailyTodoCategoryAdapter
+    }
+
+    private fun switchFinish(id : Long) {
+        commonService.switchTodoFinishState(
+            id,
+            onResponse = {
+                getDailyInfo(id, false)
+            },
+            onErrorResponse = {},
+            onFailure = {}
+        )
     }
 
     private fun openAddDailyDialog(category: Category) {
@@ -101,14 +114,16 @@ class DailyTodoMainFragment : Fragment() {
     }
 
     private fun openDailyInfoMenu(dailyInfo : DailyInfo) {
-        val infoMenuDialog = DailyTodoInfoMenuFragment(dailyInfo)
-        infoMenuDialog.show(parentFragmentManager, infoMenuDialog.tag)
-        infoMenuDialog.result = object : TodoInfoChangedStateResult {
-            override fun isChangedState(isChanged: Boolean) {
-                if(isChanged) {
-                    getDailyTodoData()
+        DailyTodoInfoMenuFragment(dailyInfo).apply {
+            this.result = object : TodoInfoChangedStateResult {
+                override fun isChangedState(isModified: Boolean, isDeleted: Boolean) {
+                    if(isModified || isDeleted) {
+                        dismiss()
+                        getDailyTodoData()
+                    }
                 }
             }
+            this.show(this@DailyTodoMainFragment.parentFragmentManager, this.tag)
         }
     }
 
@@ -122,9 +137,7 @@ class DailyTodoMainFragment : Fragment() {
                     .collect(Collectors.toList())
                 getDailyTodoData()
             },
-            onErrorResponse = {
-
-            },
+            onErrorResponse = {},
             onFailure = {}
         )
     }
@@ -138,21 +151,19 @@ class DailyTodoMainFragment : Fragment() {
                     .collect(Collectors.groupingBy(Daily::categoryId)) as HashMap<Long, ArrayList<Daily>>
                 dailyTodoCategoryAdapter.notifyDataSetChanged()
             },
-            onErrorResponse = {
-
-            },
+            onErrorResponse = {},
             onFailure = {}
         )
     }
 
-    private fun getDailyInfo(id : Long) {
+    private fun getDailyInfo(id : Long, isOpen : Boolean) {
         dailyService.readDailyTodo(
             id,
             onResponse = { dto ->
                 val dailyInfo = DailyInfo(
                     id = dto.id,
                     todo = dto.todo,
-                    alarm = Alarm(dto.alarm),
+                    alarm = if(dto.alarm!=null) Alarm(dto.time, dto.alarm) else null,
                     time = dto.time,
                     location = dto.location,
                     partner = dto.partner,
@@ -167,7 +178,9 @@ class DailyTodoMainFragment : Fragment() {
                     isFinish = dto.isFinish
                 )
 
-                openDailyInfoMenu(dailyInfo)
+                if(isOpen) {
+                    openDailyInfoMenu(dailyInfo)
+                }
             },
             onErrorResponse = {
 

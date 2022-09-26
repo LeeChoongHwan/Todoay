@@ -8,6 +8,10 @@ import java.time.LocalDateTime
 data class ModifyDailyTodoRequest(
     @SerializedName("title")
     val todo : String,
+    @SerializedName("publicBool")
+    val isPublic : Boolean,
+    @SerializedName("dailyDate")
+    val date : LocalDate,
     @SerializedName("alarm")
     val alarm : LocalDateTime?,
     @SerializedName("targetTime")
@@ -16,12 +20,8 @@ data class ModifyDailyTodoRequest(
     val location : String?,
     @SerializedName("people")
     val partner : String?,
-    @SerializedName("dailyDate")
-    val date : LocalDate,
     @SerializedName("categoryId")
     val categoryId : Long,
     @SerializedName("hashtagNames")
-    val hashtagList : List<Hashtag>?,
-    @SerializedName("public")
-    val isPublic : Boolean
+    val hashtagList : List<Hashtag>?
 )

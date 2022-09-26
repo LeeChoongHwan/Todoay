@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.todoay.databinding.FragmentTodoayAlertDialogBinding
+import com.todoay.view.global.interfaces.OnClickListener
 
 class TodoayAlertDialogFragment : DialogFragment(){
 
@@ -16,10 +17,7 @@ class TodoayAlertDialogFragment : DialogFragment(){
 
     var message : String? = null
 
-    interface AlertDialogResult {
-        fun getValue(isPositive : Boolean)
-    }
-    lateinit var result : AlertDialogResult
+    lateinit var onClickListener: OnClickListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTodoayAlertDialogBinding.inflate(inflater, container, false)
@@ -33,12 +31,12 @@ class TodoayAlertDialogFragment : DialogFragment(){
         binding.todoayAlertDialogAlertMsgTv.text = message!!
 
         binding.todoayAlertDialogPositiveBtn.setOnClickListener {
-            result.getValue(true)
+            onClickListener.onClick(true)
             dismiss()
         }
 
         binding.todoayAlertDialogNegativeBtn.setOnClickListener {
-            result.getValue(false)
+            onClickListener.onClick(false)
             dismiss()
         }
 

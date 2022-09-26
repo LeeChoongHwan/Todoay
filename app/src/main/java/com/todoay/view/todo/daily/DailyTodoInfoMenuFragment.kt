@@ -13,11 +13,11 @@ import com.todoay.api.domain.todo.daily.dto.request.ModifyDailyTodoDateRequest
 import com.todoay.data.todo.daily.DailyInfo
 import com.todoay.databinding.FragmentDailyTodoInfoMenuBinding
 import com.todoay.view.global.TodoayAlertDialogFragment
+import com.todoay.view.global.interfaces.OnClickListener
 import com.todoay.view.todo.common.DatePickerDialogFragment
 import com.todoay.view.todo.common.interfaces.TodoInfoChangedStateResult
 import com.todoay.view.todo.daily.interfaces.ModifiedDailyData
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetDialogFragment() {
 
@@ -40,16 +40,16 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
             infoDialog.modifiedResult = object : ModifiedDailyData {
                 override fun isModified(isModified: Boolean, modifiedData: DailyInfo) {
                     if(isModified) {
-                        result.isChangedState(true)
+                        result.isChangedState(true, false)
                         displayDailyInfo(modifiedData)
                     }
                 }
             }
             infoDialog.deleteResult = object : TodoInfoChangedStateResult {
-                override fun isChangedState(isChanged: Boolean) {
-                    if (isChanged) {
-                        result.isChangedState(true)
-                        dismiss()
+                override fun isChangedState(isModified: Boolean, isDeleted: Boolean) {
+                    if (isDeleted) {
+                        result.isChangedState(isModified, isDeleted)
+                        infoDialog.dismiss()
                     }
                 }
             }
@@ -57,26 +57,26 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
 
         /* 삭제하기 버튼 */
         binding.dailyTodoInfoMenuDeleteBtn.setOnClickListener {
-            val alertDeleteDialog = TodoayAlertDialogFragment().apply {
+            TodoayAlertDialogFragment().apply {
                 this.message = "정말 삭제하시겠어요?"
-            }
-            alertDeleteDialog.show(parentFragmentManager, alertDeleteDialog.tag)
-            alertDeleteDialog.result = object : TodoayAlertDialogFragment.AlertDialogResult {
-                override fun getValue(isPositive: Boolean) {
-                    if(isPositive) {
-                        commonService.deleteTodo(
-                            dailyInfo.id,
-                            onResponse = {
-                                result.isChangedState(true)
-                                dismiss()
-                            },
-                            onErrorResponse = {
+                this.onClickListener = object : OnClickListener {
+                    override fun onClick(item: Any) {
+                        if(item as Boolean) {
+                            commonService.deleteTodo(
+                                dailyInfo.id,
+                                onResponse = {
+                                    result.isChangedState(false, true)
+                                    dismiss()
+                                },
+                                onErrorResponse = {
 
-                            },
-                            onFailure = {}
-                        )
+                                },
+                                onFailure = {}
+                            )
+                        }
                     }
                 }
+                this.show(this@DailyTodoInfoMenuFragment.parentFragmentManager, this.tag)
             }
         }
 
@@ -85,9 +85,9 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
             val repeatSettingDialog = DailyRepeatSettingDialog(dailyInfo.id)
             repeatSettingDialog.show(parentFragmentManager, repeatSettingDialog.tag)
             repeatSettingDialog.result = object : TodoInfoChangedStateResult {
-                override fun isChangedState(isChanged: Boolean) {
-                    if(isChanged) {
-                        result.isChangedState(true)
+                override fun isChangedState(isModified: Boolean, isDeleted: Boolean) {
+                    if(isModified) {
+                        result.isChangedState(true, false)
                     }
                 }
             }
@@ -120,7 +120,7 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
             dailyInfo.id,
             request,
             onResponse = {
-                result.isChangedState(true)
+                result.isChangedState(true, false)
                 dismiss()
             },
             onErrorResponse = {

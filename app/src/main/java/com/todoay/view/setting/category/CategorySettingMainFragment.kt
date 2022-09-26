@@ -72,7 +72,7 @@ class CategorySettingMainFragment : Fragment() {
                 if(isChangedCategoryOrderIndex) {
                     modifyCategoryOrderIndex()
                 }
-                Navigation.findNavController(requireView()).navigate(R.id.action_categorySettingMainFragment_to_dailyTodoMainFragment)
+                Navigation.findNavController(requireView()).popBackStack()
             }
             else if(currentRvType == CategoryRvType.FINISH) {
                 mainLayout.startAnimation(slideFromLeft)
