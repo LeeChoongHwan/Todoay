@@ -11,9 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+<<<<<<< HEAD
 import com.todoay.MainActivity.Companion.mainAct
+=======
+import com.bumptech.glide.request.RequestOptions
+>>>>>>> 44183944c17cfeded6349cc9347cb12673221633
 import com.todoay.R
 import com.todoay.api.domain.profile.ProfileAPI
+import com.todoay.data.profile.Profile
 import com.todoay.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -22,22 +27,49 @@ class ProfileFragment : Fragment() {
 
     private val service by lazy { ProfileAPI.getInstance() }
 
+    private lateinit var myProfile : Profile
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentProfileBinding.inflate(inflater,container,false)
 
         mBinding = binding
 
+        getUserProfile()
+
+        // 뒤로가기 버튼
+        mBinding?.profileBackBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).popBackStack()
+        }
+
+        //  Edit 버튼
+        mBinding?.profileModifyinfoBtn?.setOnClickListener {
+            val action = ProfileFragmentDirections.actionProfileFragmentToProfileModifyFragment(myProfile)
+            Navigation.findNavController(requireView()).navigate(action)
+        }
+
+        return mBinding?.root
+    }
+
+    private fun getUserProfile() {
         service.getProfile(
             onResponse = {
-                mBinding?.profileJoinemailText?.text = it.email
-                mBinding?.profileNicknameText?.text = it.nickname
-                // 프로필 사진 세팅
-                if(it.imageUrl!=null) {
-
-                }
-                // 상태메시지 세팅
-                if(it.introMsg!=null) {
-                    mBinding?.profileMessageText?.text = it.introMsg
+                myProfile = Profile(
+                    nickname = it.nickname,
+                    introMsg = it.introMsg,
+                    imageUrl = it.imageUrl
+                )
+                mBinding?.profileNicknameText?.text = myProfile.nickname
+                mBinding?.profileMessageText?.text = myProfile.introMsg
+                if(myProfile.imageUrl.isNullOrBlank() || myProfile.imageUrl == "null") {
+                    Glide.with(mBinding!!.root)
+                        .load(R.drawable.img_default_profile)
+                        .into(mBinding?.profileImageBtn!!)
+                } else {
+                    Glide.with(mBinding!!.root)
+                        .load(myProfile.imageUrl)
+                        .apply(RequestOptions().circleCrop())
+                        .error(R.drawable.img_default_profile)
+                        .into(mBinding?.profileImageBtn!!)
                 }
             },
             onErrorResponse = {
@@ -46,6 +78,7 @@ class ProfileFragment : Fragment() {
             onFailure = {
             }
         )
+<<<<<<< HEAD
 
         // 메뉴바 버튼
         // Test를 위해 로그아웃 진행
@@ -80,6 +113,8 @@ class ProfileFragment : Fragment() {
         }
 
         return mBinding?.root
+=======
+>>>>>>> 44183944c17cfeded6349cc9347cb12673221633
     }
 
 }

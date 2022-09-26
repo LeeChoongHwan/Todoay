@@ -8,22 +8,20 @@ import java.time.LocalDateTime
 data class ModifyDailyTodoRequest(
     @SerializedName("title")
     val todo : String,
-    @SerializedName("alarm")
-    val alarm : LocalDateTime,
-    @SerializedName("targetTime")
-    val time : LocalDateTime,
-    @SerializedName("place")
-    val location : String,
-    @SerializedName("people")
-    val partner : String,
+    @SerializedName("publicBool")
+    val isPublic : Boolean,
     @SerializedName("dailyDate")
     val date : LocalDate,
+    @SerializedName("alarm")
+    val alarm : LocalDateTime?,
+    @SerializedName("targetTime")
+    val time : LocalDateTime?,
+    @SerializedName("place")
+    val location : String?,
+    @SerializedName("people")
+    val partner : String?,
     @SerializedName("categoryId")
-    val categoryId : Int,
+    val categoryId : Long,
     @SerializedName("hashtagNames")
-    val hashtagList : List<Hashtag>,
-    @SerializedName("public")
-    val isPublic : Boolean,
-    @SerializedName("finished")
-    val isFinish : Boolean
+    val hashtagList : List<Hashtag>?
 )

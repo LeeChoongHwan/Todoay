@@ -35,8 +35,6 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
     /* variable */
     /** 공개여부 */
     var isPublic : Boolean = false
-    /** 투두 */
-    var todo : String = ""
     /** 투두 입력 여부 */
     var isTodo : Boolean = false
     /** 투두 날짜 */
@@ -85,9 +83,9 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
         if(isModificationMode) {
             this.isPublic = modifiedData.isPublic
 
-            this.todo = modifiedData.todo
-            binding.addDueDateTodoTodoEt.setText(this.todo)
+            binding.addDueDateTodoTodoEt.setText(modifiedData.todo)
             this.isTodo = true
+            checkEnableConfirmButton(binding.addDueDateTodoConfirmBtn)
 
             this.dueDate = modifiedData.dueDate
             val printDate = this.dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
@@ -148,12 +146,10 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if(todoEditText.text.toString() != "") {
                     isTodo = true
-                    todo = todoEditText.text.toString()
                     checkEnableConfirmButton(binding.addDueDateTodoConfirmBtn)
                 }
                 else {
                     isTodo = false
-                    todo = ""
                     checkEnableConfirmButton(binding.addDueDateTodoConfirmBtn)
                 }
             }
@@ -221,7 +217,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
             }
         }
 
-        /* 추가하기 버튼 */
+        /* 추가하기 or 수정하기 버튼 */
         binding.addDueDateTodoConfirmBtn.setOnClickListener {
             if(isModificationMode) {
                 modifyDueDateTodo()
@@ -238,7 +234,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
      */
     private fun createDueDateTodo() {
         val request = CreateDueDateTodoRequest(
-            todo = this.todo,
+            todo = binding.addDueDateTodoTodoEt.text.toString(),
             description = binding.addDueDateTodoDescriptionEt.text.toString().ifEmpty { "" },
             isPublic = this.isPublic,
             dueDate = this.dueDate,
@@ -265,7 +261,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
      */
     private fun modifyDueDateTodo() {
         val request = ModifyDueDateTodoRequest(
-            todo = this.todo,
+            todo =  binding.addDueDateTodoTodoEt.text.toString(),
             description = binding.addDueDateTodoDescriptionEt.text.toString().ifEmpty { "" },
             isPublic = this.isPublic,
             dueDate = this.dueDate,

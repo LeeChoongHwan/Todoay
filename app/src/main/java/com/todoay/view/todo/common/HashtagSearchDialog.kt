@@ -18,6 +18,7 @@ import com.todoay.api.domain.hashtag.HashtagAPI
 import com.todoay.api.domain.hashtag.dto.Hashtag
 import com.todoay.databinding.FragmentHashtagSearchDialogBinding
 import com.todoay.databinding.ListItemHashtagBinding
+import com.todoay.global.util.PrintUtil.printLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -123,12 +124,17 @@ class HashtagSearchDialog : DialogFragment() {
                         isSearchStart = false
                     }
                     adapter.isSearchStart = isSearchStart
-                    /* 해시태그 검색 시작 */
                     if(isSearchStart) {
-                        binding.hashtagSearchDialogList.visibility = View.VISIBLE
+                        /* 해시태그 검색 시작 */
                         if(search.last().toString() != "#") {
+                            binding.hashtagSearchDialogList.visibility = View.VISIBLE
                             searchValue = search.toString().substring(search.toString().lastIndexOf("#")+1, search.length)
                             searchObserver.onNext(searchValue)
+                        } else {
+                            searchValue = ""
+                            adapter.closeSearch()
+                            binding.hashtagSearchDialogList.visibility = View.GONE
+                            binding.hashtagSearchDialogViewMoreBtn.visibility = View.GONE
                         }
                     }
                     /* 해시태그 검색 종료 */

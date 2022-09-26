@@ -5,17 +5,6 @@
     android:id="@+id/todoay_nav"
     app:startDestination="@id/loginFragment">
 
-    <action
-        android:id="@+id/action_global_loginFragment"
-        app:destination="@id/loginFragment"
-        app:popUpTo="@id/todoay_nav"
-        app:popUpToInclusive="true"/>
-
-    <action
-        android:id="@+id/action_global_networkNotFoundFragment"
-        app:destination="@id/networkNotFoundFragment"
-        />
-
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.todoay.view.login.LoginFragment"
@@ -42,11 +31,11 @@
             android:id="@+id/action_profileFragment_to_profileModifyFragment"
             app:destination="@id/profileModifyFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_changePasswordFragment"
-            app:destination="@id/changePasswordFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_dailyTodoMainFragment"
+            app:destination="@id/dailyTodoMainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/sendMailUpdatePasswordFragment"
@@ -63,14 +52,15 @@
         <action
             android:id="@+id/action_profileModifyFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <argument
+            android:name="profile"
+            app:argType="com.todoay.data.profile.Profile"/>
+
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.todoay.view.profile.ChangePasswordFragment"
         android:label="ChangePasswordFragment" >
-        <action
-            android:id="@+id/action_changePasswordFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_changePasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -108,8 +98,8 @@
             android:id="@+id/action_dailyTodoMainFragment_to_dueDateTodoMainFragment"
             app:destination="@id/dueDateTodoMainFragment" />
         <action
-            android:id="@+id/action_dailyTodoMainFragment_to_categorySettingMainFragment"
-            app:destination="@id/categorySettingMainFragment" />
+            android:id="@+id/action_dailyTodoMainFragment_to_profileFragment"
+            app:destination="@id/profileFragment"/>
     </fragment>
     <fragment
         android:id="@+id/dueDateTodoMainFragment"
@@ -118,9 +108,6 @@
         <action
             android:id="@+id/action_dueDateTodoMainFragment_to_dailyTodoMainFragment"
             app:destination="@id/dailyTodoMainFragment" />
-        <action
-            android:id="@+id/action_dueDateTodoMainFragment_to_categorySettingMainFragment"
-            app:destination="@id/categorySettingMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/categorySettingMainFragment"
@@ -129,5 +116,53 @@
         <action
             android:id="@+id/action_categorySettingMainFragment_to_dailyTodoMainFragment"
             app:destination="@id/dailyTodoMainFragment"/>
+        <action
+            android:id="@+id/action_categorySettingMainFragment_to_settingMainFragment"
+            app:destination="@id/settingMainFragment"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/settingMainFragment"
+        android:name="com.todoay.view.setting.main.SettingMainFragment"
+        android:label=".SettingMainFragment"
+        tools:layout="@layout/fragment_setting_main">
+        <action
+            android:id="@+id/action_settingMainFragment_to_categorySettingMainFragment"
+            app:destination="@id/categorySettingMainFragment"/>
+        <action
+            android:id="@+id/action_settingMainFragment_to_authSettingMainFragment"
+            app:destination="@id/authSettingMainFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/authSettingMainFragment"
+        android:name="com.todoay.view.setting.auth.AuthSettingMainFragment"
+        android:label=".AuthSettingMainFragment"
+        tools:layout="@layout/fragment_auth_setting_main">
+        <action
+            android:id="@+id/action_authSettingMainFragment_to_settingMainFragment"
+            app:destination="@id/settingMainFragment"/>
+        <action
+            android:id="@+id/action_authSettingMainFragment_to_profileFragment"
+            app:destination="@id/profileFragment"/>
+        <action
+            android:id="@+id/action_authSettingMainFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"/>
+    </fragment>
+
+    <!-- Global Action -->
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/todoay_nav"
+        app:popUpToInclusive="true"/>
+    <action
+        android:id="@+id/action_global_networkNotFoundFragment"
+        app:destination="@id/networkNotFoundFragment" />
+    <action
+        android:id="@+id/action_global_settingMainFragment"
+        app:destination="@id/settingMainFragment"/>
+    <action
+        android:id="@+id/action_global_dailyTodoMainFragment"
+        app:destination="@id/dailyTodoMainFragment"/>
 </navigation>

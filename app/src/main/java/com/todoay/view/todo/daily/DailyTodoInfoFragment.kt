@@ -18,15 +18,19 @@ import com.todoay.data.todo.daily.Alarm
 import com.todoay.data.todo.daily.DailyInfo
 import com.todoay.databinding.FragmentDailyTodoInfoBinding
 import com.todoay.global.util.PrintUtil
+import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.global.TodoayAlertDialogFragment
 import com.todoay.view.global.interfaces.ModifiedTodoResult
+import com.todoay.view.global.interfaces.OnClickListener
 import com.todoay.view.todo.common.interfaces.TodoInfoChangedStateResult
+import com.todoay.view.todo.daily.interfaces.ModifiedDailyData
 
 class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialogFragment() {
 
     lateinit var binding : FragmentDailyTodoInfoBinding
 
-    lateinit var result : TodoInfoChangedStateResult
+    lateinit var modifiedResult : ModifiedDailyData
+    lateinit var deleteResult : TodoInfoChangedStateResult
 
     private val commonService by lazy { TodoAPI.getInstance() }
     private val dailyService by lazy { DailyTodoAPI.getInstance() }
@@ -43,45 +47,66 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
             modifyDailyTodoFragment.show(parentFragmentManager, modifyDailyTodoFragment.tag)
             modifyDailyTodoFragment.modifiedResult = object : ModifiedTodoResult {
                 override fun isModified(isModified: Boolean, id: Long) {
-                    // TODO
-                    result.isChangedState(true)
+                    if(isModified) {
+                        getDailyInfo(id)
+                    }
                 }
             }
         }
 
         /* 삭제하기 버튼 */
         binding.dailyTodoInfoDeleteBtn.setOnClickListener {
-            val alertDeleteDialog = TodoayAlertDialogFragment().apply {
+            TodoayAlertDialogFragment().apply {
                 this.message = "정말 삭제하시겠어요?"
-            }
-            alertDeleteDialog.show(parentFragmentManager, alertDeleteDialog.tag)
-            alertDeleteDialog.result = object : TodoayAlertDialogFragment.AlertDialogResult {
-                override fun getValue(isPositive: Boolean) {
-                    if(isPositive) {
-                        commonService.deleteTodo(
-                            dailyInfo.id,
-                            onResponse = {
-                                result.isChangedState(true)
-                                dismiss()
-                            },
-                            onErrorResponse = {
-
-                            },
-                            onFailure = {}
-                        )
+                this.onClickListener = object : OnClickListener {
+                    override fun onClick(item: Any) {
+                        if(item as Boolean) {
+                            commonService.deleteTodo(
+                                dailyInfo.id,
+                                onResponse = {
+                                    deleteResult.isChangedState(false, true)
+                                    dismiss()
+                                },
+                                onErrorResponse = {},
+                                onFailure = {}
+                            )
+                        }
                     }
                 }
+                this.show(this@DailyTodoInfoFragment.parentFragmentManager, this.tag)
             }
-        }
-
-        /* 반복하기 버튼 */
-        binding.dailyTodoInfoRepeatBtn.setOnClickListener {
-
         }
 
         displayDailyInfo(dailyInfo)
 
         return binding.root
+    }
+
+    private fun getDailyInfo(id: Long) {
+        dailyService.readDailyTodo(
+            id,
+            onResponse = { dto ->
+                this.dailyInfo = DailyInfo(
+                    id = dto.id,
+                    todo = dto.todo,
+                    alarm = Alarm(dto.time, dto.alarm),
+                    time = dto.time,
+                    location = dto.location,
+                    partner = dto.partner,
+                    date = dto.date,
+                    category = Category(dto.categoryInfoDto.id, dto.categoryInfoDto.name, dto.categoryInfoDto.color),
+                    hashtagList = dto.hashtagList,
+                    isPublic = dto.isPublic,
+                    isFinish = dto.isFinish
+                )
+                displayDailyInfo(this.dailyInfo)
+                modifiedResult.isModified(true, this.dailyInfo)
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {}
+        )
     }
 
     private fun displayDailyInfo(info : DailyInfo) {
@@ -100,6 +125,7 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
         binding.dailyTodoInfoTodoTitleTv.text = info.todo
         /* 해시태그 */
         if(!info.hashtagList.isNullOrEmpty()) {
+            showView(binding.dailyTodoInfoHashtagTitleTv, binding.dailyTodoInfoHashtagTv)
             val hashtagSb = StringBuilder()
             info.hashtagList.stream()
                 .map { h -> "#${h.name} "}
@@ -107,10 +133,12 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
             binding.dailyTodoInfoHashtagTv.text = hashtagSb
         }
         else {
-            binding.dailyTodoInfoHashtagTv.text = ""
+            hideView(binding.dailyTodoInfoHashtagTitleTv, binding.dailyTodoInfoHashtagTv)
         }
         /* 시간 및 알람 */
         if(info.time != null) {
+            showView(binding.dailyTodoInfoTimeTitleTv, binding.dailyTodoInfoTimeTv)
+            showView(binding.dailyTodoInfoAlarmTitleTv, binding.dailyTodoInfoAlarmTv)
             binding.dailyTodoInfoTimeTv.text = PrintUtil.convertDateTimePrintFormat(info.time)
             binding.dailyTodoInfoAlarmTv.text = info.alarm.toString()
         } else {
@@ -119,21 +147,28 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
         }
         /* 장소 */
         if(!info.location.isNullOrEmpty()) {
+            showView(binding.dailyTodoInfoLocationTitleTv, binding.dailyTodoInfoLocationTv)
             binding.dailyTodoInfoLocationTv.text = info.location
         } else {
             hideView(binding.dailyTodoInfoLocationTitleTv, binding.dailyTodoInfoLocationTv)
         }
         /* 함께하는 사람 */
         if(!info.partner.isNullOrEmpty()) {
+            showView(binding.dailyTodoInfoPartnerTitleTv, binding.dailyTodoInfoPartnerTv)
             binding.dailyTodoInfoPartnerTv.text = info.partner
         } else {
             hideView(binding.dailyTodoInfoPartnerTitleTv, binding.dailyTodoInfoPartnerTv)
         }
     }
 
-    private fun hideView(title: View, contents: View) {
+    private fun showView(title: View, content: View) {
+        title.visibility = View.VISIBLE
+        content.visibility = View.VISIBLE
+    }
+
+    private fun hideView(title: View, content: View) {
         title.visibility = View.GONE
-        contents.visibility = View.GONE
+        content.visibility = View.GONE
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

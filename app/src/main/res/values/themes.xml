@@ -53,4 +53,10 @@
         <item name="android:textColor">@color/main_color</item>
     </style>
 
+    <!-- NumberPicker Style -->
+    <style name="CustomNumberPicker">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/white</item>
+    </style>
+
 </resources>

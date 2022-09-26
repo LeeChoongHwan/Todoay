@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.databinding.FragmentTimePickerDialogBinding
 import com.todoay.view.todo.common.DatePickerDialogFragment
 import java.time.LocalDate
@@ -76,12 +76,12 @@ class TimePickerDialogFragment(var date: LocalDate) : BottomSheetDialogFragment(
             val minute = timePicker.minute
             this.selectedTime = LocalDateTime.of(date, LocalTime.of(hour, minute))
             if(this.selectedTime.isBefore(LocalDateTime.now())) {
-                Toast.makeText(requireContext(), "현재시간보다 이전 시간을 설정할 수 없습니다!", Toast.LENGTH_SHORT).show()
+                mainAct.showShortToast("현재시간보다 이전 시간을 설정할 수 없습니다!")
                 return@setOnClickListener
             }
             if(limitTime != null) {
                 if(this.selectedTime.isAfter(limitTime)) {
-                    Toast.makeText(requireContext(), "설정한 시간 이후에 알람을 설정할 수 없습니다!", Toast.LENGTH_SHORT).show()
+                    mainAct.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
                     return@setOnClickListener
                 }
             }
