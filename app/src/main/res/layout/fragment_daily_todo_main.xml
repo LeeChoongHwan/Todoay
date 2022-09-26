@@ -8,7 +8,6 @@
     android:layout_height="match_parent">
 
 
-
     <ImageView
         android:id="@+id/daily_todo_main_menu_iv"
         android:layout_width="wrap_content"
@@ -18,7 +17,7 @@
         android:clickable="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu" />
+        app:srcCompat="@drawable/ic_profile_user" />
 
     <TextView
         android:id="@+id/daily_todo_main_title_tv"
@@ -99,7 +98,7 @@
         app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_menu_iv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/daily_todo_main_menu_iv"
-        app:srcCompat="@drawable/ic_bell" />
+        app:srcCompat="@drawable/ic_setting" />
 
 <!--    <android.widget.Button-->
 <!--        android:id="@+id/daily_todo_main_category"-->
