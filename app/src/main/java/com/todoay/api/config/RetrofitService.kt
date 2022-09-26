@@ -5,22 +5,19 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.todoay.MainActivity
-import com.todoay.TodoayApplication
+import com.todoay.api.config.RetrofitURL.amazonUrl
 import com.todoay.api.config.RetrofitURL.ipAddress
 import com.todoay.api.config.gson.LocalDateConverter
 import com.todoay.api.config.gson.LocalDateTimeConverter
-import com.todoay.api.domain.auth.refresh.TokenManager
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.global.util.PrintUtil.printLog
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
-import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -31,7 +28,8 @@ import java.time.LocalDateTime
  */
 object RetrofitService {
 
-    private const val baseUrl = "http://${ipAddress}:8080"
+//    private const val baseUrl = "http://${ipAddress}:8080"
+    private const val baseUrl = "http://$amazonUrl"
     // 토큰이 없어도 되는 Retrofit
     private var retrofitServiceWithoutToken: Retrofit? = null
     private var okHttpClientWithoutToken: OkHttpClient? = null
@@ -116,9 +114,10 @@ object RetrofitService {
      * API의 onResponse 호출 이후 response가 실패할 경우
      * ErrorResponse 객체를 초기화하여 리턴하기 위함.
      */
-    fun <T> getErrorResponse(response: retrofit2.Response<T>) : ErrorResponse {
-        val gsonError: ErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
-        val errorResponse = ErrorResponse(
+    fun <T> getErrorResponse(response: retrofit2.Response<T>): ErrorResponse {
+        val gsonError: ErrorResponse =
+            Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+        return ErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
@@ -126,16 +125,16 @@ object RetrofitService {
             message = gsonError.message,
             path = gsonError.path
         )
-        return errorResponse
     }
 
     /**
      * API의 onResponse 호출 이후 response가 실패할 경우
      * 서버의 유효성 검증에 대한 ValidErrorResponse 객체를 초기화하여 리턴하기 위함.
-    */
-    fun <T> getValidErrorResponse(response: retrofit2.Response<T>) : ValidErrorResponse {
-        val gsonError : ValidErrorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
-        val validErrorResponse = ValidErrorResponse(
+     */
+    fun <T> getValidErrorResponse(response: retrofit2.Response<T>): ValidErrorResponse {
+        val gsonError: ValidErrorResponse =
+            Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+        return ValidErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
             error = gsonError.error,
@@ -144,7 +143,6 @@ object RetrofitService {
             path = gsonError.path,
             details = gsonError.details
         )
-        return validErrorResponse
     }
 
     /**

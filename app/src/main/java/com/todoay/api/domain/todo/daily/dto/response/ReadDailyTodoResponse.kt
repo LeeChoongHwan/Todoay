@@ -13,19 +13,19 @@ data class ReadDailyTodoResponse(
     @SerializedName("title")
     val todo : String,
     @SerializedName("alarm")
-    val alarm : LocalDateTime,
+    val alarm : LocalDateTime?,
     @SerializedName("targetTime")
-    val time : LocalDateTime,
+    val time : LocalDateTime?,
     @SerializedName("place")
-    val location : String,
+    val location : String?,
     @SerializedName("people")
-    val partner : String,
+    val partner : String?,
     @SerializedName("dailyDate")
     val date : LocalDate,
     @SerializedName("category")
     val categoryInfoDto : CategoryInfoDto,
     @SerializedName("hashtagNames")
-    val hashtagList : List<Hashtag>,
+    val hashtagList : List<Hashtag>?,
     @SerializedName("public")
     val isPublic : Boolean,
     @SerializedName("finished")

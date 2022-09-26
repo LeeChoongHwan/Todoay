@@ -18,7 +18,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:fontFamily="@font/regular"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="12sp"
-        android:text="TextView" />
+        android:text="Toast Message" />
 </androidx.constraintlayout.widget.ConstraintLayout>

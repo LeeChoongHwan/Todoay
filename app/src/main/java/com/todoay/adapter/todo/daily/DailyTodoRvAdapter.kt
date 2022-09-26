@@ -9,13 +9,18 @@ import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetDaily
 
 class DailyTodoRvAdapter : RecyclerView.Adapter<DailyTodoRvAdapter.ViewHolder>() {
 
-    lateinit var onClickListener: DailyOnClickListenerForGetDaily
+    lateinit var onClickDotListener: DailyOnClickListenerForGetDaily
+    lateinit var onClickCheckListener : DailyOnClickListenerForGetDaily
 
     var dataList : List<Daily> = listOf()
 
     inner class ViewHolder(private val binding: ListItemDailyTodoBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(daily: Daily) {
+            if(daily.isFinished) {
+                binding.dailyTodoCheckbox.isChecked = true
+            }
+
             binding.dailyTodoCheckbox.text = daily.todo
 
             if(!daily.hashtagList.isNullOrEmpty()) {
@@ -26,8 +31,11 @@ class DailyTodoRvAdapter : RecyclerView.Adapter<DailyTodoRvAdapter.ViewHolder>()
                 binding.dailyTodoHashtag.text = pHashtag
             }
 
+            binding.dailyTodoCheckbox.setOnClickListener {
+                onClickCheckListener.onClick(daily)
+            }
             binding.dailyTodoDot.setOnClickListener {
-                onClickListener.onClick(daily)
+                onClickDotListener.onClick(daily)
             }
         }
     }

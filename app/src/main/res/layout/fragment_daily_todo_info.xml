@@ -231,30 +231,13 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/daily_todo_info_modify_btn"
-                app:layout_constraintRight_toRightOf="@id/daily_todo_info_repeat_btn"
+                app:layout_constraintRight_toRightOf="parent"
                 android:fontFamily="@font/regular"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textAlignment="textEnd"
                 android:text="삭제하기" />
 
-            <android.widget.Button
-                android:id="@+id/daily_todo_info_repeat_btn"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/ic_daily_repeat"
-                android:drawablePadding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/daily_todo_info_delete_btn"
-                app:layout_constraintRight_toRightOf="parent"
-                android:fontFamily="@font/regular"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textAlignment="textEnd"
-                android:text="반복하기" />
-    
-    
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

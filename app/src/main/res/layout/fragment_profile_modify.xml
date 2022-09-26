@@ -34,7 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
-        android:clickable="true"
         android:enabled="false"
         android:fontFamily="@font/regular"
         android:text="확인"
@@ -57,21 +56,34 @@
         app:layout_constraintTop_toBottomOf="@id/profile_modify_top_line" />
 
     <ImageView
-        android:id="@+id/profile_modify_addpicture_btn"
+        android:id="@+id/profile_modify_image_btn"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_modify_changepicture_tv"
-        app:srcCompat="@drawable/add_picture_btn" />
+        app:srcCompat="@drawable/bg_profile_image" />
 
     <ImageView
-        android:id="@+id/profile_modify_addpicture_cancel_btn"
+        android:id="@+id/profile_modify_image_delete_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/add_picture_cancel_btn"
-        app:layout_constraintLeft_toRightOf="@id/profile_modify_addpicture_btn"
-        app:layout_constraintTop_toTopOf="@id/profile_modify_addpicture_btn"/>
+        app:layout_constraintLeft_toRightOf="@id/profile_modify_image_btn"
+        app:layout_constraintTop_toTopOf="@id/profile_modify_image_btn"/>
+
+    <TextView
+        android:id="@+id/profile_modify_image_text_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/profile_modify_image_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/regular"
+        android:textColor="@color/main_color"
+        android:text="프로필 사진 수정"/>
+
 
     <TextView
         android:id="@+id/profile_modify_nickname_tv"
@@ -83,7 +95,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"
-        app:layout_constraintTop_toBottomOf="@id/profile_modify_addpicture_btn" />
+        app:layout_constraintTop_toBottomOf="@id/profile_modify_image_text_btn" />
 
     <EditText
         android:id="@+id/profile_modify_nickname_et"

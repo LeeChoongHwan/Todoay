@@ -124,7 +124,6 @@ class LoginFragment : Fragment() {
         }
 
         return mBinding?.root
-
     }
 
     /**
@@ -220,17 +219,6 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * 자동 로그인
-     */
-    override fun onStart() {
-        super.onStart()
-        if(TodoayApplication.pref.hasAccessToken()) {
-            printLog("[USER] 자동 로그인")
-            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
-        }
-    }
-
-    /**
      * 로그인 button 색상 변경 위한 메소드.
      */
     private fun changeConfirmButtonColor() {
@@ -244,4 +232,12 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        /* Auto Login */
+        if(requireActivity().intent.getBooleanExtra("auto-login", false) &&
+            TodoayApplication.pref.hasAccessToken()) {
+            Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
+        }
+    }
 }

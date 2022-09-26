@@ -32,7 +32,7 @@ class ChangePasswordFragment : Fragment() {
 
         //뒤로가기 버튼
         mBinding?.changepasswordBackbtn?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_profileFragment)
+            Navigation.findNavController(requireView()).popBackStack()
         }
 
         //툴바 확인 버튼
