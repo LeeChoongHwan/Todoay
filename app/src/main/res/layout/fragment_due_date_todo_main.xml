@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_profile_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_profile_user" />
+
+    <TextView
+        android:id="@+id/due_date_todo_main_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blackoblique"
+        android:text="Todoay"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_profile_btn"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_profile_btn"
+        />
+
+    <View
+        android:id="@+id/due_date_todo_main_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="15dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_title_tv" />
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_profile_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_profile_btn"
+        app:srcCompat="@drawable/ic_setting" />
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_calander_select"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_profile_btn"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_top_line"
+        app:srcCompat="@drawable/selectbtn_calander_unselect" />
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_due_date_select"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="1dp"
+        android:clickable="true"
+        app:layout_constraintLeft_toRightOf="@id/due_date_todo_main_calander_select"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_calander_select"
+        app:srcCompat="@drawable/selectbtn_calander" />
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_calander_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_calendar"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_calander_select"
+        app:layout_constraintRight_toRightOf="@id/due_date_todo_main_calander_select"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_calander_select"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_calander_select"/>
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_todo_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_notebook"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_due_date_select"
+        app:layout_constraintRight_toRightOf="@id/due_date_todo_main_due_date_select"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_due_date_select"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_due_date_select"/>
+
+
+    <RadioGroup
+        android:id="@+id/due_date_todo_main_order_type_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_calander_select"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_calander_select"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/due_date_todo_main_order_importance"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_order_type_importance"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="우선순위 순" />
+
+        <RadioButton
+            android:id="@+id/due_date_todo_main_order_due_date"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/bg_radio_order_type_due_date"
+            android:fontFamily="@font/regular"
+            android:textColor="@drawable/txt_color_radio_button"
+            android:text="만기일 순" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_finished_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_order_type_group"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_order_type_group"
+        app:srcCompat="@drawable/ic_clipboard"
+        tools:layout_editor_absoluteX="357dp"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_setting_btn"/>
+
+    <FrameLayout
+        android:id="@+id/due_date_todo_main_rv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_order_type_group">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/due_date_todo_main_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/list_item_due_date_todo"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/due_date_todo_main_finish_rv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_order_type_group">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/due_date_todo_main_finish_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/list_item_due_date_todo_finish"/>
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/due_date_todo_main_add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/bg_plus_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,24 +1,40 @@
 package com.todoay.api.domain.profile
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.todoay.api.config.RetrofitService
 import com.todoay.api.config.ServiceRepository.ProfileServiceRepository.callProfileService
-import com.todoay.api.domain.profile.dto.request.ModifyProfileRequest
-import com.todoay.api.domain.profile.dto.response.ModifyProfileResponse
 import com.todoay.api.domain.profile.dto.response.ProfileResponse
 import com.todoay.api.util.response.error.ErrorResponse
 import com.todoay.api.util.response.error.FailureResponse
+import com.todoay.api.util.response.success.SuccessResponse
+import com.todoay.data.profile.Profile
+import com.todoay.global.util.PrintUtil.printLog
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 /**
  * 유저 정보(Profile) 관련 API 호출 및 응답을 처리하는 클래스.
- * API Interface: callProfileService().kt
+ *
+ * @see ProfileService
  */
 class ProfileAPI {
+
+    companion object {
+        private var instance : ProfileAPI? = null
+        fun getInstance() : ProfileAPI {
+            return instance ?: synchronized(this) {
+                instance ?: ProfileAPI().also {
+                    instance  = it
+                }
+            }
+        }
+    }
 
     /**
      * 유저 정보(Profile) 조회 수행
@@ -34,12 +50,17 @@ class ProfileAPI {
                     if(response.isSuccessful) {
                         val profileResponse : ProfileResponse = response.body()!!
                         onResponse(profileResponse)
-                        Log.d("profile", "get profile - success {$profileResponse}")
+                        printLog("[내 정보 조회] - 성공 {$profileResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        Log.d("profile", "get profile - failed {$errorResponse}")
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[내 정보 조회] - 실패 {$errorResponse}")
+                        }
+                        catch (t: Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 
@@ -49,7 +70,7 @@ class ProfileAPI {
                         t, "/profile/my"
                     )
                     onFailure(failure)
-                    Log.d("profile", "system - failed {${failure}}")
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })
@@ -59,39 +80,58 @@ class ProfileAPI {
      * 유저 정보(Profile) 변경 수행
      * [PUT]("/profile/my")
      */
-    fun putProfile(_nickname: String, _introMsg: String, _imageUrl: String, onResponse: (ModifyProfileResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
-        val request = ModifyProfileRequest(
-            nickname = _nickname,
-            introMsg = _introMsg,
-            imageUrl = _imageUrl
-        )
-        callProfileService().putProfile(request)
-            .enqueue(object : Callback<ModifyProfileResponse> {
+    fun putProfile(imageFile: File?, profile: Profile, onResponse: (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        val imageBody : MultipartBody.Part = if(imageFile != null) {
+            MultipartBody.Part.createFormData("image", imageFile.name, RequestBody.create("image/*".toMediaType(), imageFile))
+        } else {
+            MultipartBody.Part.createFormData("image", "", RequestBody.create("image/*".toMediaType(), ""))
+        }
+        if(profile.imageUrl.isNullOrBlank()) {
+            profile.imageUrl = ""
+        }
+        val profileToJson = "{" +
+                "\"nickname\":\"${profile.nickname}\"," +
+                "\"imageUrl\":\"${profile.imageUrl}\"," +
+                "\"introMsg\":\"${profile.introMsg}\"" +
+                "}"
+        val profileBody = MultipartBody.Part.createFormData("profile", "", RequestBody.create("application/json".toMediaType(), profileToJson))
+
+        callProfileService().putProfile(imageBody, profileBody)
+            .enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
-                    call: Call<ModifyProfileResponse>,
-                    response: Response<ModifyProfileResponse>
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
                 ) {
                     if(response.isSuccessful) {
-                        val modifyProfileResponse = ModifyProfileResponse(
-                            status = response.code()
-                        )
-                        onResponse(modifyProfileResponse)
-                        Log.d("profile", "modify profile - success {$modifyProfileResponse}")
+                        val successResponse = SuccessResponse(status = response.code())
+                        onResponse(successResponse)
+                        printLog("[내 정보 변경] - 성공 {$successResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        Log.d("profile", "modify profile - failed {$errorResponse}")
+                        try {
+                            var errorResponse: ErrorResponse? = null
+                            if(response.code() == 400) {
+                                errorResponse = RetrofitService.getValidErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            else {
+                                errorResponse = RetrofitService.getErrorResponse(response)
+                                onErrorResponse(errorResponse)
+                            }
+                            printLog("[내 정보 변경] - 실패 {$errorResponse}")
+                        } catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onFailure(call: Call<ModifyProfileResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
                         t,  "/profile/my"
                     )
                     onFailure(failure)
-                    Log.d("profile", "system - failed {${failure}}")
+                    printLog("SYSTEM ERROR - FAILED {$failure}")
                 }
 
             })

@@ -3,17 +3,16 @@ package com.todoay.view.profile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
-import com.todoay.api.domain.auth.password.ModifyPasswordAPI
+import com.todoay.api.domain.auth.AuthAPI
+import com.todoay.api.domain.auth.dto.request.ModifyPasswordRequest
 import com.todoay.databinding.FragmentChangePasswordBinding
-import com.todoay.global.util.UserLogout
 import java.util.regex.Pattern
 
 class ChangePasswordFragment : Fragment() {
@@ -24,7 +23,7 @@ class ChangePasswordFragment : Fragment() {
     var isChangedPassword : Boolean = false
     var isChangedCheckPassword : Boolean = false
 
-    val modifyPasswordService = ModifyPasswordAPI()
+    private val service by lazy { AuthAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentChangePasswordBinding.inflate(inflater,container,false)
@@ -33,7 +32,7 @@ class ChangePasswordFragment : Fragment() {
 
         //뒤로가기 버튼
         mBinding?.changepasswordBackbtn?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_profileFragment)
+            Navigation.findNavController(requireView()).popBackStack()
         }
 
         //툴바 확인 버튼
@@ -41,26 +40,25 @@ class ChangePasswordFragment : Fragment() {
             val originPassword = mBinding?.changepasswordOriginPasswordEt?.text.toString()
             val modifiedPassword = mBinding?.changepasswordChangedpassowordEt?.text.toString()
 
+            val request = ModifyPasswordRequest(originPassword, modifiedPassword)
+
             //비밀번호 변경 API 호출
-            modifyPasswordService.modifyPassword(
-                originPassword,
-                modifiedPassword,
+            service.modifyPassword(
+                request,
                 onResponse = {
-                    Log.d("modify password", "onResponse() called in ChangePasswordFragment")
-                    Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_LONG).show()
-                    UserLogout.logout()
-                    Navigation.findNavController(requireView()).navigate(R.id.action_changePasswordFragment_to_loginFragment)
+                    mainAct.logout("다시 로그인해주세요")
                 },
                 onErrorResponse = {
-                    Log.d("modify password", "onErrorResponse() called in ChangePasswordFragment")
-                    // status 404 비밀번호 양식 유효성 실패
+                    /*
+                     * 400 유효성 검사 실패
+                     * 403 허용되지 않는 접근
+                     * 404 기존 비밀번호가 저장된 정보와 불일치
+                     */
                     mBinding?.changepasswordOriginPasswordErrorMessage?.visibility = View.VISIBLE
                     mBinding?.changepasswordOriginPasswordEt?.setText("")
                     mBinding?.changepasswordOriginPasswordEt?.requestFocus()
                 },
                 onFailure = {
-                    Log.d("modify password", "onFailure() called in ChangePasswordFragment")
-                    Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
         }

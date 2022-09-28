@@ -1,6 +1,7 @@
 package com.todoay.api.util.response.error
 
 import com.google.gson.annotations.SerializedName
+import okhttp3.ResponseBody
 import java.time.LocalDateTime
 
 open class ErrorResponse(

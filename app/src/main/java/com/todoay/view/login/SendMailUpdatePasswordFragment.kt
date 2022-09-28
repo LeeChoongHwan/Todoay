@@ -3,12 +3,10 @@ package com.todoay.view.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.MainActivity
@@ -20,6 +18,8 @@ import com.todoay.databinding.FragmentSendMailUpdatePasswordBinding
 class SendMailUpdatePasswordFragment : Fragment() {
 
     private var mBinding : FragmentSendMailUpdatePasswordBinding?= null
+
+    private val service by lazy { EmailAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentSendMailUpdatePasswordBinding.inflate(inflater,container,false)
@@ -73,11 +73,13 @@ class SendMailUpdatePasswordFragment : Fragment() {
             val act = activity as MainActivity
             act.hideKeyboard(requireView())
 
-            // 임시비밀번호 메일 전송 API 호출
-            EmailAPI().sendMailForUpdatePassword(
+            /**
+             * 임시 비밀번호 메일 전송 API
+             */
+            service.sendMailForUpdatePassword(
                 inputEmail,
+                /* 임시 비밀번호 메일 전송 성공 */
                 onResponse = {
-                    Log.d("send mail for update password", "onResponse() called in SendMailUpdatePasswordFragment")
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일이 전송되었습니다"
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.setTextColor(resources.getColor(R.color.green))
                     mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.visibility = View.VISIBLE
@@ -87,17 +89,16 @@ class SendMailUpdatePasswordFragment : Fragment() {
 
                     mBinding?.sendMailUpdatePasswordConfirmMessage?.visibility = View.VISIBLE
                 },
+                /* 임시 비밀번홈 메일 전송 실패 */
                 onErrorResponse = {
                     if(it is ValidErrorResponse){
-                        Log.d("send mail for update password", "onErrorResponse() called in SendMailUpdatePasswordFragment")
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.text = "메일 전송이 실패하였습니다"
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.setTextColor(resources.getColor(R.color.red))
                         mBinding?.sendMailUpdatePasswordSendMailAlertMessage?.visibility = View.VISIBLE
                     }
                 },
+                /* 디바이스 Exception */
                 onFailure = {
-                    Log.d("send mail for update password", "onFailure() called in SendMailUpdatePasswordFragment")
-                    Toast.makeText(requireContext(), it.code, Toast.LENGTH_LONG).show()
                 }
             )
         }

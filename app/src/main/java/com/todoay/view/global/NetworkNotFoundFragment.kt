@@ -16,9 +16,6 @@ class NetworkNotFoundFragment : Fragment() {
 
         mBinding = binding
 
-
-
-
         return mBinding?.root
     }
 
