@@ -89,15 +89,20 @@ class DailyTodoInfoFragment(private var dailyInfo: DailyInfo) : BottomSheetDialo
                 this.dailyInfo = DailyInfo(
                     id = dto.id,
                     todo = dto.todo,
-                    alarm = Alarm(dto.time, dto.alarm),
+                    isPublic = dto.isPublic,
+                    isFinish = dto.isFinish,
+                    alarm = if(dto.alarm!=null) Alarm(dto.time, dto.alarm) else null,
                     time = dto.time,
+                    repeatId = dto.repeatId,
                     location = dto.location,
                     partner = dto.partner,
                     date = dto.date,
-                    category = Category(dto.categoryInfoDto.id, dto.categoryInfoDto.name, dto.categoryInfoDto.color),
-                    hashtagList = dto.hashtagList,
-                    isPublic = dto.isPublic,
-                    isFinish = dto.isFinish
+                    category = Category(
+                        dto.categoryInfoDto.id,
+                        dto.categoryInfoDto.name,
+                        dto.categoryInfoDto.color
+                    ),
+                    hashtagList = dto.hashtagList
                 )
                 displayDailyInfo(this.dailyInfo)
                 modifiedResult.isModified(true, this.dailyInfo)

@@ -10,6 +10,8 @@ data class ReadAllDailyTodoResponse(
     val todo : String,
     @SerializedName("categoryId")
     val categoryId : Long,
+    @SerializedName("repeatId")
+    val repeatId : Long,
     @SerializedName("hashtagInfoDtos")
     val hashtagList : List<Hashtag>,
     @SerializedName("public")

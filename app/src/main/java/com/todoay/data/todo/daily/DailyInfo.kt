@@ -8,13 +8,14 @@ import java.time.LocalDateTime
 data class DailyInfo(
     val id : Long,
     val todo : String,
+    val isPublic : Boolean,
+    val isFinish : Boolean,
     val alarm : Alarm?,
     val time : LocalDateTime?,
+    val repeatId : Long,
     val location : String?,
     val partner : String?,
     val date : LocalDate,
     val category : Category,
-    val hashtagList : List<Hashtag>?,
-    val isPublic : Boolean,
-    val isFinish : Boolean
+    val hashtagList : List<Hashtag>?
 )
