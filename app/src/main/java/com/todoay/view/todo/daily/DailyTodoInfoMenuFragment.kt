@@ -57,26 +57,33 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
 
         /* 삭제하기 버튼 */
         binding.dailyTodoInfoMenuDeleteBtn.setOnClickListener {
-            TodoayAlertDialogFragment().apply {
-                this.message = "정말 삭제하시겠어요?"
-                this.onClickListener = object : OnClickListener {
-                    override fun onClick(item: Any) {
-                        if(item as Boolean) {
-                            commonService.deleteTodo(
-                                dailyInfo.id,
-                                onResponse = {
-                                    result.isChangedState(false, true)
-                                    dismiss()
-                                },
-                                onErrorResponse = {
-
-                                },
-                                onFailure = {}
-                            )
+            // 반복 설정 X
+            if(dailyInfo.repeatId < 1) {
+                TodoayAlertDialogFragment().apply {
+                    this.message = "정말 삭제하시겠어요?"
+                    this.onClickListener = object : OnClickListener {
+                        override fun onClick(item: Any) {
+                            if(item as Boolean) {
+                                deleteDailyTodo()
+                            }
                         }
                     }
+                    this.show(this@DailyTodoInfoMenuFragment.parentFragmentManager, this.tag)
                 }
-                this.show(this@DailyTodoInfoMenuFragment.parentFragmentManager, this.tag)
+            }
+            // 반복 설정 O
+            else {
+                DeleteRepeatDailyAlertDialog().apply {
+                    this.onClickListener = object : OnClickListener {
+                        override fun onClick(item: Any) {
+                            when(item as String) {
+                                "selected" -> deleteDailyTodo()
+                                "all" -> deleteRepeatDailyTodo()
+                            }
+                        }
+                    }
+                    this.show(this@DailyTodoInfoMenuFragment.parentFragmentManager, this.tag)
+                }
             }
         }
 
@@ -111,6 +118,33 @@ class DailyTodoInfoMenuFragment(private var dailyInfo: DailyInfo) : BottomSheetD
 
         return binding.root
     }
+
+    private fun deleteDailyTodo() {
+        commonService.deleteTodo(
+            dailyInfo.id,
+            onResponse = {
+                result.isChangedState(false, true)
+                dismiss()
+            },
+            onErrorResponse = {
+
+            },
+            onFailure = {}
+        )
+    }
+
+    private fun deleteRepeatDailyTodo() {
+        dailyService.deleteRepeatDailyTodo(
+            dailyInfo.id,
+            onResponse = {
+                result.isChangedState(false, true)
+                dismiss()
+            },
+            onErrorResponse = {},
+            onFailure = {}
+        )
+    }
+
 
     private fun modifyDailyDate(modifiedDate : LocalDate) {
         val request = ModifyDailyTodoDateRequest(

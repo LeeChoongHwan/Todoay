@@ -12,10 +12,16 @@ data class ReadDailyTodoResponse(
     val id : Long,
     @SerializedName("title")
     val todo : String,
+    @SerializedName("public")
+    val isPublic : Boolean,
+    @SerializedName("finished")
+    val isFinish : Boolean,
     @SerializedName("alarm")
     val alarm : LocalDateTime?,
     @SerializedName("targetTime")
     val time : LocalDateTime?,
+    @SerializedName("repeatId")
+    val repeatId : Long,
     @SerializedName("place")
     val location : String?,
     @SerializedName("people")
@@ -25,9 +31,5 @@ data class ReadDailyTodoResponse(
     @SerializedName("category")
     val categoryInfoDto : CategoryInfoDto,
     @SerializedName("hashtagNames")
-    val hashtagList : List<Hashtag>?,
-    @SerializedName("public")
-    val isPublic : Boolean,
-    @SerializedName("finished")
-    val isFinish : Boolean
+    val hashtagList : List<Hashtag>?
 )
