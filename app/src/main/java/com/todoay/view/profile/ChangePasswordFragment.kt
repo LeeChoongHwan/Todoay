@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
-import com.todoay.api.domain.auth.password.ModifyPasswordAPI
-import com.todoay.api.domain.auth.password.dto.request.ModifyPasswordRequest
+import com.todoay.api.domain.auth.AuthAPI
+import com.todoay.api.domain.auth.dto.request.ModifyPasswordRequest
 import com.todoay.databinding.FragmentChangePasswordBinding
 import java.util.regex.Pattern
 
@@ -23,7 +23,7 @@ class ChangePasswordFragment : Fragment() {
     var isChangedPassword : Boolean = false
     var isChangedCheckPassword : Boolean = false
 
-    private val service by lazy { ModifyPasswordAPI.getInstance() }
+    private val service by lazy { AuthAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentChangePasswordBinding.inflate(inflater,container,false)

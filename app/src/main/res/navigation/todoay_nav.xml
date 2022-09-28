@@ -97,9 +97,6 @@
         <action
             android:id="@+id/action_dailyTodoMainFragment_to_dueDateTodoMainFragment"
             app:destination="@id/dueDateTodoMainFragment" />
-        <action
-            android:id="@+id/action_dailyTodoMainFragment_to_profileFragment"
-            app:destination="@id/profileFragment"/>
     </fragment>
     <fragment
         android:id="@+id/dueDateTodoMainFragment"
@@ -148,6 +145,16 @@
         <action
             android:id="@+id/action_authSettingMainFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment"/>
+        <action
+            android:id="@+id/action_authSettingMainFragment_to_deleteAuthFragment"
+            app:destination="@id/deleteAuthFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/deleteAuthFragment"
+        android:name="com.todoay.view.setting.auth.DeleteAuthFragment"
+        android:label=".DeleteAuthFragment"
+        tools:layout="@layout/fragment_delete_auth">
     </fragment>
 
     <!-- Global Action -->
@@ -165,4 +172,7 @@
     <action
         android:id="@+id/action_global_dailyTodoMainFragment"
         app:destination="@id/dailyTodoMainFragment"/>
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"/>
 </navigation>

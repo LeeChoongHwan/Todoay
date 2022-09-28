@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
-import com.todoay.adapter.category.CategoryAdapter
-import com.todoay.adapter.category.CategoryFinishAdapter
+import com.todoay.view.adapter.category.CategoryAdapter
+import com.todoay.view.adapter.category.CategoryFinishAdapter
 import com.todoay.view.setting.category.interfaces.CategoryOnClickListener
 import com.todoay.api.domain.category.CategoryAPI
 import com.todoay.api.domain.category.dto.CategoryOrderIndexDto

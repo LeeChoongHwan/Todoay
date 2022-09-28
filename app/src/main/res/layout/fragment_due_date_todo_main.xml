@@ -7,7 +7,7 @@
 
 
     <ImageView
-        android:id="@+id/due_date_todo_main_menu_iv"
+        android:id="@+id/due_date_todo_main_profile_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -27,8 +27,8 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_menu_iv"
-        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_menu_iv"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_profile_btn"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_profile_btn"
         />
 
     <View
@@ -40,14 +40,14 @@
         app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_title_tv" />
 
     <ImageView
-        android:id="@+id/due_date_todo_main_bell_iv"
+        android:id="@+id/due_date_todo_main_setting_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_menu_iv"
+        app:layout_constraintBottom_toBottomOf="@id/due_date_todo_main_profile_btn"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_menu_iv"
+        app:layout_constraintTop_toTopOf="@id/due_date_todo_main_profile_btn"
         app:srcCompat="@drawable/ic_setting" />
 
     <ImageView
@@ -56,7 +56,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:clickable="true"
-        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_menu_iv"
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_profile_btn"
         app:layout_constraintTop_toBottomOf="@id/due_date_todo_main_top_line"
         app:srcCompat="@drawable/selectbtn_calander_unselect" />
 
@@ -135,7 +135,7 @@
         app:layout_constraintTop_toTopOf="@id/due_date_todo_main_order_type_group"
         app:srcCompat="@drawable/ic_clipboard"
         tools:layout_editor_absoluteX="357dp"
-        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_bell_iv"/>
+        app:layout_constraintLeft_toLeftOf="@id/due_date_todo_main_setting_btn"/>
 
     <FrameLayout
         android:id="@+id/due_date_todo_main_rv_layout"
@@ -181,6 +181,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_category_add" />
+        app:srcCompat="@drawable/bg_plus_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

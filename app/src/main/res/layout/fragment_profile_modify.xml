@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="프로필"
+        android:text="프로필 수정"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/profile_modify_backbtn"
@@ -68,7 +68,7 @@
         android:id="@+id/profile_modify_image_delete_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/add_picture_cancel_btn"
+        app:srcCompat="@drawable/bg_close_btn"
         app:layout_constraintLeft_toRightOf="@id/profile_modify_image_btn"
         app:layout_constraintTop_toTopOf="@id/profile_modify_image_btn"/>
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.todoay.R
-import com.todoay.adapter.todo.daily.DailyTodoCategoryRvAdapter
+import com.todoay.view.adapter.todo.daily.DailyTodoCategoryRvAdapter
 import com.todoay.api.domain.category.CategoryAPI
 import com.todoay.api.domain.todo.common.TodoAPI
 import com.todoay.api.domain.todo.daily.DailyTodoAPI
@@ -49,13 +49,14 @@ class DailyTodoMainFragment : Fragment() {
             getDailyTodoData()
         }
 
-        mBinding?.dailyTodoMainMenuIv?.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_global_settingMainFragment)
+        /* 프로필 버튼 */
+        mBinding?.dailyTodoMainProfileBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_global_profileFragment)
         }
 
-        // 알림 벨
-        mBinding?.dailyTodoMainBellIv?.setOnClickListener {
-
+        // 설정 버튼
+        mBinding?.dailyTodoMainSettingBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_global_settingMainFragment)
         }
 
         // 투두 전환 버튼
