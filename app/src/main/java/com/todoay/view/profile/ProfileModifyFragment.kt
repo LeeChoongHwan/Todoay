@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.TodoayApplication
-import com.todoay.api.domain.auth.nickname.NicknameAPI
+import com.todoay.api.domain.auth.AuthAPI
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.api.util.response.error.ValidErrorResponse
 import com.todoay.data.profile.Profile
@@ -28,7 +28,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.regex.Pattern
-
 
 class ProfileModifyFragment : Fragment() {
 
@@ -48,8 +47,8 @@ class ProfileModifyFragment : Fragment() {
 
     private val OPEN_GALLERY = 1
 
+    private val authService by lazy { AuthAPI.getInstance() }
     private val profileService by lazy { ProfileAPI.getInstance() }
-    private val nicknameService by lazy { NicknameAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentProfileModifyBinding.inflate(inflater,container,false)
@@ -213,7 +212,7 @@ class ProfileModifyFragment : Fragment() {
      * 닉네임 중복확인 API 호출 메소드
      */
     private fun checkNicknameExists(inputNickname: String) {
-        nicknameService.checkNicknameExists(
+        authService.checkNicknameExists(
             inputNickname,
             onResponse = {
                 if (!it.nicknameExist) {

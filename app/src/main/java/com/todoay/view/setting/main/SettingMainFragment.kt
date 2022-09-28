@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
-import com.todoay.adapter.setting.SettingAdapter
+import com.todoay.view.adapter.setting.SettingAdapter
 import com.todoay.databinding.FragmentSettingMainBinding
 import com.todoay.view.global.TodoayAlertDialogFragment
 import com.todoay.view.global.interfaces.OnClickListener

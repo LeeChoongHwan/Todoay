@@ -1,11 +1,7 @@
 package com.todoay.api.config
 
+import com.todoay.api.domain.auth.AuthService
 import com.todoay.api.domain.auth.email.EmailService
-import com.todoay.api.domain.auth.login.LoginService
-import com.todoay.api.domain.auth.nickname.NicknameService
-import com.todoay.api.domain.auth.password.ModifyPasswordService
-import com.todoay.api.domain.auth.refresh.RefreshService
-import com.todoay.api.domain.auth.signUp.SignUpService
 import com.todoay.api.domain.category.CategoryService
 import com.todoay.api.domain.hashtag.HashtagService
 import com.todoay.api.domain.profile.ProfileService
@@ -53,44 +49,21 @@ object ServiceRepository {
         }
 
         /**
-         * 토큰이 필요없는 LoginService 객체를 생성하고 호출하는 메소드.
+         * 토큰이 필요없는 AuthService 객체를 생성하고 호출하는 메소드.
          * @return loginService
          */
-        fun callLoginService() : LoginService {
-            return createServiceWithoutToken(LoginService::class.java)
+        fun callAuthServiceWithoutToken() : AuthService {
+            return createServiceWithoutToken(AuthService::class.java)
         }
 
         /**
-         * 토큰이 필요없는 NicknameService 객체를 생성하고 호출하는 메소드.
-         * @return nicknameService
+         * 토큰이 필요한 AuthService 객체를 생성하고 호출하는 메소드.
+         * @return loginService
          */
-        fun callNicknameService() : NicknameService {
-            return createServiceWithoutToken(NicknameService::class.java)
+        fun callAuthServiceWithToken() : AuthService {
+            return createServiceWithToken(AuthService::class.java)
         }
 
-        /**
-         * 토큰이 필요한 ModifyPasswordService 객체를 생성하고 호출하는 메소드.
-         * @return modifyPasswordService
-         */
-        fun callModifyPasswordService() : ModifyPasswordService {
-            return createServiceWithToken(ModifyPasswordService::class.java)
-        }
-
-        /**
-         * 토큰이 필요없는 SignUpService 객체를 생성하고 호출하는 메소드.
-         * @return signUpService
-         */
-        fun callSignUpService() : SignUpService {
-            return createServiceWithoutToken(SignUpService::class.java)
-        }
-
-        /**
-         * 토큰이 필요없는 RefreshService 객체를 생성하고 호출하는 메소드.
-         * @return refreshService
-         */
-        fun callRefreshService() : RefreshService {
-            return createServiceWithoutToken(RefreshService::class.java)
-        }
     }
 
     /**

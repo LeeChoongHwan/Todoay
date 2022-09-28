@@ -27,7 +27,7 @@
         android:clickable="true"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_category_add" />
+        app:srcCompat="@drawable/bg_plus_btn" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todo_main_recyclerview"

@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/daily_todo_main_menu_iv"
+        android:id="@+id/daily_todo_main_profile_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -29,8 +29,8 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/daily_todo_main_menu_iv"
-        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_profile_btn"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_profile_btn"
          />
 
     <View
@@ -48,7 +48,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:clickable="true"
-        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_profile_btn"
         app:layout_constraintTop_toBottomOf="@id/daily_todo_main_top_line"
         app:srcCompat="@drawable/selectbtn_calander" />
 
@@ -90,14 +90,14 @@
         android:layout_marginTop="15dp"/>
 
     <ImageView
-        android:id="@+id/daily_todo_main_bell_iv"
+        android:id="@+id/daily_todo_main_setting_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_profile_btn"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/daily_todo_main_menu_iv"
+        app:layout_constraintTop_toTopOf="@id/daily_todo_main_profile_btn"
         app:srcCompat="@drawable/ic_setting" />
 
 <!--    <android.widget.Button-->
@@ -119,7 +119,7 @@
 <!--        app:layout_constraintBottom_toBottomOf="@id/daily_todo_main_category"-->
 <!--        app:layout_constraintTop_toTopOf="@id/daily_todo_main_category"-->
 <!--        app:layout_constraintLeft_toLeftOf="@id/daily_todo_main_bell_iv"-->
-<!--        app:srcCompat="@drawable/ic_category_add"-->
+<!--        app:srcCompat="@drawable/bg_plus_btn"-->
 <!--        />-->
 
 <!--    <CheckBox-->

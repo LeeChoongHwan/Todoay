@@ -12,10 +12,9 @@ import androidx.navigation.Navigation
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.TodoayApplication
+import com.todoay.api.domain.auth.AuthAPI
+import com.todoay.api.domain.auth.dto.request.SignUpRequest
 import com.todoay.api.domain.auth.email.EmailAPI
-import com.todoay.api.domain.auth.nickname.NicknameAPI
-import com.todoay.api.domain.auth.signUp.SignUpAPI
-import com.todoay.api.domain.auth.signUp.dto.request.SignUpRequest
 import com.todoay.databinding.FragmentSignUpBinding
 import java.net.HttpURLConnection
 import java.util.regex.Pattern
@@ -30,9 +29,8 @@ class SignUpFragment : Fragment() {
     var isNickname : Boolean = false
     var isPasswordMatchCondition : Boolean = false
 
-    private val nicknameService : NicknameAPI by lazy { NicknameAPI.getInstance() }
+    private val authService : AuthAPI by lazy { AuthAPI.getInstance() }
     private val emailService : EmailAPI by lazy { EmailAPI.getInstance() }
-    private val signUpService : SignUpAPI by lazy { SignUpAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentSignUpBinding.inflate(inflater,container,false)
@@ -182,7 +180,7 @@ class SignUpFragment : Fragment() {
      * 닉네임 중복확인 API 호출 메소드
      */
     private fun checkNicknameExists(inputNickname: String) {
-        nicknameService.checkNicknameExists(
+        authService.checkNicknameExists(
             inputNickname,
             onResponse = {
                 if (!it.nicknameExist) {
@@ -256,7 +254,7 @@ class SignUpFragment : Fragment() {
     private fun signUp(inputEmail: String, inputPassword: String, inputNickname: String) {
         val request = SignUpRequest(inputEmail, inputPassword, inputNickname)
 
-        signUpService.signUp(
+        authService.signUp(
             request,
             onResponse = {
                 if (it.status == HttpURLConnection.HTTP_NO_CONTENT) {
@@ -308,9 +306,7 @@ class SignUpFragment : Fragment() {
         emailService.sendCertMail(
             inputEmail,
             onResponse = {},
-            onErrorResponse = {
-
-            },
+            onErrorResponse = {},
             onFailure = {}
         )
     }
@@ -320,8 +316,7 @@ class SignUpFragment : Fragment() {
      * 8자이상 20자이하의 숫자, 영어, 특수문자
      */
     private fun checkPasswordMatchCondition(){
-        if (Pattern.matches("^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$",
-                mBinding?.signUpPasswordEt?.text.toString())) {
+        if (Pattern.matches("^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$", mBinding?.signUpPasswordEt?.text.toString())) {
             isPasswordMatchCondition = true
             mBinding?.signUpPasswordErrorMessage?.visibility = View.GONE
         }

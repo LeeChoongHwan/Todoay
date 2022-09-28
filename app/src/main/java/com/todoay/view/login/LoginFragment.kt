@@ -13,9 +13,9 @@ import com.todoay.MainActivity
 import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.TodoayApplication
+import com.todoay.api.domain.auth.AuthAPI
 import com.todoay.api.domain.auth.email.EmailAPI
-import com.todoay.api.domain.auth.login.LoginAPI
-import com.todoay.api.domain.auth.login.dto.request.LoginRequest
+import com.todoay.api.domain.auth.dto.request.LoginRequest
 import com.todoay.databinding.FragmentLoginBinding
 import com.todoay.global.util.PrintUtil.printLog
 
@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
     //비밀번호 입력 여부 체크
     var isPassword : Boolean = false
 
-    private val loginService: LoginAPI by lazy { LoginAPI.getInstance() }
+    private val authService: AuthAPI by lazy { AuthAPI.getInstance() }
     private val emailService: EmailAPI by lazy { EmailAPI.getInstance() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -187,7 +187,7 @@ class LoginFragment : Fragment() {
     private fun login(inputEmail: String, inputPassword: String) {
         val request  = LoginRequest(inputEmail, inputPassword)
 
-        loginService.login(
+        authService.login(
             request,
             /* 로그인 성공 */
             onResponse = {

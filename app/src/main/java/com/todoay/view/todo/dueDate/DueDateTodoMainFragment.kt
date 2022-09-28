@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.todoay.R
-import com.todoay.adapter.todo.dueDate.DueDateTodoFinishRvAdapter
-import com.todoay.adapter.todo.dueDate.DueDateTodoRvAdapter
+import com.todoay.view.adapter.todo.dueDate.DueDateTodoFinishRvAdapter
+import com.todoay.view.adapter.todo.dueDate.DueDateTodoRvAdapter
 import com.todoay.api.domain.todo.dueDate.DueDateTodoAPI
 import com.todoay.api.domain.todo.dueDate.dto.response.ReadAllDueDateTodoResponse
 import com.todoay.data.todo.dueDate.DueDate
@@ -56,6 +56,16 @@ class DueDateTodoMainFragment : Fragment() {
         mBinding = binding
 
         initAnimation(requireContext())
+
+        /* 프로필 버튼 */
+        mBinding?.dueDateTodoMainProfileBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_global_profileFragment)
+        }
+
+        /* 설정 버튼 */
+        mBinding?.dueDateTodoMainSettingBtn?.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_global_settingMainFragment)
+        }
 
         /* DailyTodo 전환 버튼 */
         mBinding?.dueDateTodoMainCalanderSelect?.setOnClickListener {

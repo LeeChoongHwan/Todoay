@@ -2,7 +2,7 @@ package com.todoay.api.config
 
 import com.google.gson.Gson
 import com.todoay.TodoayApplication
-import com.todoay.api.domain.auth.refresh.TokenManager
+import com.todoay.api.util.TokenManager
 import com.todoay.global.util.PrintUtil.printLog
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType

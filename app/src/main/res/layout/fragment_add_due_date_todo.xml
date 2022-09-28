@@ -14,7 +14,7 @@
         android:id="@+id/add_due_date_todo_cancel_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_cancel"
+        android:src="@drawable/bg_close_btn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="10dp"/>

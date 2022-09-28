@@ -76,7 +76,7 @@ class AuthSettingMainFragment : Fragment() {
                 Navigation.findNavController(requireView()).navigate(R.id.action_authSettingMainFragment_to_changePasswordFragment)
             }
             authSettingWithdrawal -> {
-                mainAct.showShortToast("서비스 준비 중입니다")
+                Navigation.findNavController(requireView()).navigate(R.id.action_authSettingMainFragment_to_deleteAuthFragment)
             }
             else -> {}
         }
