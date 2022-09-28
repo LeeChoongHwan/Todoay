@@ -148,7 +148,14 @@ class DailyTodoMainFragment : Fragment() {
             date,
             onResponse = { responseDailyList ->
                 dailyTodoCategoryAdapter.dailyTodoHashMap = responseDailyList.stream()
-                    .map { d -> Daily(d.id, d.todo, d.hashtagList, d.isPublic, d.isFinished, d.categoryId) }
+                    .map { dto -> Daily(
+                        dto.id,
+                        dto.todo,
+                        dto.categoryId,
+                        dto.repeatId,
+                        dto.hashtagList,
+                        dto.isPublic,
+                        dto.isFinished, ) }
                     .collect(Collectors.groupingBy(Daily::categoryId)) as HashMap<Long, ArrayList<Daily>>
                 dailyTodoCategoryAdapter.notifyDataSetChanged()
             },
@@ -164,8 +171,11 @@ class DailyTodoMainFragment : Fragment() {
                 val dailyInfo = DailyInfo(
                     id = dto.id,
                     todo = dto.todo,
+                    isPublic = dto.isPublic,
+                    isFinish = dto.isFinish,
                     alarm = if(dto.alarm!=null) Alarm(dto.time, dto.alarm) else null,
                     time = dto.time,
+                    repeatId = dto.repeatId,
                     location = dto.location,
                     partner = dto.partner,
                     date = dto.date,
@@ -174,9 +184,7 @@ class DailyTodoMainFragment : Fragment() {
                         dto.categoryInfoDto.name,
                         dto.categoryInfoDto.color
                     ),
-                    hashtagList = dto.hashtagList,
-                    isPublic = dto.isPublic,
-                    isFinish = dto.isFinish
+                    hashtagList = dto.hashtagList
                 )
 
                 if(isOpen) {

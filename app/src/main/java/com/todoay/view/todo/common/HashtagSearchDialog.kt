@@ -18,7 +18,6 @@ import com.todoay.api.domain.hashtag.HashtagAPI
 import com.todoay.api.domain.hashtag.dto.Hashtag
 import com.todoay.databinding.FragmentHashtagSearchDialogBinding
 import com.todoay.databinding.ListItemHashtagBinding
-import com.todoay.global.util.PrintUtil.printLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.subjects.PublishSubject

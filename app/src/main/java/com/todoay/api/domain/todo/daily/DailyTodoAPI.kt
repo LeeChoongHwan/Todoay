@@ -190,13 +190,15 @@ class DailyTodoAPI {
                         onResponse(successResponse)
                         printLog("[Daily 반복 설정] - 성공 {$successResponse}")
                     }
-                    try {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        printLog("[Daily 반복 설정] - 실패 {$errorResponse}")
-                    }
-                    catch (t : Throwable) {
-                        onFailure(call, t)
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Daily 반복 설정] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 
@@ -289,6 +291,49 @@ class DailyTodoAPI {
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                     val failure = RetrofitService.getFailure(
                         t, "/todo/daily/{id}/daily-date"
+                    )
+                    onFailure(failure)
+                    printLog("[SYSTEM ERROR] - 실패 {${failure}}")
+                }
+
+            })
+    }
+
+    /**
+     * 반복 설정된 DailyTodo의 모든 데이터를 삭제.
+     *
+     * @param id 삭제할 DailyTodo의 id
+     * @param onResponse
+     * @param onErrorResponse
+     * @param onFailure
+     */
+    fun deleteRepeatDailyTodo(id : Long, onResponse: (SuccessResponse) -> Unit, onErrorResponse: (ErrorResponse) -> Unit, onFailure: (FailureResponse) -> Unit) {
+        callDailyTodoService().deleteRepeatDailyTodo(id)
+            .enqueue(object : Callback<SuccessResponse> {
+                override fun onResponse(
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
+                ) {
+                    if(response.isSuccessful) {
+                        val successResponse = SuccessResponse(status = response.code())
+                        onResponse(successResponse)
+                        printLog("[Daily 반복 그룹 삭제] -성공 {$successResponse}")
+                    }
+                    else {
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[Daily 반복 그룹 삭제] - 실패 {$errorResponse}")
+                        }
+                        catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                    val failure = RetrofitService.getFailure(
+                        t, "/todo/daily/{id}/repeat"
                     )
                     onFailure(failure)
                     printLog("[SYSTEM ERROR] - 실패 {${failure}}")

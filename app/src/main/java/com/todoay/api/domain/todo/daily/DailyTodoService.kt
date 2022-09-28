@@ -56,4 +56,11 @@ interface DailyTodoService {
     @PATCH("/todo/daily/{id}/daily-date")
     fun modifyDailyTodoDate(@Path("id") id : Long, @Body request : ModifyDailyTodoDateRequest) : Call<SuccessResponse>
 
+    /**
+     * 반복 설정된 투두 모두 삭제하는 인터페이스 메소드.
+     * Http Method: DELETE
+     */
+    @DELETE("/todo/daily/{id}/repeat")
+    fun deleteRepeatDailyTodo(@Path("id") id : Long) : Call<SuccessResponse>
+
 }
