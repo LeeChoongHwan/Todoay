@@ -30,10 +30,10 @@ object RetrofitService {
 
 //    private const val baseUrl = "http://${ipAddress}:8080"
     private const val baseUrl = "http://$amazonUrl"
-    // 토큰이 없어도 되는 Retrofit
+    // 토큰이 없어도 되는 Retrofit & OkHttpClient
     private var retrofitServiceWithoutToken: Retrofit? = null
     private var okHttpClientWithoutToken: OkHttpClient? = null
-    // 토큰이 있어야 하는 Retrofit
+    // 토큰이 있어야 하는 Retrofit & OkHttpClient
     private var retrofitServiceWithToken: Retrofit? = null
     private var okHttpClientWithToken: OkHttpClient? = null
 
@@ -162,7 +162,7 @@ object RetrofitService {
             timestamp = LocalDateTime.now().toString(),
             exception = t,
             code = code,
-            path = "$path"
+            path = path
         )
         MainActivity.mainAct.showLongToast(code)
         return failureResponse
