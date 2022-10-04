@@ -99,7 +99,9 @@
         app:layout_constraintTop_toBottomOf="@id/delete_auth_password_title"
         app:layout_constraintLeft_toLeftOf="@id/delete_auth_password_title"
         android:ems="14"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/delete_auth_password_error_message"

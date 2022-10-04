@@ -57,7 +57,9 @@
         android:ems="12"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@id/sign_up_email_tv"
-        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"/>
+        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/sign_up_email_valid_tv"
@@ -120,7 +122,9 @@
         android:ems="12"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/sign_up_password_tv"
-        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"/>
+        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/sign_up_password_check_tv"
@@ -141,7 +145,9 @@
         android:ems="12"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/sign_up_password_check_tv"
-        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"/>
+        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/sign_up_nickname_tv"
@@ -162,7 +168,9 @@
         android:ems="12"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/sign_up_nickname_tv"
-        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"/>
+        app:layout_constraintLeft_toLeftOf="@id/sign_up_back_btn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <android.widget.Button
         android:id="@+id/sign_up_sign_up_btn"
