@@ -21,14 +21,19 @@
         <item name="android:datePickerDialogTheme">@style/MySpinnerDatePickerStyle</item>
     </style>
 
-    <style name="edittext">
+    <style name="customEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:colorControlActivated">@color/main_color</item>
+        <item name="android:textColorLink">@color/main_color</item>
+        <item name="android:textColorHighlight">@color/main_color</item>
     </style>
 
     <!-- BottomSheetDialog Style -->
     <style name="CustomBottomSheetDialog"
         parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+        <item name="android:colorControlActivated">@color/main_color</item>
+        <item name="android:textColorLink">@color/main_color</item>
+        <item name="android:textColorHighlight">@color/main_color</item>
     </style>
     <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="backgroundTint">@android:color/transparent</item>
