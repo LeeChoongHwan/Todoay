@@ -103,7 +103,7 @@ class DailyTodoAPI {
                     if(response.isSuccessful) {
                         val responseList : List<ReadAllDailyTodoResponse> = response.body()!!
                         onResponse(responseList)
-                        printLog("[DueDateTodo 전체 조회] - 성공 {$responseList}")
+                        printLog("[DailyTodo 전체 조회] - 성공 {$responseList}")
                     }
                     else {
                         try {

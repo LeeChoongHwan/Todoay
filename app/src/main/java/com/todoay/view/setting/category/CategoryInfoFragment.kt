@@ -58,7 +58,7 @@ class CategoryInfoFragment(private val category : Category) : BottomSheetDialogF
 
         /* 삭제 버튼 */
         binding.categoryInfoDeleteBtn.setOnClickListener {
-            val alertDeleteDialog = TodoayAlertDialogFragment().apply {
+            TodoayAlertDialogFragment().apply {
                 this.message = "카테고리를 삭제하면\n관련 TODO 모두 삭제됩니다.\n정말 삭제하시겠어요?"
                 this.onClickListener = object : OnClickListener {
                     override fun onClick(item: Any) {
@@ -67,7 +67,7 @@ class CategoryInfoFragment(private val category : Category) : BottomSheetDialogF
                                 category.id,
                                 onResponse = {
                                     result.isChangedState(true)
-                                    dismiss()
+                                    this@CategoryInfoFragment.dismiss()
                                 },
                                 onErrorResponse = {
                                     mainAct.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
@@ -91,7 +91,8 @@ class CategoryInfoFragment(private val category : Category) : BottomSheetDialogF
                             service.terminateCategory(
                                 category.id,
                                 onResponse = {
-
+                                    result.isChangedState(true)
+                                    this@CategoryInfoFragment.dismiss()
                                 },
                                 onErrorResponse = {
 

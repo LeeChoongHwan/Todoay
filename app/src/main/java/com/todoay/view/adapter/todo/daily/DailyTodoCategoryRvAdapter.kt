@@ -11,6 +11,7 @@ import com.todoay.R
 import com.todoay.data.category.Category
 import com.todoay.data.todo.daily.Daily
 import com.todoay.databinding.ListItemDailyTodoCategoryBinding
+import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetCategory
 import com.todoay.view.todo.daily.interfaces.DailyOnClickListenerForGetDaily
 

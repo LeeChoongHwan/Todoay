@@ -51,29 +51,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/category_finish_info_restart_btn"
+            app:layout_constraintRight_toRightOf="parent"
             android:fontFamily="@font/regular"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textAlignment="textEnd"
             android:text="삭제하기" />
-
-        <android.widget.Button
-            android:id="@+id/category_finish_info_restart_btn"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/ic_finish_category"
-            android:drawablePadding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/category_finish_info_delete_btn"
-            android:fontFamily="@font/regular"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textAlignment="textEnd"
-            android:text="재시작하기" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

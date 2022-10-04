@@ -14,4 +14,5 @@ package com.todoay.api.config
  */
 object RetrofitURLExample {
     const val ipAddress = "서버의 IP 주소를 입력해주세요"
+    const val amazonUrl = "아마존 주소를 입력하세요"
 }

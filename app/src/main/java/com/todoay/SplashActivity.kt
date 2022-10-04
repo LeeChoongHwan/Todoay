@@ -19,6 +19,8 @@ class SplashActivity : AppCompatActivity(){
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        TodoayApplication.pref.clear()
+
         Handler().postDelayed({
             autoLogin()
         }, 1500)

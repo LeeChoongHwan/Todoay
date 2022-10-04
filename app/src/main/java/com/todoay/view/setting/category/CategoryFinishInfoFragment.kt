@@ -47,7 +47,7 @@ class CategoryFinishInfoFragment(private val category : Category) : BottomSheetD
                                 category.id,
                                 onResponse = {
                                     result.isChangedState(true)
-                                    dismiss()
+                                    this@CategoryFinishInfoFragment.dismiss()
                                 },
                                 onErrorResponse = {
                                     mainAct.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
@@ -59,11 +59,6 @@ class CategoryFinishInfoFragment(private val category : Category) : BottomSheetD
                 }
                 this.show(this@CategoryFinishInfoFragment.parentFragmentManager, this.tag)
             }
-        }
-
-        /* 재시작 버튼 */
-        binding.categoryFinishInfoRestartBtn.setOnClickListener {
-            mainAct.showShortToast("준비중입니다!")
         }
 
         return binding.root

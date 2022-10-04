@@ -217,9 +217,13 @@ class AuthAPI {
                         PrintUtil.printLog("[계정 삭제] - 성공 {$successResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        PrintUtil.printLog("[계정 삭제] - 실패 {$errorResponse}")
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            PrintUtil.printLog("[계정 삭제] - 실패 {$errorResponse}")
+                        } catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 

@@ -73,7 +73,9 @@
                     app:layout_constraintTop_toBottomOf="@id/add_due_date_todo_todo_title_tv"
                     app:layout_constraintLeft_toLeftOf="@id/add_due_date_todo_todo_title_tv"
                     android:inputType="textPersonName"
-                    android:text="" />
+                    android:text=""
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"/>
 
                 <TextView
                     android:id="@+id/add_due_date_todo_date_title_tv"
@@ -192,7 +194,9 @@
                     android:textColorHint="@color/gray"
                     android:textSize="15sp"
                     android:inputType="textPersonName"
-                    android:text="" />
+                    android:text=""
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"/>
 
                 <TextView
                     android:id="@+id/add_due_date_todo_description_title_tv"
@@ -217,7 +221,9 @@
                     android:fontFamily="@font/white"
                     android:textSize="15sp"
                     android:gravity="start|top"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:textColorHighlight="@color/main_color"
+                    android:textColorLink="@color/main_color"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
