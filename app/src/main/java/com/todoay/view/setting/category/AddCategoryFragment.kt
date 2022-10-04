@@ -19,6 +19,7 @@ import com.todoay.api.domain.category.dto.request.CreateCategoryRequest
 import com.todoay.api.domain.category.dto.request.ModifyCategoryRequest
 import com.todoay.data.category.Category
 import com.todoay.databinding.FragmentAddCategoryBinding
+import com.todoay.global.util.PrintUtil.printLog
 import com.todoay.view.global.interfaces.CreateValueResult
 import com.todoay.view.setting.category.interfaces.ModifiedCategoryResult
 
@@ -30,8 +31,9 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
     var categoryColor : String = ""
     var isCategoryInput : Boolean = false
 
-    var isModificationMode : Boolean = false
+    /* 수정 모드 */
     lateinit var modifiedCategory : Category
+    var isModificationMode : Boolean = false
     var isModify : Boolean = true
 
     lateinit var createResult : CreateValueResult
@@ -84,7 +86,9 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
         })
 
         /* 디폴트 컬러 */
-        categoryColor = resources.getString(R.color.main_color)
+        if(!isModificationMode) {
+            categoryColor = resources.getString(R.color.main_color)
+        }
 
         /* 색상 변경 버튼 */
         binding.addCategoryColorBtn.setOnClickListener {

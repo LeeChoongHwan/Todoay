@@ -40,12 +40,6 @@ class CategoryAdapter(var context: Context) : RecyclerView.Adapter<CategoryAdapt
 
     override fun getItemCount(): Int = dataList.size
 
-    class ViewHolder(val binding : ListItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
-        var layout = binding.categoryLayout
-        var color : ImageView = binding.categoryColor
-        var name : TextView = binding.categoryName
-    }
-
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
         dataList[fromPosition].orderIndex = toPosition
         dataList[toPosition].orderIndex = fromPosition
@@ -56,6 +50,14 @@ class CategoryAdapter(var context: Context) : RecyclerView.Adapter<CategoryAdapt
     }
 
     override fun onItemSwipe(position: Int) {
+        // do nothing
     }
+
+    class ViewHolder(val binding : ListItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        var layout = binding.categoryLayout
+        var color : ImageView = binding.categoryColor
+        var name : TextView = binding.categoryName
+    }
+
 
 }

@@ -41,12 +41,13 @@ class CategoryColorSettingDialog : BottomSheetDialogFragment() {
         categoryColorList.add(CategoryColorItem(R.drawable.bg_category_hot_pink_btn, resources.getString(R.color.category_hot_pink)))
 
         binding.categoryColorSettingColorList.layoutManager = GridLayoutManager(requireContext(), 6)
-        val adapter = CategoryColorAdapter(requireContext(), categoryColorList)
+        val adapter = CategoryColorAdapter(requireContext())
         adapter.onItemClickListener = object: CategoryColorAdapter.OnItemClickListener {
-            override fun onClick(selectedColorCode: String) {
-                this@CategoryColorSettingDialog.selectedColorCode = selectedColorCode
+            override fun onClick(_selectedColorCode: String) {
+                selectedColorCode = _selectedColorCode
             }
         }
+        adapter.dataList = categoryColorList
         binding.categoryColorSettingColorList.adapter = adapter
 
         binding.categoryColorSettingColorConfirmBtn.setOnClickListener {
@@ -57,11 +58,13 @@ class CategoryColorSettingDialog : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    class CategoryColorAdapter(val context: Context, var categoryColorList: ArrayList<CategoryColorItem>) : RecyclerView.Adapter<CategoryColorAdapter.ViewHolder>() {
+    class CategoryColorAdapter(val context: Context) : RecyclerView.Adapter<CategoryColorAdapter.ViewHolder>() {
+
+        var dataList = listOf<CategoryColorItem>()
 
         lateinit var onItemClickListener: OnItemClickListener
         interface OnItemClickListener {
-            fun onClick(selectedColorCode : String)
+            fun onClick(_selectedColorCode : String)
         }
 
         var selectedPosition = 0
@@ -72,21 +75,21 @@ class CategoryColorSettingDialog : BottomSheetDialogFragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.colorRadioButton.setBackgroundResource(categoryColorList[position].drawableId)
+            holder.colorRadioButton.setBackgroundResource(dataList[position].drawableId)
             holder.colorRadioButton.isChecked = position == selectedPosition
-            selectedColorCode = categoryColorList[selectedPosition].colorCode
+            selectedColorCode = dataList[selectedPosition].colorCode
             onItemClickListener.onClick(selectedColorCode)
 
             holder.colorRadioButton.setOnClickListener {
                 selectedPosition = position
-                selectedColorCode = categoryColorList[selectedPosition].colorCode
+                selectedColorCode = dataList[selectedPosition].colorCode
                 onItemClickListener.onClick(selectedColorCode)
                 notifyDataSetChanged()
             }
         }
 
         override fun getItemCount(): Int {
-            return categoryColorList.size
+            return dataList.size
         }
 
         class ViewHolder(val binding: ListItemCategoryColorBinding) : RecyclerView.ViewHolder(binding.root) {

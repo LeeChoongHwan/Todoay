@@ -62,6 +62,13 @@ class MainActivity : AppCompatActivity() {
         navigateToDestinationFromCurrent(R.id.action_global_loginFragment)
     }
 
+    fun withdrawal() {
+        printLog("[USER] 계정 삭제")
+        TodoayApplication.pref.clear()
+        showShortToast("계정이 삭제되었습니다")
+        navigateToDestinationFromCurrent(R.id.action_global_loginFragment)
+    }
+
     /**
      * 현재 보여지고 있는 Current Fragment에서 Destination Fragment로
      * 이동하는 메소드.

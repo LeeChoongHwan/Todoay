@@ -152,11 +152,6 @@ class CategorySettingMainFragment : Fragment() {
         }
         // ItemTouchHelper 지정 -> 정렬 순서 변경을 위해 Item(Category) Drag & Drop
         ItemTouchHelper(ItemTouchHelperCallback(categoryAdapter)).attachToRecyclerView(binding.categorySettingMainList)
-//        categoryAdapter.orderIndexChanged = object : CategoryOrderIndexChanged {
-//            override fun isChangedOrderIndex(isChanged: Boolean) {
-//                isChangedCategoryOrderIndex = isChanged
-//            }
-//        }
 
         getCategoryList()
         binding.categorySettingMainList.adapter = categoryAdapter

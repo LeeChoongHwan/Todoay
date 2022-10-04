@@ -140,9 +140,13 @@ class EmailAPI {
                         printLog("[이메일 인증 여부 확인] - 성공 {$checkEmailVerifiedResponse}")
                     }
                     else {
-                        val errorResponse = RetrofitService.getErrorResponse(response)
-                        onErrorResponse(errorResponse)
-                        printLog("[이메일 인증 여부 확인] - 실패 {$errorResponse}")
+                        try {
+                            val errorResponse = RetrofitService.getErrorResponse(response)
+                            onErrorResponse(errorResponse)
+                            printLog("[이메일 인증 여부 확인] - 실패 {$errorResponse}")
+                        } catch (t : Throwable) {
+                            onFailure(call, t)
+                        }
                     }
                 }
 

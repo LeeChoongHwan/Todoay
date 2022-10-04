@@ -9,6 +9,7 @@ import com.todoay.api.domain.auth.dto.request.RefreshRequest
 import com.todoay.api.domain.auth.dto.response.RefreshResponse
 import com.todoay.api.domain.auth.dto.request.SignUpRequest
 import com.todoay.api.util.response.success.SuccessResponse
+import okhttp3.internal.http.hasBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -65,6 +66,6 @@ interface AuthService {
      * @param request DeleteAuthRequest(password)
      * @return SuccessResponse or ErrorResponse
      */
-    @DELETE("/auth/my")
+    @HTTP(method = "DELETE", path = "/auth/my", hasBody = true)
     fun deleteAuth(@Body request : DeleteAuthRequest) : Call<SuccessResponse>
 }
