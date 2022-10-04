@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.todoay.MainActivity.Companion.mainAct
 import com.todoay.R
 import com.todoay.api.domain.auth.AuthAPI
 import com.todoay.api.domain.auth.AuthService
@@ -69,10 +70,10 @@ class DeleteAuthFragment : Fragment() {
             service.withdrawal(
                 request,
                 onResponse = {
-
+                    mainAct.withdrawal()
                 },
                 onErrorResponse = {
-
+                    mainAct.showShortToast("계정 삭제가 실패하였습니다\n다시 시도해주세요")
                 },
                 onFailure = {}
             )
