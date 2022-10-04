@@ -103,7 +103,9 @@
         android:layout_height="wrap_content"
         android:ems="12"
         app:layout_constraintTop_toBottomOf="@id/profile_modify_nickname_tv"
-        app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"/>
+        app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/profile_modify_message_tv"
@@ -123,7 +125,9 @@
         android:layout_height="wrap_content"
         android:ems="15"
         app:layout_constraintTop_toBottomOf="@id/profile_modify_message_tv"
-        app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"/>
+        app:layout_constraintLeft_toLeftOf="@id/profile_modify_backbtn"
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <View
         android:id="@+id/profile_modify_top_line"

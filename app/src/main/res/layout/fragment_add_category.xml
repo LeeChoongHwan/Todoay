@@ -30,7 +30,9 @@
         android:fontFamily="@font/white"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:text="" />
+        android:text=""
+        android:textColorHighlight="@color/main_color"
+        android:textColorLink="@color/main_color"/>
 
     <TextView
         android:id="@+id/add_category_color_title_tv"
