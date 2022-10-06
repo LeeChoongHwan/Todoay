@@ -123,7 +123,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bg_primary_fail_btn"
         android:fontFamily="@font/regular"
         android:textColor="@color/white"

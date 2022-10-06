@@ -70,10 +70,10 @@ class DeleteAuthFragment : Fragment() {
             service.withdrawal(
                 request,
                 onResponse = {
-                    mainAct.withdrawal()
+                    mainAct!!.withdrawal()
                 },
                 onErrorResponse = {
-                    mainAct.showShortToast("계정 삭제가 실패하였습니다\n다시 시도해주세요")
+                    mainAct!!.showShortToast("계정 삭제가 실패하였습니다\n다시 시도해주세요")
                 },
                 onFailure = {}
             )

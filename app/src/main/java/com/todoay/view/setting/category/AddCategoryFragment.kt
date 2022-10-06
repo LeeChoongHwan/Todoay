@@ -108,6 +108,7 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
         /* 추가하기 버튼 */
         binding.addCategoryConfirmBtn.setOnClickListener {
             categoryName = binding.addCategoryEt.text.toString()
+            changeConfirmBtnEnabled(false)
             if(!isModificationMode) {
                 createCategory()
             } else {
@@ -141,9 +142,12 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
                 dismiss()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 추가가 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 추가가 실패하였습니다.\n다시 시도해주세요")
+                changeConfirmBtnEnabled(true)
             },
-            onFailure = {}
+            onFailure = {
+                changeConfirmBtnEnabled(true)
+            }
         )
     }
 
@@ -162,10 +166,17 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
                 dismiss()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 수정이 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 수정이 실패하였습니다.\n다시 시도해주세요")
+                changeConfirmBtnEnabled(true)
             },
-            onFailure = {}
+            onFailure = {
+                changeConfirmBtnEnabled(true)
+            }
         )
+    }
+
+    private fun changeConfirmBtnEnabled(isEnabled: Boolean) {
+        binding.addCategoryConfirmBtn.isEnabled = isEnabled
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

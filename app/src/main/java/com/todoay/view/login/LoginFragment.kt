@@ -166,7 +166,7 @@ class LoginFragment : Fragment() {
             /* 인증메일 재전송 성공 */
             onResponse = {
                 mBinding?.loginProgressBar?.visibility = View.GONE
-                mainAct.showLongToast("이메일 인증을 완료해주세요\n인증메일을 재전송하였습니다")
+                mainAct!!.showLongToast("이메일 인증을 완료해주세요\n인증메일을 재전송하였습니다")
             },
             /* 인증메일 재전송 실패 */
             onErrorResponse = {
@@ -201,7 +201,7 @@ class LoginFragment : Fragment() {
                     mBinding?.loginProgressBar?.visibility = View.GONE
                     Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_dailyTodoMainFragment)
                 } else {
-                    mainAct.showLongToast("다시 로그인해주세요")
+                    mainAct!!.showLongToast("다시 로그인해주세요")
                     mBinding?.loginProgressBar?.visibility = View.GONE
                 }
             },

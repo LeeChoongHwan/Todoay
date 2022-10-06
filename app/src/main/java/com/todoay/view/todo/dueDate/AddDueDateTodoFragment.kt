@@ -219,6 +219,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
 
         /* 추가하기 or 수정하기 버튼 */
         binding.addDueDateTodoConfirmBtn.setOnClickListener {
+            changeConfirmBtnEnabled(false)
             if(isModificationMode) {
                 modifyDueDateTodo()
             } else {
@@ -227,6 +228,10 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
         }
 
         return binding.root
+    }
+
+    private fun changeConfirmBtnEnabled(isEnabled: Boolean) {
+        binding.addDueDateTodoConfirmBtn.isEnabled = isEnabled
     }
 
     /**
@@ -248,9 +253,10 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
                 dismiss()
             },
             onErrorResponse = {
+                changeConfirmBtnEnabled(true)
             },
             onFailure = {
-                dismiss()
+                changeConfirmBtnEnabled(true)
             }
         )
     }
@@ -276,9 +282,11 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
                 dismiss()
             },
             onErrorResponse = {
-
+                changeConfirmBtnEnabled(true)
             },
-            onFailure = {}
+            onFailure = {
+                changeConfirmBtnEnabled(true)
+            }
         )
     }
 
@@ -302,7 +310,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
      */
     private fun changeLockButtonToPrivateButton() {
         if(isHashtag) {
-            mainAct.showShortToast("해시태그를 입력하시면 비공개로 전환할 수 없습니다!")
+            mainAct!!.showShortToast("해시태그를 입력하시면 비공개로 전환할 수 없습니다!")
             return
         }
         flipFront.setTarget(binding.addDueDateTodoPublicBtn)
