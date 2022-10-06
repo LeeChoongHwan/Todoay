@@ -236,6 +236,7 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
 
         /* 추가하기 or 수정하기 버튼 */
         binding.addDailyTodoConfirmBtn.setOnClickListener {
+            changeConfirmBtnEnabled(false)
             if(isModificationMode) {
                 modifyDailyTodo()
             } else {
@@ -268,6 +269,10 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
         return binding.root
     }
 
+    private fun changeConfirmBtnEnabled(isEnabled: Boolean) {
+        binding.addDailyTodoConfirmBtn.isEnabled = isEnabled
+    }
+
     private fun createDailyTodo() {
         val request = CreateDailyTodoRequest(
             todo = binding.addDailyTodoTodoEt.text.toString(),
@@ -287,9 +292,11 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
                 dismiss()
             },
             onErrorResponse = {
-
+                changeConfirmBtnEnabled(true)
             },
-            onFailure = {}
+            onFailure = {
+                changeConfirmBtnEnabled(true)
+            }
         )
     }
 
@@ -313,9 +320,11 @@ class AddDailyTodoFragment(val date: LocalDate, val category : Category) : Botto
                 dismiss()
             },
             onErrorResponse = {
-
+                changeConfirmBtnEnabled(true)
             },
-            onFailure = {}
+            onFailure = {
+                changeConfirmBtnEnabled(true)
+            }
         )
     }
 

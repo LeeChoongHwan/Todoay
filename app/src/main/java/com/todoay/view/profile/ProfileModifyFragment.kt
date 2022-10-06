@@ -160,6 +160,8 @@ class ProfileModifyFragment : Fragment() {
 
         /* 확인 버튼 */
         mBinding?.profileModifyConfirmBtn?.setOnClickListener {
+            changeConfirmBtnEnabled(false)
+
             myProfile.nickname = mBinding?.profileModifyNicknameEt?.text.toString()
             myProfile.imageUrl = currentImageUrl
             myProfile.introMsg = mBinding?.profileModifyMessageEt?.text.toString()
@@ -171,6 +173,7 @@ class ProfileModifyFragment : Fragment() {
                     Navigation.findNavController(requireView()).navigate(R.id.action_profileModifyFragment_to_profileFragment)
                 },
                 onErrorResponse = {
+                    changeConfirmBtnEnabled(true)
                     /*
                      * 400 유효성 검사 실패
                      * 403 허용되지 않은 접근
@@ -201,11 +204,16 @@ class ProfileModifyFragment : Fragment() {
                     }
                 },
                 onFailure = {
+                    changeConfirmBtnEnabled(true)
                 }
             )
         }
 
         return mBinding?.root
+    }
+
+    private fun changeConfirmBtnEnabled(isEnabled: Boolean) {
+        mBinding?.profileModifyConfirmBtn?.isEnabled = isEnabled
     }
 
     /**
