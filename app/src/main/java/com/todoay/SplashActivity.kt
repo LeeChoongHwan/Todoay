@@ -4,19 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.todoay.api.domain.profile.ProfileAPI
 import com.todoay.databinding.ActivitySplashBinding
+import com.todoay.databinding.ToastBoardBinding
 import kotlin.concurrent.thread
 
 class SplashActivity : AppCompatActivity(){
 
+    companion object{
+        var splashAct : SplashActivity? = null
+    }
     lateinit var binding : ActivitySplashBinding
+
+    private lateinit var toastBinding: ToastBoardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        splashAct = this
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        toastBinding = ToastBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Handler().postDelayed({
@@ -54,6 +63,17 @@ class SplashActivity : AppCompatActivity(){
         intent.putExtra("auto-login", false)
         startActivity(intent)
         finish()
+    }
+
+    fun showToast(message : String) {
+        runOnUiThread {
+            Toast(applicationContext).apply {
+                toastBinding.toastMessage.text = message
+                this.duration = Toast.LENGTH_LONG
+                this.view = toastBinding.root
+                show()
+            }
+        }
     }
 
 }

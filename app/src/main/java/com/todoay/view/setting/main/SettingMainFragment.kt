@@ -76,7 +76,7 @@ class SettingMainFragment : Fragment() {
                         override fun onClick(item: Any) {
                             val positive = item as Boolean
                             if (positive) {
-                                mainAct.logout(null)
+                                mainAct!!.logout(null)
                             }
                         }
                     }

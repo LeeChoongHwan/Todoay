@@ -89,7 +89,7 @@ class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: Local
                     }
                     else -> {
                         dismissNow()
-                        mainAct.showShortToast("알람 설정 오류가 발생하였습니다")
+                        mainAct!!.showShortToast("알람 설정 오류가 발생하였습니다")
                         printLog("[ALARM SETTING ERROR] Could Not Found AlarmTime Instance")
                     }
                 }
@@ -103,9 +103,9 @@ class AlarmSettingDialog(/** 현재 설정된 투두의 시간 */val time: Local
 
     fun checkIsBeforeTime(selectedAlarm : LocalDateTime, alarmType: Alarm.AlarmType) {
         if(selectedAlarm.isAfter(time)) {
-            mainAct.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
+            mainAct!!.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
         } else if(selectedAlarm.isBefore(LocalDateTime.now())) {
-            mainAct.showShortToast("현재 시간 이전에 알람을 설정할 수 없습니다!")
+            mainAct!!.showShortToast("현재 시간 이전에 알람을 설정할 수 없습니다!")
         }
         else {
             this.selectedAlarm = selectedAlarm

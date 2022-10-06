@@ -46,7 +46,7 @@ class ChangePasswordFragment : Fragment() {
             service.modifyPassword(
                 request,
                 onResponse = {
-                    mainAct.logout("다시 로그인해주세요")
+                    mainAct!!.logout("다시 로그인해주세요")
                 },
                 onErrorResponse = {
                     /*

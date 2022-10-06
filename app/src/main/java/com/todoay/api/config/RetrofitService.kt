@@ -5,8 +5,8 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.todoay.MainActivity
+import com.todoay.SplashActivity
 import com.todoay.api.config.RetrofitURL.amazonUrl
-import com.todoay.api.config.RetrofitURL.ipAddress
 import com.todoay.api.config.gson.LocalDateConverter
 import com.todoay.api.config.gson.LocalDateTimeConverter
 import com.todoay.api.util.response.error.ErrorResponse
@@ -116,7 +116,7 @@ object RetrofitService {
      */
     fun <T> getErrorResponse(response: retrofit2.Response<T>): ErrorResponse {
         val gsonError: ErrorResponse =
-            Gson().fromJson(response.errorBody()!!.charStream(), ErrorResponse::class.java)
+            Gson().fromJson(response.errorBody()?.charStream(), ErrorResponse::class.java)
         return ErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
@@ -133,7 +133,7 @@ object RetrofitService {
      */
     fun <T> getValidErrorResponse(response: retrofit2.Response<T>): ValidErrorResponse {
         val gsonError: ValidErrorResponse =
-            Gson().fromJson(response.errorBody()!!.charStream(), ValidErrorResponse::class.java)
+            Gson().fromJson(response.errorBody()?.charStream(), ValidErrorResponse::class.java)
         return ValidErrorResponse(
             timestamp = gsonError.timestamp,
             status = gsonError.status,
@@ -153,18 +153,21 @@ object RetrofitService {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun getFailure(t: Throwable, path: String) : FailureResponse {
-        var code = "서비스 이용 불가...\n고객센터로 문의해주세요"
-        if(t is ConnectException)
-            code = "네트워크 연결을 확인해주세요"
-        else if(t is SocketTimeoutException)
-            code = "서버와의 연결이 불안정합니다..\n고객센터로 문의해주세요"
+        var code = "서비스 이용 불가\n고객센터로 문의해주세요"
+        if(t is ConnectException) code = "네트워크 연결을 확인해주세요"
+        else if(t is SocketTimeoutException) code = "서버와의 연결이 불안정합니다\n고객센터로 문의해주세요"
+        else if(t is NullPointerException) code = "다시 시도해주세요"
         val failureResponse = FailureResponse(
             timestamp = LocalDateTime.now().toString(),
             exception = t,
             code = code,
             path = path
         )
-        MainActivity.mainAct.showLongToast(code)
+        if(MainActivity.mainAct != null) {
+            MainActivity.mainAct!!.showLongToast(code)
+        } else {
+            SplashActivity.splashAct!!.showToast(code)
+        }
         return failureResponse
     }
 }

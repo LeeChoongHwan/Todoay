@@ -287,7 +287,7 @@ class SignUpFragment : Fragment() {
                             isNickname = false
                         }
                         else -> {
-                            mainAct.showLongToast("아이디/비밀번호/닉네임이 유효하지 않습니다")
+                            mainAct!!.showLongToast("아이디/비밀번호/닉네임이 유효하지 않습니다")
                         }
                     }
                     mBinding?.signUpProgressBar?.visibility = View.GONE

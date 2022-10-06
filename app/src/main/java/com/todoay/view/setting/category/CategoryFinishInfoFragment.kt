@@ -50,7 +50,7 @@ class CategoryFinishInfoFragment(private val category : Category) : BottomSheetD
                                     this@CategoryFinishInfoFragment.dismiss()
                                 },
                                 onErrorResponse = {
-                                    mainAct.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
+                                    mainAct!!.showShortToast("카테고리 삭제가 실패하였습니다.\n다시 시도해주세요")
                                 },
                                 onFailure = {}
                             )

@@ -16,7 +16,7 @@ import com.todoay.view.global.NetworkNotFoundFragment
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        lateinit var mainAct: MainActivity
+        var mainAct: MainActivity? = null
     }
 
     lateinit var mainActivityBinding : ActivityMainBinding
