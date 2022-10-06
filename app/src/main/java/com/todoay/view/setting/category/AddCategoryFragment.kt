@@ -141,7 +141,7 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
                 dismiss()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 추가가 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 추가가 실패하였습니다.\n다시 시도해주세요")
             },
             onFailure = {}
         )
@@ -162,7 +162,7 @@ class AddCategoryFragment(private val orderIndex : Int) : BottomSheetDialogFragm
                 dismiss()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 수정이 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 수정이 실패하였습니다.\n다시 시도해주세요")
             },
             onFailure = {}
         )

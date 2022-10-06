@@ -10,7 +10,7 @@ import java.net.HttpURLConnection
 
 class TokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        var accessToken = TodoayApplication.pref.getAccessToken()
+        val accessToken = TodoayApplication.pref.getAccessToken()
         val request = newRequestWithAccessToken(chain.request(), accessToken)
         var response = chain.proceed(request)
         if(response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
@@ -34,7 +34,7 @@ class TokenInterceptor : Interceptor {
                     response = Response.Builder()
                         .code(it.status)
                         .protocol(Protocol.HTTP_2)
-                        .body(ResponseBody.create("application/json".toMediaType(), "${Gson().toJson(it)}"))
+                        .body(ResponseBody.create("application/json".toMediaType(), Gson().toJson(it)))
                         .message(it.code!!)
                         .request(chain.request())
                         .build()

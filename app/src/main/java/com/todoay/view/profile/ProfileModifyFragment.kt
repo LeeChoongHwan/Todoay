@@ -186,14 +186,14 @@ class ProfileModifyFragment : Fragment() {
                                 changeConfirmButton()
                             }
                             "introMsg" -> {
-                                mainAct.showShortToast("상태메시지를 수정해주세요")
+                                mainAct!!.showShortToast("상태메시지를 수정해주세요")
                                 mBinding?.profileModifyMessageEt?.setText("")
                                 mBinding?.profileModifyMessageEt?.requestFocus()
                                 isModifyIntroMsg = false
                                 changeConfirmButton()
                             }
                             "imageUrl" -> {
-                                mainAct.showShortToast("프로필 사진을 수정해주세요")
+                                mainAct!!.showShortToast("프로필 사진을 수정해주세요")
                                 isModifyImageUrl = false
                                 changeConfirmButton()
                             }
@@ -274,7 +274,7 @@ class ProfileModifyFragment : Fragment() {
                 changeConfirmButton()
             }
             Activity.RESULT_CANCELED -> {
-                mainAct.showShortToast("사진 선택 취소")
+                mainAct!!.showShortToast("사진 선택 취소")
             }
         }
 

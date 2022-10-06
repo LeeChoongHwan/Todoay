@@ -168,7 +168,7 @@ class HashtagSearchDialog : DialogFragment() {
         binding.hashtagSearchDialogHashtagEt.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    mainAct.hideKeyboard(binding.hashtagSearchDialogHashtagEt)
+                    mainAct!!.hideKeyboard(binding.hashtagSearchDialogHashtagEt)
                     if(searchValue.isNotBlank()) {
                         service.getHashtag(
                             searchValue,
@@ -218,7 +218,7 @@ class HashtagSearchDialog : DialogFragment() {
 
         /* 더보기 버튼 */
         binding.hashtagSearchDialogViewMoreBtn.setOnClickListener {
-            mainAct.hideKeyboard(binding.hashtagSearchDialogHashtagEt)
+            mainAct!!.hideKeyboard(binding.hashtagSearchDialogHashtagEt)
             if(hasNextPage){
                 service.getHashtag(
                     searchValue,
@@ -274,7 +274,7 @@ class HashtagSearchDialog : DialogFragment() {
                 }
                 if(isToken) {
                     if(s.startsWith(" ")) {
-                        mainAct.showShortToast("# 뒤에 공백이 올 수 없습니다!")
+                        mainAct!!.showShortToast("# 뒤에 공백이 올 수 없습니다!")
                         return false
                     }
                     else {
@@ -283,7 +283,7 @@ class HashtagSearchDialog : DialogFragment() {
                                 s = s.substring(0, s.length-1)
                             }
                             if(s.contains(" ")) {
-                                mainAct.showShortToast("해시태그는 #을 입력해야 합니다!")
+                                mainAct!!.showShortToast("해시태그는 #을 입력해야 합니다!")
                                 return false
                             }
                             resultHashtagList.add(Hashtag(s))
@@ -292,7 +292,7 @@ class HashtagSearchDialog : DialogFragment() {
                     }
                 }
                 else {
-                    mainAct.showShortToast("해시태그는 #을 입력해야 합니다!")
+                    mainAct!!.showShortToast("해시태그는 #을 입력해야 합니다!")
                     return false
                 }
             }

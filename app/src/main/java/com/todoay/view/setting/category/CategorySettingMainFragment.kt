@@ -125,7 +125,7 @@ class CategorySettingMainFragment : Fragment() {
             ModifyCategoryOrderIndexRequest(changeOrderIndexList),
             onResponse = {},
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 순서 변경이 실패하였습니다...\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 순서 변경이 실패하였습니다...\n다시 시도해주세요")
             },
             onFailure = {}
         )
@@ -193,7 +193,7 @@ class CategorySettingMainFragment : Fragment() {
                 categoryAdapter.notifyDataSetChanged()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 조회에 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 조회에 실패하였습니다.\n다시 시도해주세요")
             },
             onFailure = {}
         )
@@ -210,7 +210,7 @@ class CategorySettingMainFragment : Fragment() {
                 categoryFinishAdapter.notifyDataSetChanged()
             },
             onErrorResponse = {
-                mainAct.showShortToast("카테고리 조회에 실패하였습니다.\n다시 시도해주세요")
+                mainAct!!.showShortToast("카테고리 조회에 실패하였습니다.\n다시 시도해주세요")
             },
             onFailure = {}
         )

@@ -76,12 +76,12 @@ class TimePickerDialogFragment(var date: LocalDate) : BottomSheetDialogFragment(
             val minute = timePicker.minute
             this.selectedTime = LocalDateTime.of(date, LocalTime.of(hour, minute))
             if(this.selectedTime.isBefore(LocalDateTime.now())) {
-                mainAct.showShortToast("현재시간보다 이전 시간을 설정할 수 없습니다!")
+                mainAct!!.showShortToast("현재시간보다 이전 시간을 설정할 수 없습니다!")
                 return@setOnClickListener
             }
             if(limitTime != null) {
                 if(this.selectedTime.isAfter(limitTime)) {
-                    mainAct.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
+                    mainAct!!.showShortToast("설정한 시간 이후에 알람을 설정할 수 없습니다!")
                     return@setOnClickListener
                 }
             }

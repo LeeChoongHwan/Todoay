@@ -302,7 +302,7 @@ class AddDueDateTodoFragment : BottomSheetDialogFragment() {
      */
     private fun changeLockButtonToPrivateButton() {
         if(isHashtag) {
-            mainAct.showShortToast("해시태그를 입력하시면 비공개로 전환할 수 없습니다!")
+            mainAct!!.showShortToast("해시태그를 입력하시면 비공개로 전환할 수 없습니다!")
             return
         }
         flipFront.setTarget(binding.addDueDateTodoPublicBtn)
